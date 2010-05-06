@@ -1,0 +1,9 @@
+---
+# The path that the install command will be run from
+:install_path: /Users/i0n/Sites/
+# The path to the template that you would like to use 
+:template_path: /Users/i0n/Sites/jumpstart/template_files/rails_3
+# The command that this template will run
+:install_command: rails
+# Options for the install command
+:install_command_options: -d mysql -J -T
