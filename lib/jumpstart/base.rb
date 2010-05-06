@@ -58,10 +58,21 @@ module JumpStart
     end
     
     def parse_template_dir
-      Dir.entries(@template_path).each do |x|
-        puts x
+      @dir_list = []
+      @file_list = []
+      Find.find(@template_path) do |x|
+        case
+        when File.file?(x) then
+          file_list << x.sub!(@template_path, '')
+        when File.directory?(x) then
+          dir_list << x.sub!(@template_path, '')
+        end
       end
-      
+      puts "Dirs"
+      puts @dir_list
+      puts ""
+      puts "Files"
+      puts @file_list
     end
     
   end
