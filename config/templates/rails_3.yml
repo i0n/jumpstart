@@ -6,4 +6,4 @@
 # The command that this template will run
 :install_command: rails
 # Options for the install command
-:install_command_options: -d mysql -J -T
+:install_command_options: -d mysql -J -T -m /Users/i0n/Sites/jumpstart/config/templates/rails_3.rb

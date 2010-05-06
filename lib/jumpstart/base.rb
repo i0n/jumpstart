@@ -13,6 +13,7 @@ module JumpStart
       check_install_paths
       create_project
       parse_template_dir
+      create_new_files
     end
     
     private
@@ -55,6 +56,7 @@ module JumpStart
       @install_command_options = @config_file[:install_command_options]
       Dir.chdir(@install_path)
       puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
+      `#{@install_command} #{@project_name} #{@install_command_options}`
     end
     
     def parse_template_dir
@@ -63,9 +65,9 @@ module JumpStart
       Find.find(@template_path) do |x|
         case
         when File.file?(x) then
-          file_list << x.sub!(@template_path, '')
+          @file_list << x.sub!(@template_path, '')
         when File.directory?(x) then
-          dir_list << x.sub!(@template_path, '')
+          @dir_list << x.sub!(@template_path, '')
         end
       end
       puts "Dirs"
@@ -73,6 +75,12 @@ module JumpStart
       puts ""
       puts "Files"
       puts @file_list
+    end
+    
+    def create_new_files
+      @file_list.each do |x|
+        FileUtils.touch("#{@install_path}#{@project_name}#{x}")
+      end
     end
     
   end

@@ -1,4 +1,5 @@
 require 'find'
+require 'fileutils'
 require 'optparse'
 require 'yaml'
 
@@ -10,5 +11,6 @@ module JumpStart
   IGNORE_DIRS = ['.','..']
   
   require 'jumpstart/base'
+  require 'jumpstart/filetools'
   
 end
