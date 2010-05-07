@@ -11,6 +11,6 @@ module JumpStart
   IGNORE_DIRS = ['.','..']
   
   require 'jumpstart/base'
-  require 'jumpstart/filetools'
+  require 'jumpstart/fileutils'
   
 end

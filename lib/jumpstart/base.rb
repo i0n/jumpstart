@@ -14,7 +14,9 @@ module JumpStart
       create_project
       parse_template_dir
       create_new_folders
-      create_new_files
+      create_new_files_from_whole_templates
+      populate_files_from_append_templates
+      populate_files_from_line_templates
     end
     
     private
@@ -76,22 +78,13 @@ module JumpStart
       end
       file_list.each do |file|
         if file =~ /_._{1}\w*/
-          @append_templates << file.sub!(/_._{1}/, '')
+          @append_templates << file
         elsif file =~ /_\d._{1}\w*/
-          @line_templates << file.sub!(/_\d._{1}/, '')
+          @line_templates << file
         else
           @whole_templates << file
         end
       end
-      # puts
-      # puts "Append Templates:"
-      # puts @append_templates
-      # puts
-      # puts "line Templates:"
-      # puts @line_templates
-      # puts
-      # puts "Whole Templates:"
-      # puts @whole_templates
     end
     
     def create_new_folders
@@ -103,10 +96,25 @@ module JumpStart
       end
     end
     
-    def create_new_files
+    def create_new_files_from_whole_templates
       @whole_templates.each do |x|
         FileUtils.touch("#{@install_path}/#{@project_name}#{x}")
+        file_contents = IO.readlines("#{@template_path}#{x}")
+        File.open("#{@install_path}/#{@project_name}#{x}", "w") do |y|
+          y.puts file_contents
+        end
       end
+    end
+    
+    def populate_files_from_append_templates
+      @append_templates.each do |x|
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_._{1}/, '')}")
+        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_._{1}/, '')}")
+      end
+    end
+    
+    def populate_files_from_line_templates
+      
     end
         
   end
