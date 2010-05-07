@@ -22,7 +22,6 @@ module JumpStart
         file = IO.readlines(target_file)
         file.pop if remove_last_line == true
         file.push new_line
-        p file
         File.open(target_file, "w") do |x|
           x.puts file
         end
@@ -49,7 +48,7 @@ module JumpStart
           puts
           puts "Setting permissions for: #{target_file}"
           puts
-          `sudo chmod 755 #{target_file}`
+          system "sudo chmod 755 #{target_file}"
           nginx_config = IO.readlines(target_file)
           nginx_config.delete_if do |line|
             line == "\n" || line == ""
@@ -74,14 +73,12 @@ module JumpStart
         end
       end
     
-      def make_git_repo
-        git_dir = '/home/i0n/git'
-        app_name = ARGV
-        Dir.chdir git_dir
+      def make_bare_git_repo(target_dir, app_name)
+        Dir.chdir target_dir
         Dir.mkdir "#{app_name}.git"
-        Dir.chdir "#{git_dir}/#{app_name}.git"
+        Dir.chdir "#{target_dir}/#{app_name}.git"
         system "git init --bare"
-        puts "SUCCESS!"
+        puts "SUCCESS! git repo #{app_name}.git created."
       end
         
     end    

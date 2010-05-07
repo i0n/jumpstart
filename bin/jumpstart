@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << File.join(File.dirname(__FILE__), "/../lib")
 require "jumpstart"
-# project = JumpStart::Base.new("rails_3")
-# project.start
-JumpStart::FileTools.append_to_end_of_file('/Users/i0n/Sites/jumpstart/test.txt', 'NEW LINE!')
+project = JumpStart::Base.new("rails_3")
+project.start

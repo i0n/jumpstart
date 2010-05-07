@@ -32,20 +32,10 @@ run "echo '\nconfig.gem \"rspec\", :lib => false, :version => \">= 1.2.0\"\nconf
 run "haml --rails ."
 run "echo '\n\nSass::Plugin.options[:style] = :compressed' >> config/environment.rb"
 
-# Install Gems if they are not already on the local system
-rake("gems:install")
-
-# Freeze Gems for upload
-rake("rails:freeze:gems")
-rake("gems:unpack")
-
 ################################################################### CREATE DATABASES AND RUN MIGRATIONS #####################################
 
 # create databases
 rake("db:create:all")
-
-# Migrate database (included here in case of the adition of migrations at a later date)
-rake("db:migrate")
 
 # Generate rspec files
 generate("rspec")
