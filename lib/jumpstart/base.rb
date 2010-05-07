@@ -13,8 +13,8 @@ module JumpStart
       check_install_paths
       create_project
       parse_template_dir
-      create_new_files
       create_new_folders
+      create_new_files
     end
     
     private
@@ -62,31 +62,52 @@ module JumpStart
     
     def parse_template_dir
       @dir_list = []
-      @file_list = []
+      file_list = []
+      @whole_templates = []
+      @append_templates = []
+      @line_templates = []
       Find.find(@template_path) do |x|
         case
         when File.file?(x) then
-          @file_list << x.sub!(@template_path, '')
+          file_list << x.sub!(@template_path, '')
         when File.directory?(x) then
           @dir_list << x.sub!(@template_path, '')
         end
       end
-    end
-    
-    def create_new_files
-      @file_list.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}/#{x}")
+      file_list.each do |file|
+        if file =~ /_._{1}\w*/
+          @append_templates << file.sub!(/_._{1}/, '')
+        elsif file =~ /_\d._{1}\w*/
+          @line_templates << file.sub!(/_\d._{1}/, '')
+        else
+          @whole_templates << file
+        end
       end
+      # puts
+      # puts "Append Templates:"
+      # puts @append_templates
+      # puts
+      # puts "line Templates:"
+      # puts @line_templates
+      # puts
+      # puts "Whole Templates:"
+      # puts @whole_templates
     end
     
     def create_new_folders
       Dir.chdir(@install_path)
       @dir_list.each do |x|
-        unless Dir.exists?("#{@install_path}/#{@project_name}/#{x}")
-          Dir.mkdir("#{@install_path}/#{@project_name}/#{x}")
+        unless Dir.exists?("#{@install_path}/#{@project_name}#{x}")
+          Dir.mkdir("#{@install_path}/#{@project_name}#{x}")
         end
       end
     end
     
+    def create_new_files
+      @whole_templates.each do |x|
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x}")
+      end
+    end
+        
   end
 end
