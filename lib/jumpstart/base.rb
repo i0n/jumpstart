@@ -49,15 +49,7 @@ module JumpStart
           puts "creating JumpStart project #{@project_name}"
           # TODO Create functionality for creating projects if they do not exist
         elsif input == "no" || input == "n"
-          puts
-          puts "******************************************************************************************************************************************"
-          puts
-          puts "Exiting JumpStart..."
-          puts "Goodbye!"
-          puts
-          puts "******************************************************************************************************************************************"
-          puts
-          exit
+          exit_jumpstart
         end
       end
     end
@@ -73,7 +65,9 @@ module JumpStart
         begin
           Dir.chdir(x)
         rescue
+          puts
           puts "The directory #{x} could not be found, or you do not have the correct permissions to access it."
+          exit_jumpstart
         end
       end
     end
@@ -149,6 +143,17 @@ module JumpStart
     def get_line_number(file_name)
       /_(?<number>\d)\._{1}\w*/ =~ file_name
       number.to_i
+    end
+    
+    def exit_jumpstart
+      puts
+      puts
+      puts "Exiting JumpStart..."
+      puts "Goodbye!"
+      puts
+      puts "******************************************************************************************************************************************"
+      puts
+      exit
     end
     
   end
