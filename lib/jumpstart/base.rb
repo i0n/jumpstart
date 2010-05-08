@@ -13,7 +13,6 @@ module JumpStart
       puts "JumpStarting...."
       puts
       puts
-      
       lookup_existing_projects
       check_project_name
       load_config_options
@@ -28,7 +27,7 @@ module JumpStart
     end
     
     private
-    
+        
     def lookup_existing_projects
       project_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
       project_dirs.each do |x|
@@ -41,17 +40,26 @@ module JumpStart
     end
     
     def check_project_name
-      unless @existing_projects.include? @project_name
-        puts "A JumpStart project of the name #{@project_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
-        puts
-        input = gets.chomp
-        if input == "yes" || input == "y"
-          puts "creating JumpStart project #{@project_name}"
-          # TODO Create functionality for creating projects if they do not exist
-        elsif input == "no" || input == "n"
-          exit_jumpstart
+      if @project_name.nil?
+        jumpstart_options
+      else
+        unless @existing_projects.include? @project_name
+          puts "A JumpStart project of the name #{@project_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
+          puts
+          input = gets.chomp
+          if input == "yes" || input == "y"
+            puts "creating JumpStart project #{@project_name}"
+            # TODO Create functionality for creating projects if they do not exist
+          elsif input == "no" || input == "n"
+            exit_jumpstart
+          end
         end
       end
+    end
+    
+    def jumpstart_options
+      puts "jumpstart options!"
+      # TODO Create a menu that lists all of the options available in jumpstart, including setting a default template dir and listing existing jumpstarts
     end
     
     def load_config_options
