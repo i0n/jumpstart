@@ -5,9 +5,15 @@ module JumpStart
       @input = input
       @output = output
       @project_name = args.shift
+      if args[0] != nil
+        @template_name = args.shift
+      elsif DEFAULT_TEMPLATE_NAME != nil
+        @template_name = DEFAULT_TEMPLATE_NAME
+      end
       # TODO Change project name settings so that the name of the jumpstart template is seperated from the name of the new project being created.
       @existing_projects = []
       # TODO Add option to set default jumpstart template from config or pass it as an argument from the command line.
+      # TODO Add default template functionality to look for default_template option in jumpstart_setup.yml and set it if available.
     end
     
     def start
@@ -98,6 +104,13 @@ module JumpStart
         
     def configure_jumpstart
       # TODO Define configure_jumpstart method
+      @output.puts "******************************************************************************************************************************************"
+      @output.puts
+      @output.puts "jumpstart configuration."
+      @output.puts
+      
+      # This should be removed when method is finished.
+      exit_jumpstart
     end
     
     def load_config_options
