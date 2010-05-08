@@ -22,10 +22,12 @@ module JumpStart
     private
     
     def lookup_existing_projects
-      Dir.entries("#{CONFIG_PATH}/templates").each do |x| 
-        x.gsub!('.yml', '')
-        if x.length > 2
-          @existing_projects << x
+      project_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
+      project_dirs.each do |x|
+        if Dir.entries("#{JUMPSTART_TEMPLATES_PATH}/#{x}").include? "jumpstart_config"
+          if File.exists?("#{JUMPSTART_TEMPLATES_PATH}/#{x}/jumpstart_config/#{x}.yml")
+            @existing_projects << x
+          end
         end
       end
     end
@@ -39,17 +41,17 @@ module JumpStart
     end
     
     def load_config_options
-      @config_file = YAML.load_file("#{CONFIG_PATH}/templates/#{@project_name}.yml")
+      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@project_name}/jumpstart_config/#{@project_name}.yml")
     end
     
     def check_install_paths
       @install_path = @config_file[:install_path]
-      @template_path = @config_file[:template_path]
+      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@project_name}"
       [@install_path, @template_path].each do |x|
         begin
           Dir.chdir(x)
         rescue
-          puts "The directory #{x} could not be found."
+          puts "The directory #{x} could not be found, or you do not have the correct permissions to access it."
         end
       end
     end
