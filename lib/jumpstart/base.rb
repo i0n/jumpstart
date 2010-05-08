@@ -140,6 +140,11 @@ module JumpStart
           exit_jumpstart
         end
       end
+      if Dir.exists?("#{@install_path}/#{@project_name}")
+        @output.puts
+        @output.puts "The directory #{@install_path}/#{@project_name} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        exit_jumpstart
+      end
     end
         
     def create_project
