@@ -10,10 +10,7 @@ module JumpStart
       elsif DEFAULT_TEMPLATE_NAME != nil
         @template_name = DEFAULT_TEMPLATE_NAME
       end
-      # TODO Change project name settings so that the name of the jumpstart template is seperated from the name of the new project being created.
       @existing_projects = []
-      # TODO Add option to set default jumpstart template from config or pass it as an argument from the command line.
-      # TODO Add default template functionality to look for default_template option in jumpstart_setup.yml and set it if available.
     end
     
     def start
@@ -25,6 +22,7 @@ module JumpStart
       @output.puts
       lookup_existing_projects
       check_project_name
+      check_template_name
       load_config_options
       check_install_paths
       create_project
@@ -51,15 +49,28 @@ module JumpStart
     
     def check_project_name
       if @project_name.nil? || @project_name.empty?
+        @output.puts
+        @output.puts "Enter a name for your project."
+        @project_name = @input.gets.chomp
+        if @project_name.length < 3
+          @output.puts
+          @output.puts "The name of your project must be at least 3 characters long."
+          check_project_name
+        end
+      end
+    end
+    
+    def check_template_name
+      if @template_name.nil? || @template_name.empty?
         jumpstart_options
       else
-        unless @existing_projects.include? @project_name
-          @output.puts "A JumpStart project of the name #{@project_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
+        unless @existing_projects.include? @template_name
+          @output.puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
           @output.puts
           input = @input.gets.chomp
           if input == "yes" || input == "y"
-            @output.puts "creating JumpStart project #{@project_name}"
-            # TODO Create functionality for creating projects if they do not exist
+            @output.puts "creating JumpStart template #{@template_name}"
+            # TODO Create functionality for creating templates if they do not exist
           elsif input == "no" || input == "n"
             exit_jumpstart
           end
@@ -69,7 +80,7 @@ module JumpStart
     
     def jumpstart_options
       global_options = {'c' => 'config'}
-      projects = {}
+      templates = {}
       @output.puts "******************************************************************************************************************************************"
       @output.puts
       @output.puts "jumpstart options!"
@@ -80,7 +91,7 @@ module JumpStart
       count = 0
       @existing_projects.each do |x|
         count += 1
-        projects[count.to_s] = x
+        templates[count.to_s] = x
         @output.puts "#{count}: #{x}"
       end
       @output.puts
@@ -95,9 +106,9 @@ module JumpStart
       end
       projects.each do |x,y|
         if x == input
-          @project_name = projects.fetch(x)
+          @template_name = projects.fetch(x)
         elsif y == input
-          @project_name = y
+          @template_name = y
         end
       end      
     end
@@ -114,12 +125,12 @@ module JumpStart
     end
     
     def load_config_options
-      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@project_name}/jumpstart_config/#{@project_name}.yml")
+      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}/jumpstart_config/#{@template_name}.yml")
     end
     
     def check_install_paths
       @install_path = @config_file[:install_path]
-      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@project_name}"
+      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
       [@install_path, @template_path].each do |x|
         begin
           Dir.chdir(x)
