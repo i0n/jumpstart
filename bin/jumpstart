@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << File.join(File.dirname(__FILE__), "/../lib")
 require "jumpstart"
-project = JumpStart::Base.new("rails_3")
+project = JumpStart::Base.new(ARGV.shift)
 project.start

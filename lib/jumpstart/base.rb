@@ -7,6 +7,13 @@ module JumpStart
     end
     
     def start
+      puts
+      puts "******************************************************************************************************************************************"
+      puts
+      puts "JumpStarting...."
+      puts
+      puts
+      
       lookup_existing_projects
       check_project_name
       load_config_options
@@ -17,6 +24,7 @@ module JumpStart
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
+      # TODO Create a method to run .rb files inside the projects jumpstart_config directory
     end
     
     private
@@ -33,10 +41,24 @@ module JumpStart
     end
     
     def check_project_name
-      if @existing_projects.include? @project_name
-        
-      else
-        puts "A JumpStart project of that name doesn't exist would you like to create it?"
+      unless @existing_projects.include? @project_name
+        puts "A JumpStart project of the name #{@project_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
+        puts
+        input = gets.chomp
+        if input == "yes" || input == "y"
+          puts "creating JumpStart project #{@project_name}"
+          # TODO Create functionality for creating projects if they do not exist
+        elsif input == "no" || input == "n"
+          puts
+          puts "******************************************************************************************************************************************"
+          puts
+          puts "Exiting JumpStart..."
+          puts "Goodbye!"
+          puts
+          puts "******************************************************************************************************************************************"
+          puts
+          exit
+        end
       end
     end
     
