@@ -1,7 +1,7 @@
 module FileUtils
   class << self
   
-    # Method for inserting a line after a specific line in a file. Note that this method will match only the first line it finds.
+    # For inserting a line after a specific line in a file. Note that this method will match only the first line it finds.
     def append_after_line(target_file, target_line, new_line)
       file = IO.readlines(target_file)
       new_file = file.dup
@@ -16,27 +16,28 @@ module FileUtils
       end
     end
 
-    # Method for appending text provided as a sring or a target file (souce) to the end of another file (target_file). Takes an optional true/false as a third argument to remove the last line of the target file.
+    # For appending text provided as a sring or a target file (source) to the end of another file (target_file). Takes an optional true/false as a third argument to remove the last line of the target file.
     def append_to_end_of_file(source, target_file, remove_last_line=false)
       t_file = IO.readlines(target_file)
       t_file.pop if remove_last_line == true
-      if File.file?(source)
-        source_file = IO.readlines(source)
-      else
-        source_file = source
-      end
       new_file = []
-      new_file << t_file << source_file
+      new_file << t_file << check_source_type(source)
       File.open(target_file, "w") do |x|
         x.puts new_file
       end
     end
     
+    # For inserting text provided as a string or a target file (source) to a specific line number (line_number) of another file (target_file) 
     def insert_text_at_line_number(source, target_file, line_number)
-      
+      line_number -= 1
+      file = IO.readlines(target_file)
+      file.insert((line_number), check_source_type(source))
+      File.open(target_file, "w") do |x|
+        x.puts file
+      end      
     end
   
-    # Method for setting up app in Nginx 
+    # For setting up app in Nginx 
     def nginx_auto_config(source_file, target_file, app_name)
       if source_file == nil || target_file == nil || app_name == nil
         puts
@@ -86,6 +87,17 @@ module FileUtils
       Dir.chdir "#{target_dir}/#{app_name}.git"
       system "git init --bare"
       puts "SUCCESS! git repo #{app_name}.git created."
+    end
+    
+    private
+    
+    def check_source_type(source)
+      if File.file?(source)
+        source_file = IO.readlines(source)
+      else
+        source_file = source
+      end
+      source_file
     end
       
   end    

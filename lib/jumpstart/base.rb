@@ -77,9 +77,9 @@ module JumpStart
         end
       end
       file_list.each do |file|
-        if file =~ /_._{1}\w*/
+        if file =~ /_\._{1}\w*/
           @append_templates << file
-        elsif file =~ /_\d._{1}\w*/
+        elsif file =~ /_\d\._{1}\w*/
           @line_templates << file
         else
           @whole_templates << file
@@ -108,14 +108,24 @@ module JumpStart
     
     def populate_files_from_append_templates
       @append_templates.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_._{1}/, '')}")
-        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_._{1}/, '')}")
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\._{1}/, '')}")
+        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\._{1}/, '')}")
       end
     end
     
     def populate_files_from_line_templates
-      
+      @line_templates.each do |x|
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}")
+        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}", get_line_number(x))
+      end
     end
-        
+    
+    private
+    
+    def get_line_number(file_name)
+      /_(?<number>\d)\._{1}\w*/ =~ file_name
+      number.to_i
+    end
+    
   end
 end
