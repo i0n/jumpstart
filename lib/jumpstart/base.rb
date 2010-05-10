@@ -208,6 +208,7 @@ module JumpStart
     
     def populate_files_from_line_templates
       @line_templates.each do |x|
+        # TODO Edit regex to account for line numbers of over one digit
         FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}")
         FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}", get_line_number(x))
       end
