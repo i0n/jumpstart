@@ -9,6 +9,8 @@
 :run_after_install_command:
   # Setup HAML/SASS plugin
   - haml --rails .
+  # Create home controller
+  - rails g controller home
 
 :remove_files:
   - /app/views/layouts/application.html.erb
@@ -19,9 +21,6 @@
 :run_after_jumpstart:
   # create databases
   - rake db:create
-  # Appending URI to /etc/hosts to complete local OSX Nginx config
-  - sudo chmod 777 /etc/hosts
-  # - echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts
   # Set application up for deployment with Capistrano
   - capify!
   # Initialise Git repository
