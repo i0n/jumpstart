@@ -6,8 +6,11 @@
     %meta{:name => 'keywords', :content => ''}
     = csrf_meta_tag
     %title
-      #{controller.action_name}
-    = stylesheet_link_tag 'global','layout', :media => :all
+      #{yield :title}
+    = stylesheet_link_tag 'global', :media => :all
+    = stylesheet_link_tag 'screen', :media => :screen
+    = stylesheet_link_tag 'print', :media => :print
+    = stylesheet_link_tag 'handheld', :media => :handheld
     /
       [if IE 7]>
       = stylesheet_link_tag 'ie', :media => 'screen, projection'

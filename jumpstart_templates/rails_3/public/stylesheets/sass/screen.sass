@@ -1,0 +1,90 @@
+@import setup.sass
+
+h1
+  +font_largest
+  color = !text_color_bold
+
+h2, h3
+  +font_large
+  color = !text_color_bold
+
+h4, h5, h6
+  +font_normal
+  color = !text_color_bold
+
+p
+  +font_normal
+
+a
+  color = !link_color
+  padding: 0 #{!link_horizontal_padding}
+  margin: 0 0 0 #{!link_horizontal_padding}
+  &:hover
+    color = !background_color
+    background-color = !link_color
+    text-decoration: none
+    padding: 0 #{!link_horizontal_padding}
+    margin: 0 0 0 #{!link_horizontal_padding}
+    border-radius: 0.25em
+    -moz-border-radius: 0.25em
+    -webkit-border-radius: 0.25em
+    &:visited
+      color = !background_color
+      background-color = !link_color_visited
+  &:visited
+    color = !link_color_visited
+
+ul, ol
+  +font_normal
+
+strong
+  color = !text_color_bold
+  font-weight: bold
+
+em
+  font-style: italic
+
+legend
+  +font_normal
+
+.faint
+  color = !text_color_faint
+
+.clear
+  clear: both
+
+.container
+  width = !width_of_page
+  margin: 0 auto
+  position: relative
+  padding: 0
+  
+.col_1
+  +col(2)
+
+.col_2
+  +col(4,1)
+
+.spacer1
+  +spacer
+
+.spacer2
+  +spacer(3em 0 0)
+  
+p.flash_notice
+  +system_message
+
+p.flash_error 
+  +system_message( !error_text_color, !error_background_color )
+
+.errorExplanation
+  color = !error_text_color
+  background-color = !error_background_color
+  padding: 1.333em 1.166em
+  border: 0.167em solid #{!error_text_color}
+  margin: 0 0 1.5em
+  border-radius: 0.499em
+  -moz-border-radius: 0.499em
+  -webkit-border-radius: 0.499em
+  h2
+    color = !error_text_color

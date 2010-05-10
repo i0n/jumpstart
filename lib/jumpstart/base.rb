@@ -26,12 +26,12 @@ module JumpStart
       load_config_options
       check_install_paths
       create_project
+      run_scripts
       parse_template_dir
       create_new_folders
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
-      run_scripts
     end
     
     private
