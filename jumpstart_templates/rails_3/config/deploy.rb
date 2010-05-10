@@ -25,11 +25,7 @@ namespace :deploy do
   task  :restart do
     run "mkdir -p #{release_path}/tmp && touch #{release_path}/tmp/restart.txt"
   end
-  
-  task :install_gems do
-    run "cd #{current_path}; rake gems:install"
-  end
-  
+    
   namespace :db do
     
     desc "Create database for the production environment using the servers rake db:setup task.\n Loads the schema, and initializes with the seed data"
@@ -58,9 +54,9 @@ namespace :deploy do
   
 end
 
-after 'deploy:symlink', 'deploy:install_gems'
-
 # Reminder of default actions for cap deploy:
 # deploy:update_code
 # deploy:symlink
 # deploy:restart
+
+# eg: after 'deploy:symlink', 'deploy:restart'
