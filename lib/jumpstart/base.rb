@@ -199,6 +199,7 @@ module JumpStart
       end
     end
     
+    # TODO Look into a way of being able to pass the 'remove last line => true' option via the naming convention of the templates
     def populate_files_from_append_templates
       @append_templates.each do |x|
         FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\._{1}/, '')}")
@@ -213,6 +214,8 @@ module JumpStart
         FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}", get_line_number(x))
       end
     end
+    
+    # TODO Look at the possibility of passing an nginx_config option via template naming.
     
     def run_scripts
       # TODO Finish scripts method
