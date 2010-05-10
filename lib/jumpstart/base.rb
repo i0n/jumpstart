@@ -155,7 +155,6 @@ module JumpStart
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
     
-    # TODO Get parse method to remove jumpstart_config dir from the dirs to be created for the project.
     def parse_template_dir
       @dir_list = []
       file_list = []
@@ -164,9 +163,9 @@ module JumpStart
       @line_templates = []
       Find.find(@template_path) do |x|
         case
-        when File.file?(x) then
+        when File.file?(x) && x !~ /\/jumpstart_config/ then
           file_list << x.sub!(@template_path, '')
-        when File.directory?(x) then
+        when File.directory?(x) && x !~ /\/jumpstart_config/ then
           @dir_list << x.sub!(@template_path, '')
         end
       end
