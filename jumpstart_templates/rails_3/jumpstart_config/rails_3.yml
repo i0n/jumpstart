@@ -7,6 +7,8 @@
 :install_command_options: -d mysql -J -T
 
 :other_commands: 
+  # Setup HAML/SASS plugin
+  - haml --rails .
   # create databases
   - rake db:create:all
   # Appending URI to /etc/hosts to complete local OSX Nginx config
