@@ -155,6 +155,7 @@ module JumpStart
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
     
+    # TODO Get parse method to remove jumpstart_config dir from the dirs to be created for the project.
     def parse_template_dir
       @dir_list = []
       file_list = []
@@ -172,7 +173,7 @@ module JumpStart
       file_list.each do |file|
         if file =~ /_\._{1}\w*/
           @append_templates << file
-        elsif file =~ /_\d\._{1}\w*/
+        elsif file =~ /_(\d+)\._{1}\w*/
           @line_templates << file
         else
           @whole_templates << file
@@ -209,9 +210,8 @@ module JumpStart
     
     def populate_files_from_line_templates
       @line_templates.each do |x|
-        # TODO Edit regex to account for line numbers of over one digit
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}")
-        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\d\._{1}/, '')}", get_line_number(x))
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}")
+        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}", get_line_number(x))
       end
     end
     
@@ -222,9 +222,13 @@ module JumpStart
       scripts = Dir.entries("#{@template_path}/jumpstart_config") - IGNORE_DIRS
     end
     
+    # TODO Write a method to remove files from the install that you might not want
+    
     def get_line_number(file_name)
-      /_(?<number>\d)\._{1}\w*/ =~ file_name
+      /_(?<number>\d+)\._\w*/ =~ file_name
       number.to_i
+      # /_(?<number>\d+)\._\w*/ =~ '_41._production.rb'
+      # /_\d+\._/ =~ '_41._production.rb'
     end
     
     def exit_jumpstart
