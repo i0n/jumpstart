@@ -26,14 +26,14 @@ module JumpStart
       load_config_options
       check_install_paths
       create_project
-      run_after_install
+      run_scripts_from_yaml(:run_after_install_command)
       run_template_scripts
       parse_template_dir
       create_new_folders
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
-      run_after_jumpstart
+      run_scripts_from_yaml(:run_after_jumpstart)
     end
     
     private
@@ -156,15 +156,7 @@ module JumpStart
       @output.puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
-    
-    def run_after_install
-      Dir.chdir("#{@install_path}/#{@project_name}")
-      @config_file[:run_after_install_command].each do |x|
-        @output.puts "Executing command: #{x}"
-        system "#{x}"
-      end
-    end
-    
+        
     def run_template_scripts
       # TODO Finish scripts method
       scripts = Dir.entries("#{@template_path}/jumpstart_config") - IGNORE_DIRS
@@ -229,9 +221,9 @@ module JumpStart
       end
     end
     
-    def run_after_jumpstart
+    def run_scripts_from_yaml(script_name)
       Dir.chdir("#{@install_path}/#{@project_name}")
-      @config_file[:run_after_jumpstart].each do |x|
+      @config_file[script_name].each do |x|
         @output.puts "Executing command: #{x}"
         system "#{x}"
       end
