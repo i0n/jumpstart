@@ -6,11 +6,13 @@
 # Options for the install command
 :install_command_options: -d mysql -J -T
 
-:other_commands: 
+:run_after_install_command:
   # Setup HAML/SASS plugin
   - haml --rails .
+  
+:run_after_jumpstart:
   # create databases
-  - rake db:create:all
+  - rake db:create
   # Appending URI to /etc/hosts to complete local OSX Nginx config
   - sudo chmod 777 /etc/hosts
   # - echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts
@@ -20,5 +22,5 @@
   - git init
   # Add all changes to the Git repository and then commit those changes.
   - git add .
-  - git commit -v -a -m Initial commit
+  - git commit -v -a -m "Initial commit"
   

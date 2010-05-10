@@ -26,12 +26,14 @@ module JumpStart
       load_config_options
       check_install_paths
       create_project
-      run_scripts
+      run_after_install
+      run_template_scripts
       parse_template_dir
       create_new_folders
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
+      run_after_jumpstart
     end
     
     private
@@ -155,6 +157,19 @@ module JumpStart
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
     
+    def run_after_install
+      Dir.chdir("#{@install_path}/#{@project_name}")
+      @config_file[:run_after_install_command].each do |x|
+        @output.puts "Executing command: #{x}"
+        system "#{x}"
+      end
+    end
+    
+    def run_template_scripts
+      # TODO Finish scripts method
+      scripts = Dir.entries("#{@template_path}/jumpstart_config") - IGNORE_DIRS
+    end
+    
     def parse_template_dir
       @dir_list = []
       file_list = []
@@ -214,13 +229,16 @@ module JumpStart
       end
     end
     
-    # TODO Look at the possibility of passing an nginx_config option via template naming.
-    
-    def run_scripts
-      # TODO Finish scripts method
-      scripts = Dir.entries("#{@template_path}/jumpstart_config") - IGNORE_DIRS
+    def run_after_jumpstart
+      Dir.chdir("#{@install_path}/#{@project_name}")
+      @config_file[:run_after_jumpstart].each do |x|
+        @output.puts "Executing command: #{x}"
+        system "#{x}"
+      end
     end
     
+    # TODO Look at the possibility of passing an nginx_config option via template naming.
+        
     # TODO Write a method to remove files from the install that you might not want
     
     def get_line_number(file_name)
