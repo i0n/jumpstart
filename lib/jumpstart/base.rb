@@ -33,6 +33,7 @@ module JumpStart
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
+      remove_unwanted_files
       run_scripts_from_yaml(:run_after_jumpstart)
     end
     
@@ -221,6 +222,14 @@ module JumpStart
       end
     end
     
+    def remove_unwanted_files
+      Dir.chdir("#{@install_path}/#{@project_name}")
+      @config_file[:remove_files].each do |x|
+        @output.puts "Removing the unwanted file: #{@install_path}/#{@project_name}#{x}"
+        system "rm -r #{@install_path}/#{@project_name}#{x}"
+      end
+    end
+    
     def run_scripts_from_yaml(script_name)
       Dir.chdir("#{@install_path}/#{@project_name}")
       @config_file[script_name].each do |x|
@@ -230,8 +239,6 @@ module JumpStart
     end
     
     # TODO Look at the possibility of passing an nginx_config option via template naming.
-        
-    # TODO Write a method to remove files from the install that you might not want
     
     def get_line_number(file_name)
       /_(?<number>\d+)\._\w*/ =~ file_name

@@ -9,6 +9,12 @@
 :run_after_install_command:
   # Setup HAML/SASS plugin
   - haml --rails .
+
+:remove_files:
+  - /app/views/layouts/application.html.erb
+  - /public/index.html
+  - /public/favicon.ico
+  - /public/images/rails.png
   
 :run_after_jumpstart:
   # create databases
