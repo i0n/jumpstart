@@ -1,67 +1,86 @@
-/ ****** VARIABLES **********
+// ****** VARIABLES **********
 
-!global_font_size_in_pixels = 12
-!global_line_height = 1.5em
-!width_of_page = 79.5em
-!col_width = (!width_of_page - (5 * !global_line_height)) / 6
+$global_font_size_in_pixels: 12
+$global_line_height: 1.5em
+$width_of_page: 79.5em
+$col_width: (($width_of_page - 5 * $global_line_height) / 6)
 
-!background_color = #ffffff
+$background_color: white
 
-!text_color_normal = #333333
-!text_color_bold = !text_color_normal / 100
-!text_color_faint = !text_color_normal * 2
-!text_color_faintest = !text_color_normal * 4
+$text_color_normal: #333333
+$text_color_bold: ($text_color_normal / 100)
+$text_color_faint: $text_color_normal * 2
+$text_color_faintest: $text_color_normal * 4
 
-!link_color = #3300CC
-!link_color_visited = #551A8B
+$link_color: #3300cc
+$link_color_visited: #551a8b
 
-!link_horizontal_padding = 0.166em 
+$link_horizontal_padding: 0.166em
 
-!line_padding_normal = 0 0 1.5em
+$line_padding_normal: 0 0 1.5em
 
-!notice_text_color = #00B300
-!notice_background_color = #D3FFD3
+$notice_text_color: #00b300
+$notice_background_color: #d3ffd3
 
-!error_text_color = #B31000
-!error_background_color = #FFAAA1
+$error_text_color: #b31000
+$error_background_color: #ffaaa1
 
-/ ****** MIXINS **********
+// ****** MIXINS **********
 
-=font_small( !padding = 0 0 1.5em)
+=font_small($padding: 0 0 1.5em)
   font-size: 1em
   line-height: 1.5em
-  padding = !padding
+  padding: $padding
 
-=font_normal( !padding = 0 0 1.5em)
+=font_normal($padding: 0 0 1.5em)
   font-size: 1em
   line-height: 1.5em
-  padding = !padding
+  padding: $padding
 
-=font_large( !padding = 0 0 1em)
+=font_large($padding: 0 0 1em)
   font-size: 1.5em
   line-height: 1em
-  padding = !padding
+  padding: $padding
 
-=font_largest( !padding = 0 0 0.5em)
+=font_largest($padding: 0 0 0.5em)
   font-size: 3em
   line-height: 1em
-  padding = !padding
-  
-=system_message( !text_color = !notice_text_color, !background_color = !notice_background_color )
+  padding: $padding
+
+=system_message($text_color: $notice_text_color, $background_color: $notice_background_color)
   +font_large(1em)
-  background-color = !background_color
+  background-color: $background_color
   margin: 0 0 0.777em
-  color = !text_color
-  border: 0.113em solid #{!text_color}
+  color: $text_color
+  border: 0.113em solid #{$text_color}
   border-radius: 0.333em
   -moz-border-radius: 0.333em
   -webkit-border-radius: 0.333em
 
-=spacer(!margin = 1.5em 0 0)
-  +font_normal( 0 0 2.916em )
-  margin = !margin
-  border-top: 0.084em solid #{!text_color_faintest}
-  
-=col(!number_of_cols = 3, !minus_gutter = 0)
-  width = (!col_width * !number_of_cols) + (!number_of_cols * !global_line_height) - (!global_line_height * !minus_gutter)
+=spacer($margin: 1.5em 0 0)
+  +font_normal(0 0 2.916em)
+  margin: $margin
+  border-top: 0.08400000000000001em solid #{$text_color_faintest}
+
+=col($number_of_cols: 3, $minus_gutter: 0)
+  width: $col_width * $number_of_cols + $number_of_cols * $global_line_height - $global_line_height * $minus_gutter
   float: left
+
+// ****** MIXINS - Main Menu **********
+
+=main_menu_selected
+  background: -moz-linear-gradient(100% 49% 90deg, #2d34aa, #00021f)
+  background: -webkit-gradient(linear, 0% 49%, 0% 0%, from(#2d34aa), to(#00021f))
+  background-color: #00021f
+
+=main_menu_selected_shadow($shadow_size: 0.5em)
+  box-shadow: inset 0 0 $shadow_size black
+  -webkit-box-shadow: inset 0 0 $shadow_size black
+  -moz-box-shadow: inset 0 0 $shadow_size black
+
+=main_menu_first_selected
+  border-top-left-radius: 0.499em
+  border-bottom-left-radius: 0.499em
+  -webkit-border-top-left-radius: 0.499em
+  -webkit-border-bottom-left-radius: 0.499em
+  -moz-border-radius: 0.499em 0 0 0.499em

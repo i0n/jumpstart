@@ -14,18 +14,18 @@ body
   font-size: 75%
 
 html>body
-  font-style: normal 
-  font-weight: normal 
+  font-style: normal
+  font-weight: normal
   font-family: Helvetica, Arial, sans-serif
-  font-size: #{!global_font_size_in_pixels}px
-  line-height = !global_line_height  
-  background-color = !background_color
-  color = !text_color_normal
+  font-size: #{$global_font_size_in_pixels}px
+  line-height: $global_line_height
+  background-color: $background_color
+  color: $text_color_normal
   word-wrap: break-word
 
 table
   border-collapse: separate
-  border-spacing: 0
+  border-spacing: 1px
 
 caption, th, td
   text-align: left
@@ -33,7 +33,7 @@ caption, th, td
 
 table, td, th
   vertical-align: middle
-  padding: 0.5em
+  padding: 0
 
 blockquote
   &:before, &:after
