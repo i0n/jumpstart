@@ -1,24 +1,24 @@
 ---
 # The path that the install command will be run from
-install_path: /Users/i0n/Sites
+:install_path: /Users/i0n/Sites
 # The command that this template will run
-install_command: rails
+:install_command: rails
 # Options for the install command
-install_command_options: -d mysql -J -T
+:install_command_options: -d mysql -J -T
 
-other_commands: 
+:other_commands: 
   # Setup HAML/SASS plugin
-  - system "haml --rails ."
+  - haml --rails .
   # create databases
-  - system "rake db:create:all"
+  - rake db:create:all
   # Appending URI to /etc/hosts to complete local OSX Nginx config
-  - system "sudo chmod 777 /etc/hosts"
-#  - system "echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts" 
+  - sudo chmod 777 /etc/hosts
+  # - echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts
   # Set application up for deployment with Capistrano
-  - system "capify!"
+  - capify!
   # Initialise Git repository
-  - system "git init"
+  - git init
   # Add all changes to the Git repository and then commit those changes.
-  - system "git add ."
-  - system "git commit -v -a -m Initial commit"
+  - git add .
+  - git commit -v -a -m Initial commit
   
