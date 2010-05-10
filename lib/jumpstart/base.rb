@@ -227,8 +227,6 @@ module JumpStart
     def get_line_number(file_name)
       /_(?<number>\d+)\._\w*/ =~ file_name
       number.to_i
-      # /_(?<number>\d+)\._\w*/ =~ '_41._production.rb'
-      # /_\d+\._/ =~ '_41._production.rb'
     end
     
     def exit_jumpstart
