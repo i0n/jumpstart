@@ -82,6 +82,12 @@ module FileUtils
       end
     end
     
+    # Appending URI to /etc/hosts to complete local OSX Nginx config
+    def config_etc_hosts(app_name)
+      system "sudo chmod 777 /etc/hosts"
+      system "echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts"
+    end
+    
     # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
     def config_capistrano(target_file, app_name, remote_server)
       cap_txt = IO.read(target_file)
