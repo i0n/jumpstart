@@ -1,9 +1,7 @@
 module JumpStart
   class Base
 
-    def initialize(input, output, args)
-      @input = input
-      @output = output
+    def initialize(args)
       @project_name = args.shift
       if args[0] != nil
         @template_name = args.shift
@@ -14,12 +12,12 @@ module JumpStart
     end
     
     def start
-      @output.puts
-      @output.puts "******************************************************************************************************************************************"
-      @output.puts
-      @output.puts "JumpStarting...."
-      @output.puts
-      @output.puts
+      puts
+      puts "******************************************************************************************************************************************"
+      puts
+      puts "JumpStarting...."
+      puts
+      puts
       lookup_existing_projects
       check_project_name
       check_template_name
@@ -51,12 +49,12 @@ module JumpStart
     
     def check_project_name
       if @project_name.nil? || @project_name.empty?
-        @output.puts
-        @output.puts "Enter a name for your project."
+        puts
+        puts "Enter a name for your project."
         @project_name = @input.gets.chomp
         if @project_name.length < 3
-          @output.puts
-          @output.puts "The name of your project must be at least 3 characters long."
+          puts
+          puts "The name of your project must be at least 3 characters long."
           check_project_name
         end
       end
@@ -67,11 +65,11 @@ module JumpStart
         jumpstart_options
       else
         unless @existing_projects.include? @template_name
-          @output.puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
-          @output.puts
+          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
+          puts
           input = @input.gets.chomp
           if input == "yes" || input == "y"
-            @output.puts "creating JumpStart template #{@template_name}"
+            puts "creating JumpStart template #{@template_name}"
             # TODO Create functionality for creating templates if they do not exist
           elsif input == "no" || input == "n"
             exit_jumpstart
@@ -83,23 +81,23 @@ module JumpStart
     def jumpstart_options
       global_options = {'c' => 'config'}
       templates = {}
-      @output.puts "******************************************************************************************************************************************"
-      @output.puts
-      @output.puts "jumpstart options!"
-      @output.puts
-      @output.puts "What would you like to do?"
-      @output.puts "To run an existing jumpstart enter it's number or it's name."
-      @output.puts
+      puts "******************************************************************************************************************************************"
+      puts
+      puts "jumpstart options!"
+      puts
+      puts "What would you like to do?"
+      puts "To run an existing jumpstart enter it's number or it's name."
+      puts
       count = 0
       @existing_projects.each do |x|
         count += 1
         templates[count.to_s] = x
-        @output.puts "#{count}: #{x}"
+        puts "#{count}: #{x}"
       end
-      @output.puts
-      @output.puts "To create a new jumpstart enter a name for it."
-      @output.puts
-      @output.puts "To view/set jumpstart configuration options type 'config' or 'c'."
+      puts
+      puts "To create a new jumpstart enter a name for it."
+      puts
+      puts "To view/set jumpstart configuration options type 'config' or 'c'."
       input = @input.gets.chomp
       global_options.each do |x,y|
         if input == 'c' || input == 'config'
@@ -117,10 +115,10 @@ module JumpStart
         
     def configure_jumpstart
       # TODO Define configure_jumpstart method
-      @output.puts "******************************************************************************************************************************************"
-      @output.puts
-      @output.puts "jumpstart configuration."
-      @output.puts
+      puts "******************************************************************************************************************************************"
+      puts
+      puts "jumpstart configuration."
+      puts
       
       # This should be removed when method is finished.
       exit_jumpstart
@@ -137,14 +135,14 @@ module JumpStart
         begin
           Dir.chdir(x)
         rescue
-          @output.puts
-          @output.puts "The directory #{x} could not be found, or you do not have the correct permissions to access it."
+          puts
+          puts "The directory #{x} could not be found, or you do not have the correct permissions to access it."
           exit_jumpstart
         end
       end
       if Dir.exists?("#{@install_path}/#{@project_name}")
-        @output.puts
-        @output.puts "The directory #{@install_path}/#{@project_name} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        puts
+        puts "The directory #{@install_path}/#{@project_name} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_jumpstart
       end
     end
@@ -153,7 +151,7 @@ module JumpStart
       @install_command = @config_file[:install_command]
       @install_command_options = @config_file[:install_command_options]
       Dir.chdir(@install_path)
-      @output.puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
+      puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
             
@@ -223,7 +221,7 @@ module JumpStart
     def run_scripts_from_yaml(script_name)
       Dir.chdir("#{@install_path}/#{@project_name}")
       @config_file[script_name].each do |x|
-        @output.puts "Executing command: #{x}"
+        puts "Executing command: #{x}"
         system "#{x}"
       end
     end
@@ -236,13 +234,13 @@ module JumpStart
     end
     
     def exit_jumpstart
-      @output.puts
-      @output.puts
-      @output.puts "Exiting JumpStart..."
-      @output.puts "Goodbye!"
-      @output.puts
-      @output.puts "******************************************************************************************************************************************"
-      @output.puts
+      puts
+      puts
+      puts "Exiting JumpStart..."
+      puts "Goodbye!"
+      puts
+      puts "******************************************************************************************************************************************"
+      puts
       exit
     end
     

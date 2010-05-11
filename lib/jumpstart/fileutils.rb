@@ -53,6 +53,8 @@ module FileUtils
           else
             puts "You do not have the correct privileges to delete #{x}. It has NOT been deleted."
           end
+        else
+          puts "The file #{x} could not be deleted as it could not be found."
         end
       end
     end
