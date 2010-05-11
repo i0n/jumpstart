@@ -104,7 +104,6 @@ module FileUtils
       end
     end
     
-    # Appending URI to /etc/hosts to complete local OSX Nginx config
     def config_etc_hosts(app_name)
       begin
         if File.writable?("/etc/hosts")
