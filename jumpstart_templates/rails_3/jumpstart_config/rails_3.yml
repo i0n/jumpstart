@@ -7,8 +7,6 @@
 :install_command_options: -d mysql -J -T
 
 :run_after_install_command:
-  # Setup HAML/SASS plugin
-  - haml --rails .
   # Create home controller
   - rails g controller home
 
