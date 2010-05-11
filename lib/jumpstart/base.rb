@@ -30,6 +30,7 @@ module JumpStart
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
+      check_local_nginx_configuration
       remove_unwanted_files
       run_scripts_from_yaml(:run_after_jumpstart)
     end
@@ -167,9 +168,9 @@ module JumpStart
           file_list << x.sub!(@template_path, '')
         when File.directory?(x) && x !~ /\/jumpstart_config/ then
           @dir_list << x.sub!(@template_path, '')
-        when File.file?(x) && =~ /\/jumpstart_config\/nginx.local.conf/ then
+        when File.file?(x) && x =~ /\/jumpstart_config\/nginx.local.conf/ then
           @nginx_local_template = x
-        when File.file?(x) && =~ /\/jumpstart_config\/nginx.remote.conf/ then
+        when File.file?(x) && x =~ /\/jumpstart_config\/nginx.remote.conf/ then
           @nginx_remote_template = x
         end
       end
@@ -215,6 +216,13 @@ module JumpStart
       @line_templates.each do |x|
         FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}")
         FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}", get_line_number(x))
+      end
+    end
+    
+    def check_local_nginx_configuration
+      unless @nginx_local_template.nil? && @config_file[:local_nginx_conf].nil?
+        FileUtils.config_nginx(@nginx_local_template, @config_file[:local_nginx_conf], @project_name)
+        FileUtils.config_etc_hosts(@project_name)
       end
     end
     

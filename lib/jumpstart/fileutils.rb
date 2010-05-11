@@ -71,40 +71,48 @@ module FileUtils
         puts
         puts "******************************************************************************************************************************************"
         puts
-        exit
       else
         puts
         puts "******************************************************************************************************************************************"
         puts
-        # TODO Change config_nginx method to check for file permissions
-        puts "Setting permissions for: #{target_file}"
+        puts "Configuring NginX at: #{target_file}"
         puts
-        system "sudo chmod 755 #{target_file}"
-        nginx_config = IO.readlines(target_file)
-        nginx_config.delete_if do |line|
-          line == "\n" || line == ""
-        end
-        nginx_config.reverse_each do |line|      
-          if line =~ /^\}[\n]*/
-            @nginx_last_line = nginx_config.slice!(nginx_config.find_index(line))
-            break
+        if File.writable?(target_file)
+          nginx_config = IO.readlines(target_file)
+          while nginx_config.last !~ /^\}[\n]*/
+            nginx_config.pop
+          end
+          @nginx_last_line = nginx_config.pop
+          source_config = IO.read(source_file)
+          nginx_config.push source_config
+          nginx_config.push @nginx_last_line
+          nginx_config.each {|line| line.gsub!(/\#\{app_name\}/, "#{app_name}")}
+          File.open(target_file, "w") do |file|
+            file.puts nginx_config
+          end
+          puts "Success! NginX config for #{app_name} has been added to #{target_file}"
+          puts
+          puts "******************************************************************************************************************************************"
+          puts
+        else
+          puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?"
+          puts "Type yes (y) or no (n)"
+          input = gets.chomp
+          if input == "yes" || input == "y"
+            puts "Setting permissions for #{target_file}"
+            system "sudo chmod 755 #{target_file}"
+            config_nginx(source_file, target_file, app_name)
           end
         end
-        source_config = IO.read(source_file)
-        nginx_config.push source_config
-        nginx_config.push @nginx_last_line
-        nginx_config.each {|line| line.gsub!(/\#\{app_name\}/, "#{app_name}")}
-        File.open(target_file, "w") do |file|
-          file.puts nginx_config
-        end
-        puts "Success! Nginx config for #{app_name} has been added to #{target_file}"
-        puts
-        puts "******************************************************************************************************************************************"
-        puts
       end
     end
     
     def config_etc_hosts(app_name)
+      puts
+      puts "******************************************************************************************************************************************"
+      puts
+      puts "Configuring /etc/hosts"
+      puts
       begin
         if File.writable?("/etc/hosts")
           etc_hosts = IO.readlines("/etc/hosts")
@@ -112,18 +120,26 @@ module FileUtils
           File.open('/etc/hosts', "w") do |file|
             file.puts etc_hosts
           end
+          puts "Success! #{app_name} has been added to /etc/hosts"
+          puts          
         else
           puts "It doesn't look like you have write access for /etc/hosts. Would you like to use sudo to change them?"
           puts "Type yes (y) or no (n)"
+          puts
           input = gets.chomp
           if input == "yes" || input == "y"
+            puts "Setting permissions for /etc/hosts"
+            puts
             system "sudo chmod 755 /etc/hosts"
             config_etc_hosts(app_name)
           end
         end
       rescue
         puts "There was a problem accessing the file /etc/hosts, you may need to adjust the privileges."
+        puts
       end
+      puts "******************************************************************************************************************************************"
+      puts
     end
     
     # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
