@@ -217,11 +217,7 @@ module JumpStart
     end
     
     def remove_unwanted_files
-      Dir.chdir("#{@install_path}/#{@project_name}")
-      @config_file[:remove_files].each do |x|
-        @output.puts "Removing the unwanted file: #{@install_path}/#{@project_name}#{x}"
-        system "rm -r #{@install_path}/#{@project_name}#{x}"
-      end
+      FileUtils.remove_files("#{@install_path}/#{@project_name}", @config_file[:remove_files])
     end
     
     def run_scripts_from_yaml(script_name)
