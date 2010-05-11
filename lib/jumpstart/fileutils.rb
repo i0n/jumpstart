@@ -54,6 +54,7 @@ module FileUtils
         puts
         puts "******************************************************************************************************************************************"
         puts
+        # TODO Change config_nginx method to check for file permissions
         puts "Setting permissions for: #{target_file}"
         puts
         system "sudo chmod 755 #{target_file}"
@@ -81,6 +82,7 @@ module FileUtils
       end
     end
     
+    # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
     def config_capistrano(target_file, app_name, remote_server)
       cap_txt = IO.read(target_file)
       cap_txt.gsub!(/\#\{remote_server\}/, "#{remote_server}")

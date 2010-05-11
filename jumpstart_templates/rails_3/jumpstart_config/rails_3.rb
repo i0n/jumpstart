@@ -4,15 +4,8 @@
 FileUtils.append_to_end_of_file('  socket: /var/run/mysqld/mysqld.sock', "#{@install_path}/#{@project_name}/config/database.yml", true)
 
 # config for local OSX Nginx environment
-FileUtils.nginx_auto_config("#{@template_path}/config/nginx.local.conf", '/usr/local/nginx/conf/nginx.conf', "#{@project_name}")
+FileUtils.config_nginx("#{@template_path}/config/nginx.local.conf", '/usr/local/nginx/conf/nginx.conf', "#{@project_name}")
 
-# Read Capistrano template and replace remote_server and app_name variables with the values entered during app creation
-# cap_txt = IO.read("#{rails_templates_path}/rails/config/deploy.rb")
-# cap_txt.gsub!(/\#\{remote_server\}/, "#{remote_server}")
-# cap_txt.gsub!(/\#\{app_name\}/, "#{app_name}")
-# file 'config/deploy.rb' do
-#   cap_txt
-# end
 
 ################################################################### REMOTE DEPLOYMENT ##############################################################
 
