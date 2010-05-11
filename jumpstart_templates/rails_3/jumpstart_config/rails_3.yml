@@ -25,7 +25,7 @@
   - git init
   # Add all changes to the Git repository and then commit those changes.
   - git add .
-  - git commit -v -a -m "Initial commit"
+  - git commit -q -v -a -m "Initial commit"
   
 :local_nginx_conf: /usr/local/nginx/conf/nginx.conf
 :remote_nginx_conf: /opt/nginx/conf/nginx.conf
