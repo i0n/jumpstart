@@ -167,6 +167,10 @@ module JumpStart
           file_list << x.sub!(@template_path, '')
         when File.directory?(x) && x !~ /\/jumpstart_config/ then
           @dir_list << x.sub!(@template_path, '')
+        when File.file?(x) && =~ /\/jumpstart_config\/nginx.local.conf/ then
+          @nginx_local_template = x
+        when File.file?(x) && =~ /\/jumpstart_config\/nginx.remote.conf/ then
+          @nginx_remote_template = x
         end
       end
       file_list.each do |file|
