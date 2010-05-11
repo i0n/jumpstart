@@ -38,7 +38,7 @@ module FileUtils
     end
   
     # For setting up app in Nginx 
-    def nginx_auto_config(source_file, target_file, app_name)
+    def config_nginx(source_file, target_file, app_name)
       if source_file == nil || target_file == nil || app_name == nil
         puts
         puts "******************************************************************************************************************************************"
@@ -78,6 +78,15 @@ module FileUtils
         puts
         puts "******************************************************************************************************************************************"
         puts
+      end
+    end
+    
+    def config_capistrano(target_file, app_name, remote_server)
+      cap_txt = IO.read(target_file)
+      cap_txt.gsub!(/\#\{remote_server\}/, "#{remote_server}")
+      cap_txt.gsub!(/\#\{app_name\}/, "#{app_name}")
+      File.open(target_file, "w") do |file|
+        file.puts cap_txt
       end
     end
   
