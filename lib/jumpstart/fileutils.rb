@@ -102,6 +102,8 @@ module FileUtils
             puts "Setting permissions for #{target_file}"
             system "sudo chmod 755 #{target_file}"
             config_nginx(source_file, target_file, app_name)
+          else
+            puts "Skipping automatic NginX config."
           end
         end
       end
@@ -132,6 +134,8 @@ module FileUtils
             puts
             system "sudo chmod 755 /etc/hosts"
             config_etc_hosts(app_name)
+          else
+            puts "Skipping automatic /etc/hosts config."
           end
         end
       rescue
