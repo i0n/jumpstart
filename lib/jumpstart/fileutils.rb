@@ -113,9 +113,13 @@ module FileUtils
             file.puts etc_hosts
           end
         else
-          puts "Setting permissions for /etc/hosts"
-          File.chmod(0755, '/etc/hosts')
-          config_etc_hosts(app_name)
+          puts "It doesn't look like you have write access for /etc/hosts. Would you like to use sudo to change them?"
+          puts "Type yes (y) or no (n)"
+          input = gets.chomp
+          if input == "yes" || input == "y"
+            system "sudo chmod 755 /etc/hosts"
+            config_etc_hosts(app_name)
+          end
         end
       rescue
         puts "There was a problem accessing the file /etc/hosts, you may need to adjust the privileges."

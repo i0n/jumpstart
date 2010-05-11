@@ -51,7 +51,7 @@ module JumpStart
       if @project_name.nil? || @project_name.empty?
         puts
         puts "Enter a name for your project."
-        @project_name = @input.gets.chomp
+        @project_name = gets.chomp
         if @project_name.length < 3
           puts
           puts "The name of your project must be at least 3 characters long."
@@ -67,7 +67,7 @@ module JumpStart
         unless @existing_projects.include? @template_name
           puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
           puts
-          input = @input.gets.chomp
+          input = gets.chomp
           if input == "yes" || input == "y"
             puts "creating JumpStart template #{@template_name}"
             # TODO Create functionality for creating templates if they do not exist
@@ -98,7 +98,7 @@ module JumpStart
       puts "To create a new jumpstart enter a name for it."
       puts
       puts "To view/set jumpstart configuration options type 'config' or 'c'."
-      input = @input.gets.chomp
+      input = gets.chomp
       global_options.each do |x,y|
         if input == 'c' || input == 'config'
           configure_jumpstart
