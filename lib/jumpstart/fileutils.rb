@@ -106,8 +106,21 @@ module FileUtils
     
     # Appending URI to /etc/hosts to complete local OSX Nginx config
     def config_etc_hosts(app_name)
-      system "sudo chmod 777 /etc/hosts"
-      system "echo '\n127.0.0.1 #{app_name}.local'>>/etc/hosts"
+      begin
+        if File.writable?("/etc/hosts")
+          etc_hosts = IO.readlines("/etc/hosts")
+          etc_hosts << "\n127.0.0.1 #{app_name}.local"
+          File.open('/etc/hosts', "w") do |file|
+            file.puts etc_hosts
+          end
+        else
+          puts "Setting permissions for /etc/hosts"
+          File.chmod(0755, '/etc/hosts')
+          config_etc_hosts(app_name)
+        end
+      rescue
+        puts "There was a problem accessing the file /etc/hosts, you may need to adjust the privileges."
+      end
     end
     
     # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
