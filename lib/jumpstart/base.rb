@@ -27,7 +27,6 @@ module JumpStart
       check_install_paths
       create_project
       run_scripts_from_yaml(:run_after_install_command)
-      run_template_scripts
       parse_template_dir
       create_new_folders
       create_new_files_from_whole_templates
@@ -157,12 +156,7 @@ module JumpStart
       @output.puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
       system "#{@install_command} #{@project_name} #{@install_command_options}"
     end
-        
-    def run_template_scripts
-      # TODO Finish scripts method
-      scripts = Dir.entries("#{@template_path}/jumpstart_config") - IGNORE_DIRS
-    end
-    
+            
     def parse_template_dir
       @dir_list = []
       file_list = []
