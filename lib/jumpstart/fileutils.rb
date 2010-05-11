@@ -109,6 +109,7 @@ module FileUtils
       end
     end
     
+    # For configuring /etc/hosts. Necessary under OS X for NginX configuration to work.
     def config_etc_hosts(app_name)
       puts
       puts "******************************************************************************************************************************************"
