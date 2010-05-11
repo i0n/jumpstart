@@ -238,8 +238,6 @@ module JumpStart
       end
     end
     
-    # TODO Look at the possibility of passing an nginx_config option via template naming.
-    
     def get_line_number(file_name)
       /_(?<number>\d+)\._\w*/ =~ file_name
       number.to_i
