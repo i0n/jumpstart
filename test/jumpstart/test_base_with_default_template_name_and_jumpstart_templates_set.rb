@@ -10,43 +10,44 @@ class TestJumpstartBase < Test::Unit::TestCase
   
   context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
     
-    context "jumpstart with no arguments" do
+    context "Create jumpstart with no arguments but do not start" do
 
       setup do
-        @project_with_no_args = JumpStart::Base.new([])
-        @project_with_no_args.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
+        @test_project = JumpStart::Base.new([])
       end
 
       should "be able to create a new jumpstart with no arguments" do
-        refute_nil(@project_with_no_args)
+        refute_nil(@test_project)
       end
 
     end
 
-    context "jumpstart with the project name argument passed to it" do
+    context "Create jumpstart with the project name argument passed to it but do not start" do
 
       setup do
-        @project_with_project_name = JumpStart::Base.new(["test_jumpstart_project"])
-        @project_with_project_name.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
+        @test_project = JumpStart::Base.new(["test_jumpstart_project"])
+        @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
       end
 
       should "be able to create a new jumpstart with the project name as the first argument" do
-        refute_nil(@project_with_project_name)
+        refute_nil(@test_project)
       end
 
       should "have set @project_name variable to 'test_jumpstart_project'" do
-        assert_equal("test_jumpstart_project", @project_with_project_name.project_name)
+        assert_equal("test_jumpstart_project", @test_project.project_name)
       end
       
       should "have set @template_name variable to 'test_template_1'" do
-        assert_equal("test_template_1", @project_with_project_name.template_name)
+        assert_equal("test_template_1", @test_project.template_name)
       end
       
       should "have set @install_path to 'ROOT_PATH/test/test_jumpstart_templates'" do
-        assert_equal("#{JumpStart::ROOT_PATH}/test/test_destination_dir", @project_with_project_name.install_path)
+        assert_equal("#{JumpStart::ROOT_PATH}/test/test_destination_dir", @test_project.install_path)
       end
 
     end
+    
+    
     
   end
   
