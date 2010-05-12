@@ -14,6 +14,7 @@ class TestJumpstartBase < Test::Unit::TestCase
 
       setup do
         @project_with_no_args = JumpStart::Base.new([])
+        @project_with_no_args.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
       end
 
       should "be able to create a new jumpstart with no arguments" do
@@ -26,6 +27,7 @@ class TestJumpstartBase < Test::Unit::TestCase
 
       setup do
         @project_with_project_name = JumpStart::Base.new(["test_jumpstart_project"])
+        @project_with_project_name.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
       end
 
       should "be able to create a new jumpstart with the project name as the first argument" do
@@ -38,6 +40,10 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "have set @template_name variable to 'test_template_1'" do
         assert_equal("test_template_1", @project_with_project_name.template_name)
+      end
+      
+      should "have set @install_path to 'ROOT_PATH/test/test_jumpstart_templates'" do
+        assert_equal("#{JumpStart::ROOT_PATH}/test/test_destination_dir", @project_with_project_name.install_path)
       end
 
     end
