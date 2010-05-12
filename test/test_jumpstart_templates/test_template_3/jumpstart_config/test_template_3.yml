@@ -1,0 +1,20 @@
+---
+# The path that the install command will be run from
+#:install_path: /Users/i0n/Sites
+# NOTE! THIS HAS BEEN SET UP EXTERNALLY FOR TESTING PURPOSES
+
+# The command that this template will run
+:install_command: rails
+# Options for the install command
+:install_command_options: -J -T
+
+:run_after_install_command:
+  # Create home controller
+  - rails g controller home
+  
+:run_after_jumpstart:
+  # Set application up for deployment with Capistrano
+  - capify!
+  
+:local_nginx_conf: /usr/local/nginx/conf/nginx.conf
+:remote_nginx_conf: /opt/nginx/conf/nginx.conf
