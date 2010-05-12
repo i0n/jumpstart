@@ -12,7 +12,13 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     setup do
       generated_test_files = Dir.entries("#{JumpStart::ROOT_PATH}/test/destination_dir") - JumpStart::IGNORE_DIRS
-      generated_test_files.each {|x| puts x}
+      generated_test_files.each do |x|
+        if File.file?(x)
+          puts "File: #{x}"
+        elsif File.dir?(x)
+          puts "Dir: #{x}"
+        end
+      end
     end
     
     context "Create jumpstart with no arguments but do not start" do
