@@ -1,6 +1,8 @@
 ---
 # The path that the install command will be run from
-# :install_path: /Users/i0n/Sites
+#:install_path: /Users/i0n/Sites
+# NOTE! THIS HAS BEEN SET UP EXTERNALLY FOR TESTING PURPOSES
+
 # The command that this template will run
 :install_command: rails
 # Options for the install command

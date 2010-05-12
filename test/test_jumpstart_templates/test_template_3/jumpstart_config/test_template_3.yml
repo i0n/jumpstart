@@ -16,5 +16,7 @@
   # Set application up for deployment with Capistrano
   - capify!
   
-:local_nginx_conf: /usr/local/nginx/conf/nginx.conf
-:remote_nginx_conf: /opt/nginx/conf/nginx.conf
+# :local_nginx_conf: /usr/local/nginx/conf/nginx.conf
+# NOTE! THIS HAS BEEN SET UP EXTERNALLY FOR TESTING PURPOSES
+# :remote_nginx_conf: /opt/nginx/conf/nginx.conf
+# NOTE! THIS HAS BEEN SET UP EXTERNALLY FOR TESTING PURPOSES
