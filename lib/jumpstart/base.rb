@@ -1,7 +1,8 @@
 module JumpStart
   class Base
     
-    attr_reader :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options, :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
+    attr_accessor :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options
+    attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     def initialize(args)
       @project_name = args.shift
@@ -14,6 +15,8 @@ module JumpStart
       @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}/jumpstart_config/#{@template_name}.yml")
       @install_path = @config_file[:install_path]
       @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
+      @install_command = @config_file[:install_command]
+      @install_command_options = @config_file[:install_command_options]
     end
     
     def start
@@ -147,8 +150,6 @@ module JumpStart
     end
         
     def create_project
-      @install_command = @config_file[:install_command]
-      @install_command_options = @config_file[:install_command_options]
       Dir.chdir(@install_path)
       puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
       system "#{@install_command} #{@project_name} #{@install_command_options}"
