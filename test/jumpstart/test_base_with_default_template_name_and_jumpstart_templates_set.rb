@@ -11,12 +11,12 @@ class TestJumpstartBase < Test::Unit::TestCase
   context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
     
     setup do
-      generated_test_files = Dir.entries("#{JumpStart::ROOT_PATH}/test/destination_dir") - JumpStart::IGNORE_DIRS
+      generated_test_files = Find.find("#{JumpStart::ROOT_PATH}/test/destination_dir")
       generated_test_files.each do |x|
         if File.file?(x)
-          puts "File: #{x}"
-        elsif File.dir?(x)
-          puts "Dir: #{x}"
+          FileUtils.rm(x)
+        elsif File.directory?(x) && x != "#{JumpStart::ROOT_PATH}/test/destination_dir"
+          FileUtils.remove_dir(x)
         end
       end
     end
@@ -37,7 +37,7 @@ class TestJumpstartBase < Test::Unit::TestCase
 
       setup do
         @test_project = JumpStart::Base.new(["test_jumpstart_project"])
-        @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/test_destination_dir"
+        @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
 
       should "be able to create a new jumpstart with the project name as the first argument" do
@@ -52,8 +52,8 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_equal("test_template_1", @test_project.template_name)
       end
       
-      should "have set @install_path to 'ROOT_PATH/test/test_jumpstart_templates'" do
-        assert_equal("#{JumpStart::ROOT_PATH}/test/test_destination_dir", @test_project.install_path)
+      should "have set @install_path to 'ROOT_PATH/test/destination_dir'" do
+        assert_equal("#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path)
       end
 
     end
