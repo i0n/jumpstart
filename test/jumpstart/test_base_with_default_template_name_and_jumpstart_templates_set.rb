@@ -55,6 +55,11 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "have set @install_path to 'ROOT_PATH/test/destination_dir'" do
         assert_equal("#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path)
       end
+      
+      should "generate a test project in ROOT_PATH/test/destination_dir/test_jumpstart_project with the test_template_1 template" do
+        @test_project.start
+        assert(Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_template_1"))
+      end
 
     end
     
