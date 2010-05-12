@@ -1,7 +1,9 @@
 require 'helper'
 
 class TestJumpstart < Test::Unit::TestCase
-  should "probably rename this file and start testing for real" do
-    flunk "hey buddy, you should probably rename this file and start testing for real"
+    
+  should "be able to find jumpstart_setup.yml" do
+    assert(File.exists?("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml"))
   end
+  
 end

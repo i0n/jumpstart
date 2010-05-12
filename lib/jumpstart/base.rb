@@ -1,5 +1,7 @@
 module JumpStart
   class Base
+    
+    attr_reader :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options, :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     def initialize(args)
       @project_name = args.shift

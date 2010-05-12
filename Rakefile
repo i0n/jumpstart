@@ -10,7 +10,7 @@ begin
     gem.email = "ianalexanderwood@gmail.com"
     gem.homepage = "http://github.com/i0n/jumpstart"
     gem.authors = ["i0n"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
