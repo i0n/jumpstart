@@ -11,6 +11,9 @@ module JumpStart
         @template_name = DEFAULT_TEMPLATE_NAME
       end
       @existing_projects = []
+      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}/jumpstart_config/#{@template_name}.yml")
+      @install_path = @config_file[:install_path]
+      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
     end
     
     def start
@@ -23,7 +26,6 @@ module JumpStart
       lookup_existing_projects
       check_project_name
       check_template_name
-      load_config_options
       check_install_paths
       create_project
       run_scripts_from_yaml(:run_after_install_command)
@@ -36,7 +38,7 @@ module JumpStart
       remove_unwanted_files
       run_scripts_from_yaml(:run_after_jumpstart)
     end
-    
+        
     private
         
     def lookup_existing_projects
@@ -127,13 +129,7 @@ module JumpStart
       exit_jumpstart
     end
     
-    def load_config_options
-      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}/jumpstart_config/#{@template_name}.yml")
-    end
-    
     def check_install_paths
-      @install_path = @config_file[:install_path]
-      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
       [@install_path, @template_path].each do |x|
         begin
           Dir.chdir(x)
