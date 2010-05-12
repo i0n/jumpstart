@@ -230,10 +230,12 @@ module JumpStart
     end
     
     def run_scripts_from_yaml(script_name)
-      Dir.chdir("#{@install_path}/#{@project_name}")
-      @config_file[script_name].each do |x|
-        puts "Executing command: #{x}"
-        system "#{x}"
+      unless @config_file[script_name].nil? || @config_file[script_name].empty?
+        Dir.chdir("#{@install_path}/#{@project_name}")
+        @config_file[script_name].each do |x|
+          puts "Executing command: #{x}"
+          system "#{x}"
+        end
       end
     end
     

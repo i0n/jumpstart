@@ -8,19 +8,19 @@ end
 
 class TestJumpstartBase < Test::Unit::TestCase
   
-  context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
-    
-    setup do
-      generated_test_files = Find.find("#{JumpStart::ROOT_PATH}/test/destination_dir")
-      generated_test_files.each do |x|
-        if File.file?(x)
-          FileUtils.rm(x)
-        elsif File.directory?(x) && x != "#{JumpStart::ROOT_PATH}/test/destination_dir"
-          FileUtils.remove_dir(x)
-        end
+  def clean_destination_dir
+    generated_test_files = Find.find("#{JumpStart::ROOT_PATH}/test/destination_dir")
+    generated_test_files.each do |x|
+      if File.file?(x)
+        FileUtils.rm(x)
+      elsif File.directory?(x) && x != "#{JumpStart::ROOT_PATH}/test/destination_dir"
+        FileUtils.remove_dir(x)
       end
     end
-    
+  end
+  
+  context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
+        
     context "Create jumpstart with no arguments but do not start" do
 
       setup do
@@ -57,8 +57,9 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       should "generate a test project in ROOT_PATH/test/destination_dir/test_jumpstart_project with the test_template_1 template" do
+        clean_destination_dir
         @test_project.start
-        assert(Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_template_1"))
+        assert(Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project"))
       end
 
     end
