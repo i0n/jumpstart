@@ -10,6 +10,11 @@ class TestJumpstartBase < Test::Unit::TestCase
   
   context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
     
+    setup do
+      generated_test_files = Dir.entries("#{JumpStart::ROOT_PATH}/test/destination_dir") - JumpStart::IGNORE_DIRS
+      generated_test_files.each {|x| puts x}
+    end
+    
     context "Create jumpstart with no arguments but do not start" do
 
       setup do
