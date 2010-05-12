@@ -1,6 +1,7 @@
+#TODO Look at making monkeypatch more explicit by including as a module within FileUtils
 module FileUtils
   class << self
-  
+
     # For inserting a line after a specific line in a file. Note that this method will match only the first line it finds.
     def append_after_line(target_file, target_line, new_line)
       file = IO.readlines(target_file)
@@ -26,7 +27,7 @@ module FileUtils
         x.puts new_file
       end
     end
-    
+  
     # For inserting text provided as a string or a target file (source) to a specific line number (line_number) of another file (target_file) 
     def insert_text_at_line_number(source, target_file, line_number)
       line_number -= 1
@@ -36,7 +37,7 @@ module FileUtils
         x.puts file
       end      
     end
-    
+  
     def remove_files(root_dir, file_array)
       file_array.map! {|x| root_dir + x }
       begin
@@ -58,7 +59,7 @@ module FileUtils
         end
       end
     end
-  
+
     # For setting up app in Nginx 
     def config_nginx(source_file, target_file, app_name)
       if source_file == nil || target_file == nil || app_name == nil
@@ -108,7 +109,7 @@ module FileUtils
         end
       end
     end
-    
+  
     # For configuring /etc/hosts. Necessary under OS X for NginX configuration to work.
     def config_etc_hosts(app_name)
       puts
@@ -146,7 +147,7 @@ module FileUtils
       puts "******************************************************************************************************************************************"
       puts
     end
-    
+  
     # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
     def config_capistrano(target_file, app_name, remote_server)
       cap_txt = IO.read(target_file)
@@ -156,7 +157,7 @@ module FileUtils
         file.puts cap_txt
       end
     end
-  
+
     def make_bare_git_repo(target_dir, app_name)
       Dir.chdir target_dir
       Dir.mkdir "#{app_name}.git"
@@ -164,9 +165,9 @@ module FileUtils
       system "git init --bare"
       puts "SUCCESS! git repo #{app_name}.git created."
     end
-    
+  
     private
-    
+  
     def check_source_type(source)
       if File.file?(source)
         source_file = IO.readlines(source)
@@ -175,6 +176,6 @@ module FileUtils
       end
       source_file
     end
-      
-  end    
+    
+  end
 end

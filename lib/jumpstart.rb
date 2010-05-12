@@ -15,5 +15,5 @@ module JumpStart
   
   require 'jumpstart/base'
   require 'jumpstart/fileutils'
-  
+    
 end
