@@ -28,10 +28,12 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
       
     end
 
+    # TODO Come back to testing this method when I have looked at Capistrano template creation and value replacement.
     context "Testing JumpStart::FileUtils.config_capistrano class method" do
       
     end
 
+    # TODO Come back to testing this method when I have had a look at it's functionality.
     context "Testing JumpStart::FileUtils.make_bare_git_repo class method" do
       
     end
