@@ -38,6 +38,10 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
 
     context "Testing JumpStart::FileUtils.check_source_type class method" do
       
+      should "return source as a string" do
+        assert_equal("source_as_a_string", JumpStart::FileUtils.check_source_type("source_as_a_string"))
+      end
+      
     end
     
   end
