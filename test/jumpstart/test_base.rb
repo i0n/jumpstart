@@ -139,6 +139,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
+    # TODO Add tests that involve extended FileUtils methods after writing tests for FileUtils module.
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
       should "run check_local_nginx_configuration method" do
