@@ -7,18 +7,7 @@ module JumpStart
 end
 
 class TestJumpstartBase < Test::Unit::TestCase
-  
-  def clean_destination_dir
-    generated_test_files = Find.find("#{JumpStart::ROOT_PATH}/test/destination_dir")
-    generated_test_files.each do |x|
-      if File.file?(x)
-        FileUtils.rm(x)
-      elsif File.directory?(x) && x != "#{JumpStart::ROOT_PATH}/test/destination_dir"
-        FileUtils.remove_dir(x)
-      end
-    end
-  end
-  
+    
   context "Testing JumpStart::Base methods with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified.\n" do
     
     setup do
