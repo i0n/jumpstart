@@ -42,8 +42,6 @@ module JumpStart
       run_scripts_from_yaml(:run_after_jumpstart)
     end
         
-    private
-        
     def lookup_existing_projects
       project_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
       project_dirs.each do |x|
@@ -214,7 +212,7 @@ module JumpStart
     def populate_files_from_line_templates
       @line_templates.each do |x|
         FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}")
-        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}", get_line_number(x))
+        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}", JumpStart::Base.get_line_number(x))
       end
     end
     
@@ -238,12 +236,7 @@ module JumpStart
         end
       end
     end
-    
-    def get_line_number(file_name)
-      /_(?<number>\d+)\._\w*/ =~ file_name
-      number.to_i
-    end
-    
+        
     def exit_jumpstart
       puts
       puts
@@ -253,6 +246,15 @@ module JumpStart
       puts "******************************************************************************************************************************************"
       puts
       exit
+    end
+    
+    class << self
+      
+      def get_line_number(file_name)
+        /_(?<number>\d+)\._\w*/ =~ file_name
+        number.to_i
+      end
+      
     end
     
   end
