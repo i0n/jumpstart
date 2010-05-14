@@ -166,8 +166,6 @@ module FileUtils
       puts "SUCCESS! git repo #{app_name}.git created."
     end
   
-    private
-  
     def check_source_type(source)
       if File.file?(source)
         source_file = IO.readlines(source)

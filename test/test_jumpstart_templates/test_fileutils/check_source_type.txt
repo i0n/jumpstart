@@ -1,0 +1,10 @@
+Line from check_source_type.txt. Line number: 1
+Line from check_source_type.txt. Line number: 2
+Line from check_source_type.txt. Line number: 3
+Line from check_source_type.txt. Line number: 4
+Line from check_source_type.txt. Line number: 5
+Line from check_source_type.txt. Line number: 6
+Line from check_source_type.txt. Line number: 7
+Line from check_source_type.txt. Line number: 8
+Line from check_source_type.txt. Line number: 9
+Line from check_source_type.txt. Line number: 10

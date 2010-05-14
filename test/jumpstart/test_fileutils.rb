@@ -39,7 +39,28 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
     context "Testing JumpStart::FileUtils.check_source_type class method" do
       
       should "return source as a string" do
-        assert_equal("source_as_a_string", JumpStart::FileUtils.check_source_type("source_as_a_string"))
+        assert_equal("source_as_a_string", FileUtils.check_source_type("source_as_a_string"))
+      end
+      
+      should "return source as an array" do
+        assert_equal(["Line from check_source_type.txt. Line number: 1\n",
+         "Line from check_source_type.txt. Line number: 2\n",
+         "Line from check_source_type.txt. Line number: 3\n",
+         "Line from check_source_type.txt. Line number: 4\n",
+         "Line from check_source_type.txt. Line number: 5\n",
+         "Line from check_source_type.txt. Line number: 6\n",
+         "Line from check_source_type.txt. Line number: 7\n",
+         "Line from check_source_type.txt. Line number: 8\n",
+         "Line from check_source_type.txt. Line number: 9\n",
+         "Line from check_source_type.txt. Line number: 10"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type.txt"))
+      end
+      
+      should "return source as an array, even without a file extension." do
+        assert_equal(["Line from check_source_type.txt. Line number: 1\n",
+         "Line from check_source_type.txt. Line number: 2\n",
+         "Line from check_source_type.txt. Line number: 3\n",
+         "Line from check_source_type.txt. Line number: 4\n",
+         "Line from check_source_type.txt. Line number: 5"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type"))
       end
       
     end
