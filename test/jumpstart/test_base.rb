@@ -19,7 +19,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
   end
   
-  context "Testing JumpStart::Base methods with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
+  context "Testing JumpStart::Base methods with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified.\n" do
     
     setup do
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
@@ -86,11 +86,18 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
-    should "run remove_unwanted_files method" do
-      
+    context "Tests for the JumpStart::Base#remove_unwanted_files method. \n" do
+
+      should "run remove_unwanted_files method, remove files and return true." do
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove_files")
+        ["/test_remove_files/file_with_extension.txt", "/test_remove_files/file_without_extension"].each {|x| FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir#{x}")}
+        assert(@test_project.remove_unwanted_files)
+        clean_destination_dir
+      end
+            
     end
-        
-    context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method" do
+            
+    context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method.\n" do
 
       should "run run_scripts_from_yaml method with the contents of :run_after_install_command symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
         assert_nil(@test_project.run_scripts_from_yaml(:run_after_install_command))
@@ -124,7 +131,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         
     end
         
-    context "Tests for the JumpStart::Base.get_line_number class method" do
+    context "Tests for the JumpStart::Base.get_line_number class method.\n" do
       
       should "line number should be 1" do
         assert_equal(1, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_1._test_file1.txt"))

@@ -225,6 +225,7 @@ module JumpStart
     
     def remove_unwanted_files
       FileUtils.remove_files("#{@install_path}/#{@project_name}", @config_file[:remove_files])
+      return true
     end
     
     def run_scripts_from_yaml(script_name)
