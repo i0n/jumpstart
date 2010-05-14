@@ -89,9 +89,39 @@ class TestJumpstartBase < Test::Unit::TestCase
     should "run remove_unwanted_files method" do
       
     end
-    
-    should "run run_scripts_from_yaml method" do
+        
+    context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method" do
+
+      should "run run_scripts_from_yaml method with the contents of :run_after_install_command symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
+        assert_nil(@test_project.run_scripts_from_yaml(:run_after_install_command))
+      end
       
+      should "run the :run_after_install_command symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+        assert_equal(["echo \"run after install command\""], @test_project.run_scripts_from_yaml(:run_after_install_command))
+        clean_destination_dir
+      end
+      
+      should "run run_scripts_from_yaml method with the contents of :run_after_jumpstart symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
+        assert_nil(@test_project.run_scripts_from_yaml(:run_after_jumpstart))
+      end
+
+      should "run the :run_after_jumpstart symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+        assert_equal(["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.run_scripts_from_yaml(:run_after_jumpstart))
+        clean_destination_dir
+      end
+      
+      should "return nil if a symbol that is not specified in YAML is passed as an argument and the install directory does not exist" do
+        assert_nil(@test_project.run_scripts_from_yaml(:this_section_does_not_exist))
+      end
+      
+      should "return nil if a symbol that is not specified in the YAML is passed as an argument and the install directory has been created" do
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+        assert_nil(@test_project.run_scripts_from_yaml(:this_section_does_not_exist))
+        clean_destination_dir
+      end
+        
     end
         
     context "Tests for the JumpStart::Base.get_line_number class method" do

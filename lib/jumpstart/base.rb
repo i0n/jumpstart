@@ -229,10 +229,14 @@ module JumpStart
     
     def run_scripts_from_yaml(script_name)
       unless @config_file[script_name].nil? || @config_file[script_name].empty?
-        Dir.chdir("#{@install_path}/#{@project_name}")
-        @config_file[script_name].each do |x|
-          puts "Executing command: #{x}"
-          system "#{x}"
+        begin
+          Dir.chdir("#{@install_path}/#{@project_name}")
+          @config_file[script_name].each do |x|
+            puts "Executing command: #{x}"
+            system "#{x}"
+          end
+        rescue
+          puts "Could not access the directory #{@install_path}/#{@project_name}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
         end
       end
     end

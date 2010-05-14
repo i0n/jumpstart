@@ -11,7 +11,11 @@
   - /test_remove_files/file_with_extension.txt
   - /test_remove_files/file_without_extension
   
+:run_after_install_command:
+  # Create home controller
+  - echo "run after install command"
+
 :run_after_jumpstart:
   # Set application up for deployment with Capistrano
-  - capify!
-
+  - echo "run after jumpstart 1st command!"
+  - echo "run after jumpstart 2nd command!"
