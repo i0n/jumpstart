@@ -24,69 +24,130 @@ class TestJumpstartBase < Test::Unit::TestCase
     setup do
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+    end    
+    
+    context "Tests for the JumpStart::Base#intialize instance method. \n" do
+      
+      should "run intialize method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#start instance method. \n" do
+      
+      should "run start method" do
+
+      end    
+      
+    end
+
+    context "Tests for the JumpStart::Base#lookup_existing_projects instance method. \n" do
+      
+      should "run lookup_existing_projects method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#check_project_name instance method. \n" do
+      
+      should "run check_project_name method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#check_template_name instance method. \n" do
+      
+      should "run check_template_name method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#jumpstart_options instance method. \n" do
+      
+      should "run jumpstart_options method" do
+
+      end    
+      
+    end
+
+    context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
+      
+      should "run configure_jumpstart method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#check_install_paths instance method. \n" do
+      
+      should "run check_install_paths method" do
+
+      end        
+      
+    end
+
+    context "Tests for the JumpStart::Base#create_project method instance method. \n" do
+      
+      should "run create_project method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#parse_template_dir instance method. \n" do
+      
+      should "run parse_template_dir method" do
+
+      end
+      
     end
         
-    should "run intialize method" do
+    context "Tests for the JumpStart::Base#create_new_folders instance method. \n" do
+      
+      should "run create_new_folders method" do
+
+      end    
+      
+    end
+
+    context "Tests for the JumpStart::Base#create_new_files_from_whole_templates instance method. \n" do
+      
+      should "run create_new_files_from_whole_templates method" do
+
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method. \n" do
+      
+      should "run populate_files_from_append_templates method" do
+
+      end
+      
+    end
+
+
+    context "Tests for the JumpStart::Base#populate_files_from_line_templates instance method. \n" do
+      
+      should "run populate_files_from_line_templates method" do
+
+      end
       
     end
     
-    should "run start method" do
+    context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
-    end
-      
-    should "run lookup_existing_projects method" do
-      
-    end
-    
-    should "run check_project_name method" do
+      should "run check_local_nginx_configuration method" do
+
+      end
       
     end
     
-    should "run check_template_name method" do
-      
-    end
-    
-    should "run jumpstart_options method" do
-      
-    end
-    
-    should "run configure_jumpstart method" do
-      
-    end
-    
-    should "run check_install_paths method" do
-      
-    end
-    
-    should "run create_project method" do
-      
-    end
-        
-    should "run parse_template_dir method" do
-      
-    end
-    
-    should "run create_new_folders method" do
-      
-    end
-        
-    should "run create_new_files_from_whole_templates method" do
-      
-    end
-    
-    should "run populate_files_from_append_templates method" do
-      
-    end
-    
-    should "run populate_files_from_line_templates method" do
-      
-    end
-    
-    should "run check_local_nginx_configuration method" do
-      
-    end
-    
-    context "Tests for the JumpStart::Base#remove_unwanted_files method. \n" do
+    context "Tests for the JumpStart::Base#remove_unwanted_files instance method. \n" do
 
       should "run remove_unwanted_files method, remove files and return true." do
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove_files")
