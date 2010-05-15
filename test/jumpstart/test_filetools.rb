@@ -218,13 +218,25 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
 
-  context "Testing JumpStart::FileUtils.config_etc_hosts class method" do
+  context "Testing JumpStart::FileUtils.config_hosts class method" do
+    
+    setup do
+      @project_name = "test_project"
+      @target_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/hosts_test"
+      FileUtils.remove_lines(@target_path, :pattern => "127.0.0.1 test_project.local")
+    end
+    
+    should "add line for test_project.local to hosts_test file" do
+      FileUtils.config_hosts(@target_path, @project_name)
+      file = IO.readlines(@target_path)
+      assert_equal("127.0.0.1 test_project.local\n", file[10])
+    end
     
   end
 
   # TODO Come back to testing this method when I have looked at Capistrano template creation and value replacement.
   context "Testing JumpStart::FileUtils.config_capistrano class method" do
-    
+        
   end
 
   # TODO Come back to testing this method when I have had a look at it's functionality.

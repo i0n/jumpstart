@@ -160,37 +160,38 @@ module JumpStart::FileTools
   end
 
   # For configuring /etc/hosts. Necessary under OS X for NginX configuration to work.
-  def config_etc_hosts(app_name)
+  def config_hosts(target_file, app_name)
     puts
     puts "******************************************************************************************************************************************"
     puts
     puts "Configuring /etc/hosts"
     puts
     begin
-      if File.writable?("/etc/hosts")
-        etc_hosts = IO.readlines("/etc/hosts")
-        etc_hosts << "\n127.0.0.1 #{app_name}.local"
-        File.open('/etc/hosts', "w") do |file|
+      if File.writable?(target_file)
+        etc_hosts = IO.readlines(target_file)
+        etc_hosts << "127.0.0.1 #{app_name}.local"
+        etc_hosts.compact!
+        File.open(target_file, "w") do |file|
           file.puts etc_hosts
         end
-        puts "Success! #{app_name} has been added to /etc/hosts"
+        puts "Success! #{app_name} has been added to #{target_file}"
         puts          
       else
-        puts "It doesn't look like you have write access for /etc/hosts. Would you like to use sudo to change them?"
+        puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?"
         puts "Type yes (y) or no (n)"
         puts
         input = gets.chomp
         if input == "yes" || input == "y"
-          puts "Setting permissions for /etc/hosts"
+          puts "Setting permissions for #{target_file}"
           puts
-          system "sudo chmod 755 /etc/hosts"
+          system "sudo chmod 755 #{target_file}"
           config_etc_hosts(app_name)
         else
-          puts "Skipping automatic /etc/hosts config."
+          puts "Skipping automatic #{target_file} config."
         end
       end
     rescue
-      puts "There was a problem accessing the file /etc/hosts, you may need to adjust the privileges."
+      puts "There was a problem accessing the file #{target_file}, you may need to adjust the privileges."
       puts
     end
     puts "******************************************************************************************************************************************"

@@ -219,7 +219,7 @@ module JumpStart
     def check_local_nginx_configuration
       unless @nginx_local_template.nil? && @config_file[:local_nginx_conf].nil?
         FileUtils.config_nginx(@nginx_local_template, @config_file[:local_nginx_conf], @project_name)
-        FileUtils.config_etc_hosts(@project_name)
+        FileUtils.config_hosts("/etc/hosts", @project_name)
       end
     end
     
