@@ -19,9 +19,12 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
     
     should "insert specified line at line number 4 of target file" do
       FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3", "Inserted by append_after_line method test.")
-      line_number = false
       file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt")
       assert_equal(4, (file.find_index("Inserted by append_after_line method test.\n").to_i + 1))
+    end
+    
+    should "fail because new line is not specified." do
+      FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3")
     end
     
   end
