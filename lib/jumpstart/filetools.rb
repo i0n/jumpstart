@@ -80,16 +80,17 @@ module JumpStart::FileTools
       args[:lines].each do |y|
         original_lines[y] = nil
       end
-      original_lines.compact!
     when args[:lines] != nil && args[:line] != nil then
       puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time."
     when args[:pattern] != nil then
       original_lines.each do |line|
         if line =~ /#{args[:pattern]}/
-          original_lines.slice!(original_lines.find_index(line))
+          # original_lines.slice!(original_lines.find_index(line))
+          line = nil
         end
       end
     end
+    original_lines.compact!
     new_file += original_lines
     File.open(target_file, "w") do |x|
       x.puts new_file
