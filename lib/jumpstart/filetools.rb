@@ -62,16 +62,29 @@ module JumpStart::FileTools
     end
   end
   
-  # TODO Look at extending this method so that you can optionally specify a matching pattern or an array of line numbers to remove.
-  # TODO Add output (status etc) for remove_lines method
-  # For removing all lines in a file that match a specific pattern.
-  def remove_lines(target_file, matching_pattern)
+  # For removing lines in a file that (A) match a specific pattern, and/or (B) or are specified by line number.
+  # Both types of removal are passed to the method via the arguments hash.
+  # e.g. remove lines macthing a pattern, do FileUtils.remove_lines(target_file, :pattern => "Hello!")
+  # e.g. remove lines by line number, do FileUtils.remove_lines(target_file, :lines => [1,2,3,4,99])
+  # You can use both methods of removal at once.
+  # In Ruby 1.9+ you can also pass a hash like this: FileUtils.remove_lines(target_file, pattern: "hello!", lines: [1,2,3,4,99])
+  def remove_lines(target_file, args)
     new_file = []
-    IO.readlines(target_file).each do |line|
-      if line !~ /#{matching_pattern}/
-        new_file << line
+    original_lines = IO.readlines(target_file)
+    case
+    when args[:lines] != nil then
+      args[:lines].map! {|x| x -= 1}
+      arg[:lines].each do |y|
+        original_lines.slice!(y)
+      end
+    when args[:pattern] != nil then
+      original_lines.each do |line|
+        if line =~ /#{args[:pattern]}/
+          original_lines.slice!(original_lines.find_index(line))
+        end
       end
     end
+    new_file += original_lines
     File.open(target_file, "w") do |x|
       x.puts new_file
     end

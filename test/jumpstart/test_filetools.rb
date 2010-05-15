@@ -5,7 +5,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   context "Testing JumpStart::FileUtils.append_after_line class method" do
     
     setup do
-      FileUtils.remove_lines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Inserted by append_after_line method test.")
+      FileUtils.remove_lines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", :pattern => "Inserted by append_after_line method test.")
     end
     
     should "insert specified line at line number 4 of target file" do
@@ -28,8 +28,8 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_test.txt"
-      FileUtils.remove_lines(@file_path, "TEST LINE INSERTED")
-      FileUtils.remove_lines(@file_path, "TEST LINE INSERTED FROM FILE")
+      FileUtils.remove_lines(@file_path, :pattern => "TEST LINE INSERTED")
+      FileUtils.remove_lines(@file_path, :pattern => "TEST LINE INSERTED FROM FILE")
     end
     
     should "add the string passed in the method call to the specified file" do
