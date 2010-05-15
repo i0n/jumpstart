@@ -1,0 +1,6 @@
+Line from check_source_type.txt. Line number: 1
+Line from check_source_type.txt. Line number: 2
+Line from check_source_type.txt. Line number: 3
+Inserted by append_after_line method test.
+Line from check_source_type.txt. Line number: 4
+Line from check_source_type.txt. Line number: 5

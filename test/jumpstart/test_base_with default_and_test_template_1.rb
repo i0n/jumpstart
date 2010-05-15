@@ -15,28 +15,28 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
         
     context "Create jumpstart with no arguments but do not start" do
-
+  
       setup do
         @test_project = JumpStart::Base.new([])
       end
-
+  
       should "be able to create a new jumpstart with no arguments" do
         refute_nil(@test_project)
       end
-
+  
     end
-
+  
     context "Create jumpstart with the project name argument passed to it but do not start" do
-
+  
       setup do
         @test_project = JumpStart::Base.new(["test_jumpstart_project"])
         @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
-
+  
       should "be able to create a new jumpstart with the project name as the first argument" do
         refute_nil(@test_project)
       end
-
+  
       should "have set @project_name variable to 'test_jumpstart_project'" do
         assert_equal("test_jumpstart_project", @test_project.project_name)
       end
@@ -65,7 +65,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_with_extension.txt"))
         assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_without_extension"))
       end
-
+  
     end
     
   end

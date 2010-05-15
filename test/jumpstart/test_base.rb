@@ -139,9 +139,17 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     context "Tests for the JumpStart::Base#remove_unwanted_files instance method. \n" do
 
+      setup do
+        @test_project.project_name = "test_remove"
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove")
+        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files")
+      end
+
       should "run remove_unwanted_files method, remove files and return true." do
-        Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove_files")
-        ["/test_remove_files/file_with_extension.txt", "/test_remove_files/file_without_extension"].each {|x| FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir#{x}")}
+        
+        ["/file_with_extension.txt", "/file_without_extension"].each do |x| 
+          FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files#{x}")
+        end
         assert(@test_project.remove_unwanted_files)
         clean_destination_dir
       end
@@ -163,7 +171,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "run run_scripts_from_yaml method with the contents of :run_after_jumpstart symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
         assert_nil(@test_project.run_scripts_from_yaml(:run_after_jumpstart))
       end
-
+      
       should "run the :run_after_jumpstart symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
         assert_equal(["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.run_scripts_from_yaml(:run_after_jumpstart))

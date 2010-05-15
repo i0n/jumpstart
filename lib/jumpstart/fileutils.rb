@@ -45,16 +45,20 @@ module FileUtils
         file_array.each do |x|
           if File.exists?(x)
             if File.writable?(x)
+              puts
               puts "Removing the unwanted file: #{x}"
               File.delete(x)
             else
+              puts
               puts "You do not have the correct privileges to delete #{x}. It has NOT been deleted."
             end
           else
+            puts
             puts "The file #{x} could not be deleted as it could not be found."
           end
         end
       rescue
+        puts
         puts "Uh-oh, we've hit a snag with the remove_files method."
         puts "The directory #{root_dir} could not be found, or you do not have the correct privileges to access it."
       end

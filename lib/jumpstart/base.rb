@@ -225,7 +225,6 @@ module JumpStart
     
     def remove_unwanted_files
       FileUtils.remove_files("#{@install_path}/#{@project_name}", @config_file[:remove_files])
-      return true
     end
     
     def run_scripts_from_yaml(script_name)
@@ -233,10 +232,12 @@ module JumpStart
         begin
           Dir.chdir("#{@install_path}/#{@project_name}")
           @config_file[script_name].each do |x|
+            puts
             puts "Executing command: #{x}"
             system "#{x}"
           end
         rescue
+          puts
           puts "Could not access the directory #{@install_path}/#{@project_name}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
         end
       end
