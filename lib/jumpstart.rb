@@ -14,6 +14,12 @@ module JumpStart
   DEFAULT_TEMPLATE_NAME = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:default_template_name]
   
   require 'jumpstart/base'
-  require 'jumpstart/fileutils'
+  require 'jumpstart/filetools'
     
+end
+
+module FileUtils
+  class << self
+    include JumpStart::FileTools
+  end
 end

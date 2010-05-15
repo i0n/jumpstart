@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestJumpstartFileUtils < Test::Unit::TestCase
+class TestJumpstartFileTools < Test::Unit::TestCase
       
   context "Testing JumpStart::FileUtils.append_after_line class method" do
     
