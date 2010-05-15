@@ -73,11 +73,66 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   end
 
   context "Testing JumpStart::FileUtils.insert_text_at_line_number class method" do
+
+    setup do
+      @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/insert_text_at_line_number_test.txt"
+      @source_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/insert_text_at_line_number_source.txt"
+      FileUtils.remove_lines(@file_path, :pattern => "TEST LINE INSERTED")
+    end
     
+    should "insert text from string into target file at line 3" do
+      FileUtils.insert_text_at_line_number("TEST LINE INSERTED", @file_path, 3)
+      file = IO.readlines(@file_path)
+      assert_equal("TEST LINE INSERTED\n", file[2])
+      assert_equal(5, file.count)
+    end
+    
+    should "insert text from source file into target file at line 2" do
+      FileUtils.insert_text_at_line_number(@source_path, @file_path, 2)
+      file = IO.readlines(@file_path)
+      assert_equal("TEST LINE INSERTED FROM FILE\n", file[1])
+      assert_equal(5, file.count)
+    end
+    
+    should "raise an exception if a line number is not passed to the method" do
+      assert_raises(ArgumentError) {FileUtils.insert_text_at_line_number(@source_path, @file_path)}
+    end
+    
+    should "raise an exception if the line number is not 1 or higher" do
+      assert_raises(ArgumentError) {FileUtils.insert_text_at_line_number(@source_path, @file_path, 0)}
+      assert_raises(ArgumentError) {FileUtils.insert_text_at_line_number(@source_path, @file_path, -10)}
+    end
+
   end
 
   context "Testing JumpStart::FileUtils.remove_files class method" do
-        
+  
+    setup do
+      @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils"
+      FileUtils.touch("#{@file_path}/remove_files_test_1.txt")
+      FileUtils.touch("#{@file_path}/remove_files_test_2.txt")
+      FileUtils.touch("#{@file_path}/remove_files_test_3.txt")
+    end
+  
+    should "delete the file remove_files_test_1.txt" do
+      FileUtils.remove_files(@file_path, ["/remove_files_test_1.txt"])
+      refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
+    end
+    
+    should "delete all three test files" do
+      FileUtils.remove_files(@file_path, ["/remove_files_test_1.txt", "/remove_files_test_2.txt", "/remove_files_test_3.txt"])
+      refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
+      refute(File.exists?("#{@file_path}/remove_files_test_2.txt"))
+      refute(File.exists?("#{@file_path}/remove_files_test_3.txt"))
+    end
+    
+    should "delete all three files even though some of the paths have too many forward slashes" do
+      FileUtils.remove_files("#{@file_path}/", ["/remove_files_test_1.txt", "remove_files_test_2.txt", "/remove_files_test_3.txt"])
+      refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
+      refute(File.exists?("#{@file_path}/remove_files_test_2.txt"))
+      refute(File.exists?("#{@file_path}/remove_files_test_3.txt"))      
+    end
+  
   end
   
   context "Testing JumpStart::FileUtils.remove_lines class method" do

@@ -28,15 +28,24 @@ module JumpStart::FileTools
 
   # For inserting text provided as a string or a target file (source) to a specific line number (line_number) of another file (target_file) 
   def insert_text_at_line_number(source, target_file, line_number)
-    line_number -= 1
-    file = IO.readlines(target_file)
-    file.insert((line_number), check_source_type(source))
-    File.open(target_file, "w") do |x|
-      x.puts file
-    end      
+    if line_number > 0
+      line_number -= 1
+      file = IO.readlines(target_file)
+      file.insert((line_number), check_source_type(source))
+      File.open(target_file, "w") do |x|
+        x.puts file
+      end
+    else
+      raise ArgumentError, "Line number must be 1 or higher."
+    end
   end
 
   def remove_files(root_dir, file_array)
+    file_array.each do |file|
+      if root_dir.end_with?("/") && file.start_with?("/")
+        file.slice!(0)
+      end
+    end
     file_array.map! {|x| root_dir + x }
     begin
       Dir.chdir(root_dir)
