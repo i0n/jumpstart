@@ -198,22 +198,15 @@ module JumpStart::FileTools
     puts
   end
 
+  # TODO Look at making this a dynamic method, generating calls for a hash of replacement values.
   # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
   def config_capistrano(target_file, app_name, remote_server)
     cap_txt = IO.read(target_file)
-    cap_txt.gsub!(/\#\{remote_server\}/, "#{remote_server}")
-    cap_txt.gsub!(/\#\{app_name\}/, "#{app_name}")
+    cap_txt.gsub!(/REMOTE_SERVER/, "#{remote_server}")
+    cap_txt.gsub!(/APP_NAME/, "#{app_name}")
     File.open(target_file, "w") do |file|
       file.puts cap_txt
     end
-  end
-
-  def make_bare_git_repo(target_dir, app_name)
-    Dir.chdir target_dir
-    Dir.mkdir "#{app_name}.git"
-    Dir.chdir "#{target_dir}/#{app_name}.git"
-    system "git init --bare"
-    puts "SUCCESS! git repo #{app_name}.git created."
   end
 
   def check_source_type(source)

@@ -236,11 +236,24 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   # TODO Come back to testing this method when I have looked at Capistrano template creation and value replacement.
   context "Testing JumpStart::FileUtils.config_capistrano class method" do
-        
-  end
-
-  # TODO Come back to testing this method when I have had a look at it's functionality.
-  context "Testing JumpStart::FileUtils.make_bare_git_repo class method" do
+    
+    setup do
+      @target_file = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
+      @app_name = "test_project"
+      @remote_server = "my_test_remote_server"
+      @source_file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_source.rb")
+      File.open(@target_file, 'w+') do |file|
+        file.puts @source_file
+      end
+    end
+    
+    should "replace the APP_NAME and REMOTE_SERVER values in the test template" do
+      FileUtils.config_capistrano(@target_file, @app_name, @remote_server)
+      file = IO.readlines(@target_file)
+      assert_equal("set :application, 'test_project'\n", file[0])
+      assert_equal("set :domain, 'my_test_remote_server'\n", file[1])
+      assert_equal("run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_project\"\n", file[44])
+    end
     
   end
 
