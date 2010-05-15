@@ -85,8 +85,7 @@ module JumpStart::FileTools
     when args[:pattern] != nil then
       original_lines.each do |line|
         if line =~ /#{args[:pattern]}/
-          # original_lines.slice!(original_lines.find_index(line))
-          line = nil
+          original_lines[original_lines.find_index(line)] = nil
         end
       end
     end
