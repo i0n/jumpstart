@@ -108,7 +108,22 @@ module JumpStart::FileTools
       x.puts new_file
     end
   end
-
+  
+  # This method generates string replacements via a hash passed to the method, this enables versatile string replacement.
+  # To replace values in the target file, simply add the name of the key for that replacement in CAPS.
+  # e.g. You might call the method with something like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
+  # ... and in the template it would look like this:
+  # Hello there NAME from COUNTRY
+  def replace_strings(target_file, args)
+    txt = IO.read(target_file)
+    args.each do |x, y|
+      txt.gsub!(/#{x.upcase}/, y)
+    end
+    File.open(target_file, "w") do |file|
+      file.puts txt
+    end
+  end
+  
   # For setting up app in Nginx 
   def config_nginx(source_file, target_file, app_name)
     if source_file == nil || target_file == nil || app_name == nil
@@ -197,18 +212,7 @@ module JumpStart::FileTools
     puts "******************************************************************************************************************************************"
     puts
   end
-
-  # TODO Look at making this a dynamic method, generating calls for a hash of replacement values.
-  # TODO Think about wrapping this functionality up in a generic method with pairs of values for variable replacement
-  def config_capistrano(target_file, app_name, remote_server)
-    cap_txt = IO.read(target_file)
-    cap_txt.gsub!(/REMOTE_SERVER/, "#{remote_server}")
-    cap_txt.gsub!(/APP_NAME/, "#{app_name}")
-    File.open(target_file, "w") do |file|
-      file.puts cap_txt
-    end
-  end
-
+  
   def check_source_type(source)
     if File.file?(source)
       source_file = IO.readlines(source)

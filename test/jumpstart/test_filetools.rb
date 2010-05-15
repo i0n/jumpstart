@@ -235,7 +235,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   end
 
   # TODO Come back to testing this method when I have looked at Capistrano template creation and value replacement.
-  context "Testing JumpStart::FileUtils.config_capistrano class method" do
+  context "Testing JumpStart::FileUtils.replace_strings class method" do
     
     setup do
       @target_file = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
@@ -246,13 +246,13 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         file.puts @source_file
       end
     end
-    
-    should "replace the APP_NAME and REMOTE_SERVER values in the test template" do
-      FileUtils.config_capistrano(@target_file, @app_name, @remote_server)
+        
+    should "replace strings with replace_strings method" do
+      FileUtils.replace_strings(@target_file, :app_name => 'test_app', :REMOTE_SERVER => 'remote_box')
       file = IO.readlines(@target_file)
-      assert_equal("set :application, 'test_project'\n", file[0])
-      assert_equal("set :domain, 'my_test_remote_server'\n", file[1])
-      assert_equal("run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_project\"\n", file[44])
+      assert_equal("set :application, 'test_app'\n", file[0])
+      assert_equal("set :domain, 'remote_box'\n", file[1])
+      assert_equal("run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44])
     end
     
   end

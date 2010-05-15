@@ -1,5 +1,5 @@
-set :application, 'test_project'
-set :domain, 'my_test_remote_server'
+set :application, 'test_app'
+set :domain, 'remote_box'
 set :user, 'i0n'
 
 set :repository,  "#{user}@#{domain}:/home/#{user}/git/#{application}.git"
@@ -42,7 +42,7 @@ namespace :deploy do
   
   desc "Task to set up the remote Nginx server for app deployment"
   task :nginx do
-run "#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_project"
+run "#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app"
   end
   
   desc "Create bare remote git repo then add remote origin to local git repo and push to remote"
