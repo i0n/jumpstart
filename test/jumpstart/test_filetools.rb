@@ -77,6 +77,10 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   end
 
   context "Testing JumpStart::FileUtils.remove_files class method" do
+        
+  end
+  
+  context "Testing JumpStart::FileUtils.remove_lines class method" do
     
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/remove_lines_test.txt"
@@ -139,10 +143,6 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       FileUtils.insert_text_at_line_number("8", @file_path, 8)
       FileUtils.insert_text_at_line_number("9", @file_path, 9)
     end
-    
-  end
-  
-  context "Testing JumpStart::FileUtils.remove_lines class method" do
     
   end
 
