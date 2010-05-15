@@ -78,9 +78,9 @@ module JumpStart::FileTools
     when args[:lines] != nil && args[:line] == nil  then
       args[:lines].map! {|x| x -= 1}
       args[:lines].each do |y|
-        original_lines[y] = "JumpStart::FileTools => LINE MARKED FOR DELETION"
+        original_lines[y] = nil
       end
-      original_lines.delete("JumpStart::FileTools => LINE MARKED FOR DELETION")
+      original_lines.compact!
     when args[:lines] != nil && args[:line] != nil then
       puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time."
     when args[:pattern] != nil then
