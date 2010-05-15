@@ -1,4 +1,3 @@
-#TODO Look at making monkeypatch more explicit by including as a module within FileUtils
 module JumpStart::FileTools
 
   # For inserting a line after a specific line in a file. Note that this method will match only the first line it finds.
