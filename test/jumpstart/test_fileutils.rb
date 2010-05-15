@@ -5,16 +5,7 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
   context "Testing JumpStart::FileUtils.append_after_line class method" do
     
     setup do
-      new_file = []
-      @append_after_line_test_file =
-      IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt").each do |line|
-        if line !~ /Inserted by append_after_line method test./
-          new_file << line
-        end
-      end
-      File.open("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "w") do |x|
-        x.puts new_file
-      end
+      FileUtils::remove_lines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Inserted by append_after_line method test.")
     end
     
     should "insert specified line at line number 4 of target file" do
@@ -34,6 +25,16 @@ class TestJumpstartFileUtils < Test::Unit::TestCase
   end
   
   context "Testing JumpStart::FileUtils.append_to_end_of_file class method" do
+    
+    setup do
+      FileUtils::remove_lines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_test.txt", "TEST LINE INSERTED")
+    end
+    
+    should "Add the string passed in the method call to the specified file" do
+      FileUtils.append_to_end_of_file("TEST LINE INSERTED", "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_test.txt")
+      file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_test.txt")
+      assert_equal(6, (file.find_index("TEST LINE INSERTED\n").to_i + 1))
+    end
     
   end
 

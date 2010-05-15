@@ -63,6 +63,20 @@ module FileUtils
         puts "The directory #{root_dir} could not be found, or you do not have the correct privileges to access it."
       end
     end
+    
+    # TODO Add output (status etc) for remove_lines method
+    # For removing all lines in a file that match a specific pattern.
+    def remove_lines(target_file, matching_pattern)
+      new_file = []
+      IO.readlines(target_file).each do |line|
+        if line !~ /#{matching_pattern}/
+          new_file << line
+        end
+      end
+      File.open(target_file, "w") do |x|
+        x.puts new_file
+      end
+    end
 
     # For setting up app in Nginx 
     def config_nginx(source_file, target_file, app_name)
