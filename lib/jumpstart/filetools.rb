@@ -62,6 +62,7 @@ module JumpStart::FileTools
     end
   end
   
+  # TODO Look at extending this method so that you can optionally specify a matching pattern or an array of line numbers to remove.
   # TODO Add output (status etc) for remove_lines method
   # For removing all lines in a file that match a specific pattern.
   def remove_lines(target_file, matching_pattern)
