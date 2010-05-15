@@ -72,11 +72,17 @@ module JumpStart::FileTools
     new_file = []
     original_lines = IO.readlines(target_file)
     case
-    when args[:lines] != nil then
+    when args[:line] != nil && args[:lines] == nil then
+      args[:line] -= 1
+      original_lines.slice!(args[:line])
+    when args[:lines] != nil && args[:line] == nil  then
       args[:lines].map! {|x| x -= 1}
-      arg[:lines].each do |y|
-        original_lines.slice!(y)
+      args[:lines].each do |y|
+        original_lines[y] = "JumpStart::FileTools => LINE MARKED FOR DELETION"
       end
+      original_lines.delete("JumpStart::FileTools => LINE MARKED FOR DELETION")
+    when args[:lines] != nil && args[:line] != nil then
+      puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time."
     when args[:pattern] != nil then
       original_lines.each do |line|
         if line =~ /#{args[:pattern]}/

@@ -78,6 +78,26 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   context "Testing JumpStart::FileUtils.remove_files class method" do
     
+    setup do
+      @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/remove_lines_test.txt"
+    end
+    
+    should "remove line 5 from the test file using the :lines argument" do
+      FileUtils.remove_lines(@file_path, :lines => [5])
+      file = IO.readlines(@file_path)
+      assert_equal(9, file.length)
+      assert_equal("6\n", file.fetch(4))
+      FileUtils.insert_text_at_line_number("5", @file_path, 5)
+    end
+
+    should "remove lines 5 & 9 from the test file using the :lines argument" do
+      FileUtils.remove_lines(@file_path, :lines => [1,10])
+      file = IO.readlines(@file_path)
+      assert_equal(8, file.length)
+      FileUtils.insert_text_at_line_number("1", @file_path, 1)
+      FileUtils.insert_text_at_line_number("10", @file_path, 10)
+    end
+    
   end
   
   context "Testing JumpStart::FileUtils.remove_lines class method" do
