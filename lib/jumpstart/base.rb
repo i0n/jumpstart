@@ -39,6 +39,8 @@ module JumpStart
       populate_files_from_line_templates
       check_local_nginx_configuration
       remove_unwanted_files
+      # TODO Define a method to link options in config.yml to FileUtils.replace_strings class method.
+      # TODO Look into whether switching the extension for YAML files between .yml and .yaml causes any errors, write tests for this.
       run_scripts_from_yaml(:run_after_jumpstart)
     end
         
