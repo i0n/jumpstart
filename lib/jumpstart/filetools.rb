@@ -66,23 +66,27 @@ module JumpStart::FileTools
   # Both types of removal are passed to the method via the arguments hash.
   # e.g. remove lines macthing a pattern, do FileUtils.remove_lines(target_file, :pattern => "Hello!")
   # e.g. remove lines by line number, do FileUtils.remove_lines(target_file, :lines => [1,2,3,4,99])
-  # You can use both methods of removal at once.
+  # e.g. You can also remove a single line by line number by passing :line. (FileUtils.remove_lines(target_file, :line => 2))
+  # You can remove lines using :lines/:line and :pattern at the same time.
   # In Ruby 1.9+ you can also pass a hash like this: FileUtils.remove_lines(target_file, pattern: "hello!", lines: [1,2,3,4,99])
   def remove_lines(target_file, args)
     new_file = []
     original_lines = IO.readlines(target_file)
-    case
-    when args[:line] != nil && args[:lines] == nil then
+    if args[:line] != nil && args[:lines] == nil
       args[:line] -= 1
       original_lines.slice!(args[:line])
-    when args[:lines] != nil && args[:line] == nil  then
+    elsif args[:lines] != nil && args[:line] == nil
       args[:lines].map! {|x| x -= 1}
       args[:lines].each do |y|
         original_lines[y] = nil
       end
-    when args[:lines] != nil && args[:line] != nil then
+    elsif args[:lines] != nil && args[:line] != nil
+      puts
+      puts "You have used an incorrect syntax for the FileUtils.remove_lines method."
       puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time."
-    when args[:pattern] != nil then
+      raise ArgumentError
+    end
+    if args[:pattern] != nil then
       original_lines.each do |line|
         if line =~ /#{args[:pattern]}/
           original_lines[original_lines.find_index(line)] = nil

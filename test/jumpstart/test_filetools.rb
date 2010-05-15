@@ -89,13 +89,55 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       assert_equal("6\n", file.fetch(4))
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
     end
-
+    
     should "remove lines 5 & 9 from the test file using the :lines argument" do
       FileUtils.remove_lines(@file_path, :lines => [1,10])
       file = IO.readlines(@file_path)
       assert_equal(8, file.length)
       FileUtils.insert_text_at_line_number("1", @file_path, 1)
       FileUtils.insert_text_at_line_number("10", @file_path, 10)
+    end
+    
+    should "remove line 5 from the test file using the :line argument" do
+      FileUtils.remove_lines(@file_path, :line => 5)
+      file = IO.readlines(@file_path)
+      assert_equal(9, file.length)
+      assert_equal("6\n", file.fetch(4))
+      FileUtils.insert_text_at_line_number("5", @file_path, 5)
+    end
+    
+    should "return an argument error as :lines and :line cannot be specified at the same time." do
+      assert_raise(ArgumentError) {FileUtils.remove_lines(@file_path, :line => 5, :lines => [6,7])}
+    end
+    
+    should "remove line 5 from the test file using the :pattern argument" do
+      FileUtils.remove_lines(@file_path, :pattern => "5")
+      file = IO.readlines(@file_path)
+      assert_equal(9, file.length)
+      assert_equal("6\n", file.fetch(4))
+      FileUtils.insert_text_at_line_number("5", @file_path, 5)
+    end
+    
+    should "remove line 5 from the test file using the pattern argument, and remove line 9 from the file using the :line argument" do
+      FileUtils.remove_lines(@file_path, :pattern => "5", :line => 9)
+      file = IO.readlines(@file_path)
+      assert_equal(8, file.length)
+      assert_equal("6\n", file.fetch(4))
+      assert_equal("10\n", file.fetch(7))
+      FileUtils.insert_text_at_line_number("5", @file_path, 5)
+      FileUtils.insert_text_at_line_number("9", @file_path, 9)
+    end
+
+    should "remove line 5 from the test file using the pattern argument, and remove line 9 from the file using the :lines argument" do
+      FileUtils.remove_lines(@file_path, :pattern => "5", :lines => [8,9])
+      file = IO.readlines(@file_path)
+      assert_equal(7, file.length)
+      assert_equal("6\n", file.fetch(4))
+      assert_equal("7\n", file.fetch(5))
+      assert_equal("10\n", file.fetch(6))
+      FileUtils.insert_text_at_line_number("5", @file_path, 5)
+      FileUtils.insert_text_at_line_number("8", @file_path, 8)
+      FileUtils.insert_text_at_line_number("9", @file_path, 9)
     end
     
   end
