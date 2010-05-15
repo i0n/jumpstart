@@ -203,6 +203,19 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   context "Testing JumpStart::FileUtils.config_nginx class method" do
     
+    setup do
+      @source_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_nginx_source.txt"
+      @target_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_nginx_test.txt"
+      @project_name = "test_project"
+      FileUtils.remove_lines(@target_path, :pattern => "LINE ADDED BY TEST")
+    end
+    
+    should "copy nginx source file into target path" do
+      FileUtils.config_nginx(@source_path, @target_path, @project_name)
+      file = IO.readlines(@target_path)
+      assert_equal("LINE ADDED BY TEST\n", file[80])
+    end
+    
   end
 
   context "Testing JumpStart::FileUtils.config_etc_hosts class method" do

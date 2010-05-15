@@ -1,0 +1,82 @@
+daemon off;
+worker_processes  4;
+events {
+    worker_connections  8192;
+  }
+  http {
+    passenger_root /Users/i0n/.rvm/gems/ruby-1.9.2-head/gems/passenger-2.2.11;
+    passenger_ruby /Users/i0n/.rvm/bin/passenger_ruby;
+    include       mime.types;
+    default_type  application/octet-stream;
+    keepalive_timeout  65;
+   	gzip  on;
+		gzip_http_version 1.1;
+		gzip_vary on;
+		gzip_comp_level 6;
+		gzip_proxied any;
+		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+		
+    server {
+        listen       80  default;
+        server_name  _;
+        return       444;
+    }       
+				
+		server {
+	    listen 80;
+	    server_name test_haml.local;
+	    rails_env development;
+			client_max_body_size 10M;
+			client_body_buffer_size 128k;
+			location / {
+				passenger_enabled on;
+				root /Users/i0n/Sites/test_haml/public;
+			}
+		}		
+		server {
+	    listen 80;
+	    server_name test_rails_3.local;
+	    rails_env development;
+			client_max_body_size 10M;
+			client_body_buffer_size 128k;
+			location / {
+				passenger_enabled on;
+				root /Users/i0n/Sites/test_rails_3/public;
+			}
+		}		
+		
+		server {
+	    listen 80;
+	    server_name test_rails.local;
+	    rails_env development;
+			client_max_body_size 10M;
+			client_body_buffer_size 128k;
+			location / {
+				passenger_enabled on;
+				root /Users/i0n/Sites/test_rails/public;
+			}
+		}		
+		
+		server {
+	    listen 80;
+	    server_name test_rspec.local;
+	    rails_env development;
+			client_max_body_size 10M;
+			client_body_buffer_size 128k;
+			location / {
+				passenger_enabled on;
+				root /Users/i0n/Sites/test_rspec/public;
+			}
+		}		
+    server {
+	    listen 80;
+	    server_name test_sinatra.local;
+			client_max_body_size 10M;
+			client_body_buffer_size 128k;
+			location / {
+				passenger_enabled on;
+				root /Users/i0n/Sites/test_sinatra/public;
+			}
+		}				
+LINE ADDED BY TEST
+}
