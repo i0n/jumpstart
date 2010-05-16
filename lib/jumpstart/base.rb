@@ -272,7 +272,7 @@ module JumpStart
     def check_replace_string_pairs_for_project_name_sub(hash)
       unless @project_name.nil?
         hash.each do |key, value|
-          if key == :app_name
+          if key == :project_name
             hash[key] = @project_name
           end
         end

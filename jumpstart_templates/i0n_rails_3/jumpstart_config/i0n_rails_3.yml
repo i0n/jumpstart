@@ -19,7 +19,7 @@
 :replace_strings:
   - :target_path: /config/deploy.rb
     :symbols:
-      :app_name: name_of_my_app
+      :project_name: name_of_my_app
       :remote_server: thoughtplant
   
 :run_after_jumpstart:

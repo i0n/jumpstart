@@ -14,11 +14,11 @@
 :replace_strings:
   - :target_path: /test_replace_strings/replace_strings_1.rb
     :symbols:
-      :app_name: should_not_see_this_name
+      :project_name: should_not_see_this_name
       :remote_server: test_server
   - :target_path: /test_replace_strings/replace_strings_2.txt
     :symbols:
-      :app_name: should_not_see_this_name
+      :name: Larry
       :remote_server: test_server
   
 :run_after_install_command:

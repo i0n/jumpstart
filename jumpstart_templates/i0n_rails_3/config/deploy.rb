@@ -1,4 +1,4 @@
-set :application, APP_NAME
+set :application, PROJECT_NAME
 set :domain, REMOTE_SERVER
 set :user, 'i0n'
 
@@ -42,7 +42,7 @@ namespace :deploy do
   
   desc "Task to set up the remote Nginx server for app deployment"
   task :nginx do
-    run "#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf #{app_name}"
+    run "#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf PROJECT_NAME"
   end
   
   desc "Create bare remote git repo then add remote origin to local git repo and push to remote"
