@@ -16,6 +16,12 @@
   - /public/favicon.ico
   - /public/images/rails.png
   
+:replace_strings:
+  - :target_path: /config/deploy.rb
+    :symbols:
+      :app_name: name_of_my_app
+      :remote_server: thoughtplant
+  
 :run_after_jumpstart:
   # create databases
   - rake db:create

@@ -42,6 +42,7 @@ module JumpStart
       remove_unwanted_files
       # TODO Look into whether switching the extension for YAML files between .yml and .yaml causes any errors, write tests for this.
       run_scripts_from_yaml(:run_after_jumpstart)
+      # TODO Write method to check config yaml for app_name string replacements and substitute the name of the app as set in @project_name
       check_for_strings_to_replace
     end
         
