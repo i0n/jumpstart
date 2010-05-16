@@ -72,6 +72,19 @@ class TestJumpstartBase < Test::Unit::TestCase
         refute(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt"))
       end
   
+      should "remove last lines from files and append template info" do
+        @test_project.start
+        file_1 =  IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
+        file_2 =  IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
+        assert_equal("THIS IS THE LAST LINE\n", file_1[9])
+        assert_equal("THIS IS THE LAST LINE\n", file_2[9])
+        assert_equal("9\n", file_1[8])
+        assert_equal("9\n", file_2[8])
+        refute(file_1[10])
+        refute(file_2[10])
+        clean_destination_dir
+      end
+  
     end
     
   end
