@@ -204,6 +204,7 @@ module JumpStart
       end
     end
     
+    # TODO Look at refactoring to remove duplicate regex
     def populate_files_from_append_templates
       @append_templates.each do |x|
         FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_([lL]?)\._{1}/, '')}")
@@ -298,7 +299,7 @@ module JumpStart
       
       # TODO Write tests for this method and more tests to check the state of last line of append_to_file templates
       def remove_last_line?(file_name)
-        /_(?<remove_last_line>[lL]?)\._{1}\w*/ =~ file_name
+        /_(?<remove_last_line>[lL]{1})\._{1}\w*/ =~ file_name
         if remove_last_line.nil?
           false
         else

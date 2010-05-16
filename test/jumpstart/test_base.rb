@@ -192,19 +192,19 @@ class TestJumpstartBase < Test::Unit::TestCase
         
     context "Tests for the JumpStart::Base.get_line_number class method.\n" do
       
-      should "line number should be 1" do
+      should "return line number as 1" do
         assert_equal(1, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_1._test_file1.txt"))
       end
       
-      should "line number should be 10" do
+      should "return line number as 10" do
         assert_equal(10, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_10._test_file2.txt"))
       end
       
-      should "line number should be 99999" do
+      should "return line number as 99999" do
         assert_equal(99999, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_99999._test_file3.txt"))
       end
       
-      should "line number should be 0" do
+      should "return line number as 0" do
         assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file"))
         assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file.txt"))
         assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file_.txt"))
@@ -213,6 +213,27 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_a._test_file4.txt"))
       end
         
+    end
+    
+    context "Tests for the JumpStart::Base.remove_last_line? class method.\n" do
+            
+      should "return false" do
+        refute(JumpStart::Base.remove_last_line?("/path/to/file.txt"))
+        refute(JumpStart::Base.remove_last_line?("/path/to/_._file.txt"))
+        refute(JumpStart::Base.remove_last_line?("_.__file.txt"))
+        refute(JumpStart::Base.remove_last_line?("/path/to/_R._file.txt"))
+        refute(JumpStart::Base.remove_last_line?("/path/to/_.1_file.txt"))
+        refute(JumpStart::Base.remove_last_line?("/path/to/_1._file.txt"))
+        refute(JumpStart::Base.remove_last_line?("/path/to/_111._file.txt"))
+      end
+      
+      should "return true" do
+        assert(JumpStart::Base.remove_last_line?("/path/to/_L._file.txt"))
+        assert(JumpStart::Base.remove_last_line?("_L._file.txt"))
+        assert(JumpStart::Base.remove_last_line?("/path/to/_l._file.txt"))
+        assert(JumpStart::Base.remove_last_line?("_l._file.txt"))
+      end
+      
     end
     
     # should "run exit_jumpstart method" do

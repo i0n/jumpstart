@@ -8,13 +8,13 @@ end
 
 class TestJumpstartBase < Test::Unit::TestCase
     
-  context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified." do
+  context "Testing jumpstart projects with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified.\n" do
         
     setup do
       clean_destination_dir
     end
         
-    context "Create jumpstart with no arguments but do not start" do
+    context "Create jumpstart with no arguments but do not start.\n" do
   
       setup do
         @test_project = JumpStart::Base.new([])
@@ -26,7 +26,7 @@ class TestJumpstartBase < Test::Unit::TestCase
   
     end
   
-    context "Create jumpstart with the project name argument passed to it but do not start" do
+    context "Create jumpstart with the project name argument passed to it but do not start.\n" do
   
       setup do
         @test_project = JumpStart::Base.new(["test_jumpstart_project"])
@@ -67,6 +67,9 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_1.rb"))
         assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_2.txt"))
         assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt"))
+        refute(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt"))
+        assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt"))
+        refute(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt"))
       end
   
     end
