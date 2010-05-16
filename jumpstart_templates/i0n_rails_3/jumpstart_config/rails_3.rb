@@ -3,10 +3,6 @@
 # Change Production environment config for use with remote server
 FileUtils.append_to_end_of_file('  socket: /var/run/mysqld/mysqld.sock', "#{@install_path}/#{@project_name}/config/database.yml", true)
 
-# config for local OSX Nginx environment
-FileUtils.config_nginx("#{@template_path}/config/nginx.local.conf", '/usr/local/nginx/conf/nginx.conf', "#{@project_name}")
-
-
 ################################################################### REMOTE DEPLOYMENT ##############################################################
 
 # Ask about deploying to remote server

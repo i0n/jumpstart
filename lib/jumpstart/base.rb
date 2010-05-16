@@ -40,7 +40,7 @@ module JumpStart
       populate_files_from_line_templates
       check_local_nginx_configuration
       remove_unwanted_files
-      # TODO Look into whether switching the extension for YAML files between .yml and .yaml causes any errors, write tests for this.
+      # TODO Write a method to check paths for missing / or multiple //
       run_scripts_from_yaml(:run_after_jumpstart)
       check_for_strings_to_replace
     end
