@@ -297,7 +297,6 @@ module JumpStart
         number.to_i
       end
       
-      # TODO Write tests for this method and more tests to check the state of last line of append_to_file templates
       def remove_last_line?(file_name)
         /_(?<remove_last_line>[lL]{1})\._{1}\w*/ =~ file_name
         if remove_last_line.nil?
