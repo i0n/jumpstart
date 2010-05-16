@@ -12,10 +12,14 @@
   - /test_remove_files/file_without_extension
   
 :replace_strings:
-  :target_file: /test/test_jumpstart_templates/test_fileutils/replace_strings_test.rb
-  :symbols:
-    :app_name: yaml_app_name
-    :remote_server: yaml_remote_server
+  - :target_path: /test_replace_strings/replace_strings_1.rb
+    :symbols:
+      :app_name: test_project_name
+      :remote_server: test_server
+  - :target_path: /test_replace_strings/replace_strings_2.txt
+    :symbols:
+      :app_name: test_project_name
+      :remote_server: test_server
   
 :run_after_install_command:
   # Create home controller

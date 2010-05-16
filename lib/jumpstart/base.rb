@@ -17,6 +17,7 @@ module JumpStart
       @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
       @install_command = @config_file[:install_command]
       @install_command_options = @config_file[:install_command_options]
+      @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
     
     def start
@@ -39,9 +40,9 @@ module JumpStart
       populate_files_from_line_templates
       check_local_nginx_configuration
       remove_unwanted_files
-      # TODO Define a method to link options in config.yml to FileUtils.replace_strings class method.
       # TODO Look into whether switching the extension for YAML files between .yml and .yaml causes any errors, write tests for this.
       run_scripts_from_yaml(:run_after_jumpstart)
+      check_for_strings_to_replace
     end
         
     def lookup_existing_projects
@@ -112,9 +113,9 @@ module JumpStart
           configure_jumpstart
         end
       end
-      projects.each do |x,y|
+      templates.each do |x,y|
         if x == input
-          @template_name = projects.fetch(x)
+          @template_name = templates.fetch(x)
         elsif y == input
           @template_name = y
         end
@@ -241,6 +242,28 @@ module JumpStart
         rescue
           puts
           puts "Could not access the directory #{@install_path}/#{@project_name}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
+        end
+      end
+    end
+    
+    def check_for_strings_to_replace
+      unless @replace_strings.nil?
+        puts
+        puts "Checking for strings to replace inside files..."
+        puts
+        @replace_strings.each do |file|
+          puts "Target file: #{file[:target_path]}"
+          puts
+          puts "Strings to replace:"
+          puts
+          file[:symbols].each do |x,y|
+            puts "Key:    #{x}"
+            puts "Value:  #{y}"
+            puts
+          end
+          puts
+          puts
+          FileUtils.replace_strings("#{@install_path}/#{@project_name}#{file[:target_path]}", file[:symbols])
         end
       end
     end
