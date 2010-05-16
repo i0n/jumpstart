@@ -175,7 +175,7 @@ module JumpStart
         end
       end
       file_list.each do |file|
-        if file =~ /_\._{1}\w*/
+        if file =~ /_([lL]?)\._{1}\w*/
           @append_templates << file
         elsif file =~ /_(\d+)\._{1}\w*/
           @line_templates << file
@@ -204,11 +204,10 @@ module JumpStart
       end
     end
     
-    # TODO Look into a way of being able to pass the 'remove last line => true' option via the naming convention of the templates
     def populate_files_from_append_templates
       @append_templates.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_\._{1}/, '')}")
-        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_\._{1}/, '')}")
+        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_([lL]?)\._{1}/, '')}")
+        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_([lL]?)\._{1}/, '')}", JumpStart::Base.remove_last_line?(x))
       end
     end
     
@@ -296,7 +295,17 @@ module JumpStart
         /_(?<number>\d+)\._\w*/ =~ file_name
         number.to_i
       end
-            
+      
+      # TODO Write tests for this method and more tests to check the state of last line of append_to_file templates
+      def remove_last_line?(file_name)
+        /_(?<remove_last_line>[lL]?)\._{1}\w*/ =~ file_name
+        if remove_last_line.nil?
+          false
+        else
+          true
+        end
+      end
+      
     end
     
   end
