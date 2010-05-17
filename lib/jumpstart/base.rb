@@ -152,8 +152,10 @@ module JumpStart
         
     def create_project
       Dir.chdir(@install_path)
-      puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
-      system "#{@install_command} #{@project_name} #{@install_command_options}"
+      unless @install_command.nil?
+        puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
+        system "#{@install_command} #{@project_name} #{@install_command_options}"
+      end
     end
             
     def parse_template_dir
