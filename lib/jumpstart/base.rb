@@ -227,7 +227,13 @@ module JumpStart
     end
     
     def remove_unwanted_files
-      FileUtils.remove_files("#{@install_path}/#{@project_name}", @config_file[:remove_files])
+      file_array = []
+      root_path = FileUtils.join_paths(@install_path, @project_name)
+      @config_file[:remove_files].each do |file|
+        FileUtils.join_paths(root_path, file)
+        file_array << file
+      end
+      FileUtils.remove_files(file_array)
     end
     
     def run_scripts_from_yaml(script_name)
@@ -264,7 +270,8 @@ module JumpStart
           end
           puts
           puts
-          FileUtils.replace_strings("#{@install_path}/#{@project_name}#{file[:target_path]}", file[:symbols])
+          path = FileUtils.join_paths(@install_path, @project_name, file[:target_path])
+          FileUtils.replace_strings(path, file[:symbols])
         end
       end
     end

@@ -40,16 +40,9 @@ module JumpStart::FileTools
     end
   end
 
-  def remove_files(root_dir, file_array)
-    file_array.each do |file|
-      if root_dir.end_with?("/") && file.start_with?("/")
-        file.slice!(0)
-      end
-    end
-    file_array.map! {|x| root_dir + x }
-    begin
-      Dir.chdir(root_dir)
-      file_array.each do |x|
+  def remove_files(file_array)
+    file_array.each do |x|
+      begin
         if File.exists?(x)
           if File.writable?(x)
             puts
@@ -62,12 +55,12 @@ module JumpStart::FileTools
         else
           puts
           puts "The file #{x} could not be deleted as it could not be found."
-        end
+        end          
+      rescue
+        puts
+        puts "Uh-oh, we've hit a snag with the remove_files method."
+        puts "The file #{x} could not be deleted, do you have the correct privileges to access it?"
       end
-    rescue
-      puts
-      puts "Uh-oh, we've hit a snag with the remove_files method."
-      puts "The directory #{root_dir} could not be found, or you do not have the correct privileges to access it."
     end
   end
   
@@ -227,10 +220,12 @@ module JumpStart::FileTools
   # Accidentally passing nil values mixed with strings/arrays will be corrected.
   # Whitespace and line breaks mixed with the path will be corrected.
   # If too many files (paths containing one or more '.' fullstops) are specified in the supplied paths, the first one that creates a path will be returned.
+  # If the path is an absolute path (starting with /) this will be preserved.
   def join_paths(*args)
     args.flatten!
     full_path = []
     file_detected = false
+    absolute_path = true if args[0].start_with?('/')
     args.each do |path|
       unless path.nil?
         path.strip!
@@ -242,6 +237,7 @@ module JumpStart::FileTools
         end
       end
     end
+    full_path[0].insert(0, '/') if absolute_path
     full_path.join('/')
   end
     

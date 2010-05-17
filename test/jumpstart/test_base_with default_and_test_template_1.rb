@@ -29,6 +29,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Create jumpstart with the project name argument passed to it but do not start.\n" do
   
       setup do
+        clean_destination_dir
         @test_project = JumpStart::Base.new(["test_jumpstart_project"])
         @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
@@ -82,7 +83,6 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_equal("9\n", file_2[8])
         refute(file_1[10])
         refute(file_2[10])
-        clean_destination_dir
       end
   
     end

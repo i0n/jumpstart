@@ -4,7 +4,7 @@
 # NOTE! THIS HAS BEEN SET UP EXTERNALLY FOR TESTING PURPOSES
 
 # The command that this template will run
-:install_command: rails
+:install_command:
 # Options for the install command
 
 :remove_files:

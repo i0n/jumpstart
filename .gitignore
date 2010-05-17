@@ -19,6 +19,7 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+test/destination_dir/*
 
 ## Bundler
 vendor/gems/gems 
