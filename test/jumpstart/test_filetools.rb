@@ -15,7 +15,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
         
     should "fail because new line is not specified." do
-      assert_raises(ArgumentError) {FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3")}
+      assert_raises ArgumentError {FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3")}
     end
     
     should "fail because the target file does not exist" do
