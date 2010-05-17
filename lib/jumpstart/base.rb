@@ -12,9 +12,10 @@ module JumpStart
         @template_name = DEFAULT_TEMPLATE_NAME
       end
       @existing_projects = []
-      @config_file = YAML.load_file("#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}/jumpstart_config/#{@template_name}.yml")
+      @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
       @install_path = @config_file[:install_path]
-      @template_path = "#{JUMPSTART_TEMPLATES_PATH}/#{@template_name}"
+      # @install_path = FileUtils.join_paths(install_path)
+      @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
       @install_command = @config_file[:install_command]
       @install_command_options = @config_file[:install_command_options]
       @replace_strings = @config_file[:replace_strings].each {|x| x}
@@ -40,7 +41,6 @@ module JumpStart
       populate_files_from_line_templates
       check_local_nginx_configuration
       remove_unwanted_files
-      # TODO Write a method to check paths for missing / or multiple //
       run_scripts_from_yaml(:run_after_jumpstart)
       check_for_strings_to_replace
     end
@@ -48,8 +48,8 @@ module JumpStart
     def lookup_existing_projects
       project_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
       project_dirs.each do |x|
-        if Dir.entries("#{JUMPSTART_TEMPLATES_PATH}/#{x}").include? "jumpstart_config"
-          if File.exists?("#{JUMPSTART_TEMPLATES_PATH}/#{x}/jumpstart_config/#{x}.yml")
+        if Dir.entries(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x)).include? "jumpstart_config"
+          if File.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x, '/jumpstart_config/', "#{x}.yml"))
             @existing_projects << x
           end
         end
@@ -143,9 +143,9 @@ module JumpStart
           exit_jumpstart
         end
       end
-      if Dir.exists?("#{@install_path}/#{@project_name}")
+      if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
-        puts "The directory #{@install_path}/#{@project_name} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        puts "The directory #{FileUtils.join_paths(@install_path, @project_name)} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_jumpstart
       end
     end
