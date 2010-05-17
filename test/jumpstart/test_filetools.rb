@@ -15,7 +15,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
         
     should "fail because new line is not specified." do
-      assert_raises ArgumentError {FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3")}
+      assert_raises(ArgumentError) {FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3")}
     end
     
     should "fail because the target file does not exist" do
@@ -112,26 +112,25 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       FileUtils.touch("#{@file_path}/remove_files_test_1.txt")
       FileUtils.touch("#{@file_path}/remove_files_test_2.txt")
       FileUtils.touch("#{@file_path}/remove_files_test_3.txt")
+      @file_array = []
     end
   
-    # should "delete the file remove_files_test_1.txt" do
-    #   file = "/remove_files_test_1.txt"
-    #   FileUtils.remove_files(FileUtils.join_paths(@file_path, file))
-    #   refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
-    # end
+    should "delete the file remove_files_test_1.txt" do
+      file = FileUtils.join_paths(@file_path, "/remove_files_test_1.txt")
+      @file_array << file
+      FileUtils.remove_files(@file_array)
+      refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
+    end
     
-    # should "delete all three test files" do
-    #   file_array = ["/remove_files_test_1.txt", "/remove_files_test_2.txt", "/remove_files_test_3.txt"]
-    #   new_array = []
-    #   file_array.each do |file|
-    #     new_array << FileUtils.join_paths(@file_path, file)
-    #   end
-    #   FileUtils.remove_files(new_array)
-    #   refute(File.exists?("#{@file_path}/remove_files_test_1.txt"))
-    #   refute(File.exists?("#{@file_path}/remove_files_test_2.txt"))
-    #   refute(File.exists?("#{@file_path}/remove_files_test_3.txt"))
-    # end
-    #   
+    should "delete all three test files" do
+      @file_array  << "/remove_files_test_1.txt" << "/remove_files_test_2.txt" << "/remove_files_test_3.txt"
+      @file_array.map!{|x| FileUtils.join_paths(@file_path, x)}
+      FileUtils.remove_files(@file_array)
+      refute File.exists?("#{@file_path}/remove_files_test_1.txt")
+      refute File.exists?("#{@file_path}/remove_files_test_2.txt")
+      refute File.exists?("#{@file_path}/remove_files_test_3.txt")
+    end
+      
   end
   
   context "Testing JumpStart::FileUtils.remove_lines class method.\n" do
