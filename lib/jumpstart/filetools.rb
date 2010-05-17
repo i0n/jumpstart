@@ -221,5 +221,23 @@ module JumpStart::FileTools
     end
     source_file
   end
+  
+  def join_paths(*args)
+    args.flatten!
+    full_path = []
+    file_detected = false
+    args.each do |path|
+      unless path.nil?
+        path.strip!
+        path.slice!(0) while path.start_with?('/')
+        path.chop! while path.end_with?('/')
+        if file_detected == false
+          file_detected = true if path =~ /\w*\.\w*/
+          full_path << path
+        end
+      end
+    end
+    full_path.join('/')
+  end
     
 end

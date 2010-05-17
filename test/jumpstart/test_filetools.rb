@@ -286,4 +286,43 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
   
+  context "Testing JumpStart::FileUtils.join_paths class method.\n" do 
+    
+    should "return a valid path if too many forward slashes are entered as an array" do
+      a = %w[//this/ //array/// /of/ /paths/ /has// /far/ //too/ ////many/ /forward// /slashes.txt]
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a))
+    end
+
+    should "return a valid path if too many forward slashes are entered as strings" do
+      a,b,c,d,e,f,g,h,i,j = '//this/', '//array///', '/of/', '/paths/', '/has//', '/far/', '//too/', '////many/', '/forward//', '/slashes.txt'
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+    end
+    
+    should "return a valid path if paths are missing forward slashes and entered as an array" do
+      a = %w[this array of paths has far too many forward slashes.txt]
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a))      
+    end
+
+    should "return a valid path if paths are passed as strings and have no forward slashes" do
+      a,b,c,d,e,f,g,h,i,j = 'this', 'array', 'of', 'paths', 'has', 'far', 'too', 'many', 'forward', 'slashes.txt'
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+    end
+
+    should "return a valid path some paths have too many forward slashes and some don't. Some arguments are passed in arrays, some as strings" do
+      a,b,c,d,e,f,g = '//this/', '//array///', %w[/of/], '/paths/', %w[/has// /far/], '//too/', %w[////many/ /forward// /slashes.txt]
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g))
+    end
+    
+    should "return a valid path some paths have too many forward slashes and some don't. Some arguments are passed in arrays, some as strings, mixed with nil values" do
+      a,b,c,d,e,f,g,h,i,j = '//this/', '//array///', nil, %w[/of/], '/paths/', %w[/has// /far/], nil, '//too/', nil, %w[////many/ /forward// /slashes.txt]
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+    end
+    
+    should "return a valid path, even if too many files are specified" do
+      a,b,c,d,e,f,g,h,i,j,k = '//this/', '//array///', nil, %w[/of/], '/paths/', %w[/has// /far/], nil, '//too/', nil, %w[////many/ /forward// /slashes.txt], "another_file.rb"
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
+    end
+        
+  end
+  
 end
