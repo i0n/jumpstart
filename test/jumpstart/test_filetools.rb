@@ -327,6 +327,12 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       j = ["////many/\n", "  /forward//  ", "\n  /slashes.txt\n\n\n"]
       assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
     end
+    
+    should "return an absolute path" do
+      a,b,c,d,e,f,g,h,i,k = "///this/\n", '   //array///', nil, %w[/of/], '/paths/  ', %w[/has// /far/], nil, "//too/\n", nil, "another_file.rb"
+      j = ["////many/\n", "  /forward//  ", "\n  /slashes.txt\n\n\n"]
+      assert_equal("/this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))            
+    end
         
   end
   
