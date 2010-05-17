@@ -13,8 +13,7 @@ module JumpStart
       end
       @existing_projects = []
       @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-      @install_path = @config_file[:install_path]
-      # @install_path = FileUtils.join_paths(install_path)
+      @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
       @install_command = @config_file[:install_command]
       @install_command_options = @config_file[:install_command_options]
@@ -190,17 +189,17 @@ module JumpStart
     def create_new_folders
       Dir.chdir(@install_path)
       @dir_list.each do |x|
-        unless Dir.exists?("#{@install_path}/#{@project_name}#{x}")
-          Dir.mkdir("#{@install_path}/#{@project_name}#{x}")
+        unless Dir.exists?(FileUtils.join_paths(@install_path, @project_name, x))
+          Dir.mkdir(FileUtils.join_paths(@install_path, @project_name, x))
         end
       end
     end
     
     def create_new_files_from_whole_templates
       @whole_templates.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x}")
-        file_contents = IO.readlines("#{@template_path}#{x}")
-        File.open("#{@install_path}/#{@project_name}#{x}", "w") do |y|
+        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x))
+        file_contents = IO.readlines(FileUtils.join_paths(@template_path, x))
+        File.open(FileUtils.join_paths(@install_path, @project_name, x), "w") do |y|
           y.puts file_contents
         end
       end
@@ -209,15 +208,15 @@ module JumpStart
     # TODO Look at refactoring to remove duplicate regex
     def populate_files_from_append_templates
       @append_templates.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_([lL]?)\._{1}/, '')}")
-        FileUtils.append_to_end_of_file("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_([lL]?)\._{1}/, '')}", JumpStart::Base.remove_last_line?(x))
+        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x.sub(/_([lL]?)\._{1}/, '')))
+        FileUtils.append_to_end_of_file(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x.sub(/_([lL]?)\._{1}/, '')), JumpStart::Base.remove_last_line?(x))
       end
     end
     
     def populate_files_from_line_templates
       @line_templates.each do |x|
-        FileUtils.touch("#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}")
-        FileUtils.insert_text_at_line_number("#{@template_path}#{x}", "#{@install_path}/#{@project_name}#{x.sub(/_(\d+)\._{1}/, '')}", JumpStart::Base.get_line_number(x))
+        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x.sub(/_(\d+)\._{1}/, '')))
+        FileUtils.insert_text_at_line_number(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x.sub(/_(\d+)\._{1}/, '')), JumpStart::Base.get_line_number(x))
       end
     end
     
@@ -249,7 +248,7 @@ module JumpStart
           end
         rescue
           puts
-          puts "Could not access the directory #{@install_path}/#{@project_name}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
+          puts "Could not access the directory #{FileUtils.join_paths(@install_path, @project_name)}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
         end
       end
     end

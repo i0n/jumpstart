@@ -295,6 +295,11 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       assert_equal("/path/to/file.txt", FileUtils.join_paths("/path/to/file.txt"))
     end
     
+    should "return the path even if it is passed as a variable" do
+      string = "/path/to/file.txt"
+      assert_equal(string, FileUtils.join_paths(string))
+    end
+    
     should "return a valid path if too many forward slashes are entered as an array" do
       a = %w[this/ //array/// /of/ /paths/ /has// /far/ //too/ ////many/ /forward// /slashes.txt]
       assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a))
