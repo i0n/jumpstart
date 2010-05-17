@@ -322,6 +322,12 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       a,b,c,d,e,f,g,h,i,j,k = '//this/', '//array///', nil, %w[/of/], '/paths/', %w[/has// /far/], nil, '//too/', nil, %w[////many/ /forward// /slashes.txt], "another_file.rb"
       assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
     end
+
+    should "return a valid path, even if too many files are specified and the supplied paths contain whitespace and line breaks" do
+      a,b,c,d,e,f,g,h,i,k = "//this/\n", '   //array///', nil, %w[/of/], '/paths/  ', %w[/has// /far/], nil, "//too/\n", nil, "another_file.rb"
+      j = ["////many/\n", "  /forward//  ", "\n  /slashes.txt\n\n\n"]
+      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
+    end
         
   end
   

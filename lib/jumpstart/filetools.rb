@@ -222,6 +222,11 @@ module JumpStart::FileTools
     source_file
   end
   
+  # Method for joining paths together. Paths can be supplied as a mixture of strings and arrays.
+  # If too many or not enough forward slashes are provided at the start/end of the paths, this will be corrected.
+  # Accidentally passing nil values mixed with strings/arrays will be corrected.
+  # Whitespace and line breaks mixed with the path will be corrected.
+  # If too many files (paths containing one or more '.' fullstops) are specified in the supplied paths, the first one that creates a path will be returned.
   def join_paths(*args)
     args.flatten!
     full_path = []
