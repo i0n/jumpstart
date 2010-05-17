@@ -205,7 +205,6 @@ module JumpStart
       end
     end
     
-    # TODO Look at refactoring to remove duplicate regex
     def populate_files_from_append_templates
       @append_templates.each do |x|
         new_name = x.sub(/_([lL]?)\._{1}/, '')
