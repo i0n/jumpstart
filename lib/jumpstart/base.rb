@@ -208,15 +208,17 @@ module JumpStart
     # TODO Look at refactoring to remove duplicate regex
     def populate_files_from_append_templates
       @append_templates.each do |x|
-        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x.sub(/_([lL]?)\._{1}/, '')))
-        FileUtils.append_to_end_of_file(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x.sub(/_([lL]?)\._{1}/, '')), JumpStart::Base.remove_last_line?(x))
+        new_name = x.sub(/_([lL]?)\._{1}/, '')
+        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, new_name))
+        FileUtils.append_to_end_of_file(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, new_name), JumpStart::Base.remove_last_line?(x))
       end
     end
     
     def populate_files_from_line_templates
       @line_templates.each do |x|
-        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x.sub(/_(\d+)\._{1}/, '')))
-        FileUtils.insert_text_at_line_number(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x.sub(/_(\d+)\._{1}/, '')), JumpStart::Base.get_line_number(x))
+        new_name = x.sub(/_(\d+)\._{1}/, '')
+        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, new_name))
+        FileUtils.insert_text_at_line_number(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, new_name), JumpStart::Base.get_line_number(x))
       end
     end
     
