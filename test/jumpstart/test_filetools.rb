@@ -285,7 +285,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
   
-  context "Testing JumpStart::FileUtils.join_paths class method.\n" do 
+  context "Testing JumpStart::FileUtils.join_paths class method.\n" do
+    
+    should "return the relative path passed to it unaltered." do
+      assert_equal("path/to/file.txt", FileUtils.join_paths("path/to/file.txt"))
+    end
+    
+    should "return the absolute path passed to it unaltered." do
+      assert_equal("/path/to/file.txt", FileUtils.join_paths("/path/to/file.txt"))
+    end
     
     should "return a valid path if too many forward slashes are entered as an array" do
       a = %w[this/ //array/// /of/ /paths/ /has// /far/ //too/ ////many/ /forward// /slashes.txt]
