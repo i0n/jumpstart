@@ -11,7 +11,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "insert specified line at line number 4 of target file" do
       FileUtils.append_after_line("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", "Line from check_source_type.txt. Line number: 3", "Inserted by append_after_line method test.")
       file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt")
-      assert_equal(4, (file.find_index("Inserted by append_after_line method test.\n").to_i + 1))
+      assert_equal 4, (file.find_index("Inserted by append_after_line method test.\n").to_i + 1)
     end
         
     should "fail because new line is not specified." do
@@ -35,7 +35,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "add the string passed in the method call to the specified file" do
       FileUtils.append_to_end_of_file("TEST LINE INSERTED", @file_path)
       file = IO.readlines(@file_path)
-      assert_equal(6, (file.find_index("TEST LINE INSERTED\n").to_i + 1))
+      assert_equal 6, (file.find_index("TEST LINE INSERTED\n").to_i + 1)
     end
 
     should "add the string passed in the method call to the specified file and remove the last line" do
@@ -43,14 +43,14 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       FileUtils.append_to_end_of_file("TEST LINE INSERTED", @file_path)
       FileUtils.append_to_end_of_file("TEST LINE INSERTED", @file_path, true)
       file = IO.readlines(@file_path)
-      assert_equal("TEST LINE INSERTED\n", file.last)
-      assert_equal(6, file.count)
+      assert_equal "TEST LINE INSERTED\n", file.last
+      assert_equal 6, file.count
     end
     
     should "add the contents of the file passed in the method call to the specified file" do
       FileUtils.append_to_end_of_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_source.txt", @file_path)
       file = IO.readlines(@file_path)
-      assert_equal(6, (file.find_index("TEST LINE INSERTED FROM FILE\n").to_i + 1))
+      assert_equal 6, (file.find_index("TEST LINE INSERTED FROM FILE\n").to_i + 1)
     end
 
     should "add the contents of the file passed in the method call to the specified file and remove the last line" do
@@ -58,8 +58,8 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       FileUtils.append_to_end_of_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_source.txt", @file_path)
       FileUtils.append_to_end_of_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_source.txt", @file_path, true)
       file = IO.readlines(@file_path)
-      assert_equal("TEST LINE INSERTED FROM FILE\n", file.last)
-      assert_equal(6, file.count)
+      assert_equal "TEST LINE INSERTED FROM FILE\n", file.last
+      assert_equal 6, file.count
     end
     
     should "fail because no target file is specified" do
@@ -83,15 +83,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "insert text from string into target file at line 3" do
       FileUtils.insert_text_at_line_number("TEST LINE INSERTED", @file_path, 3)
       file = IO.readlines(@file_path)
-      assert_equal("TEST LINE INSERTED\n", file[2])
-      assert_equal(5, file.count)
+      assert_equal "TEST LINE INSERTED\n", file[2]
+      assert_equal 5, file.count
     end
     
     should "insert text from source file into target file at line 2" do
       FileUtils.insert_text_at_line_number(@source_path, @file_path, 2)
       file = IO.readlines(@file_path)
-      assert_equal("TEST LINE INSERTED FROM FILE\n", file[1])
-      assert_equal(5, file.count)
+      assert_equal "TEST LINE INSERTED FROM FILE\n", file[1]
+      assert_equal 5, file.count
     end
     
     should "raise an exception if a line number is not passed to the method" do
@@ -143,15 +143,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "remove line 5 from the test file using the :lines argument" do
       FileUtils.remove_lines(@file_path, :lines => [5])
       file = IO.readlines(@file_path)
-      assert_equal(9, file.length)
-      assert_equal("6\n", file.fetch(4))
+      assert_equal 9, file.length
+      assert_equal "6\n", file.fetch(4)
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
     end
     
     should "remove lines 5 & 9 from the test file using the :lines argument" do
       FileUtils.remove_lines(@file_path, :lines => [1,10])
       file = IO.readlines(@file_path)
-      assert_equal(8, file.length)
+      assert_equal 8, file.length
       FileUtils.insert_text_at_line_number("1", @file_path, 1)
       FileUtils.insert_text_at_line_number("10", @file_path, 10)
     end
@@ -159,29 +159,29 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "remove line 5 from the test file using the :line argument" do
       FileUtils.remove_lines(@file_path, :line => 5)
       file = IO.readlines(@file_path)
-      assert_equal(9, file.length)
-      assert_equal("6\n", file.fetch(4))
+      assert_equal 9, file.length
+      assert_equal "6\n", file.fetch(4)
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
     end
     
     should "return an argument error as :lines and :line cannot be specified at the same time." do
-      assert_raise(ArgumentError) {FileUtils.remove_lines(@file_path, :line => 5, :lines => [6,7])}
+      assert_raises(ArgumentError) {FileUtils.remove_lines(@file_path, :line => 5, :lines => [6,7])}
     end
     
     should "remove line 5 from the test file using the :pattern argument" do
       FileUtils.remove_lines(@file_path, :pattern => "5")
       file = IO.readlines(@file_path)
-      assert_equal(9, file.length)
-      assert_equal("6\n", file.fetch(4))
+      assert_equal 9, file.length
+      assert_equal "6\n", file.fetch(4)
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
     end
     
     should "remove line 5 from the test file using the pattern argument, and remove line 9 from the file using the :line argument" do
       FileUtils.remove_lines(@file_path, :pattern => "5", :line => 9)
       file = IO.readlines(@file_path)
-      assert_equal(8, file.length)
-      assert_equal("6\n", file.fetch(4))
-      assert_equal("10\n", file.fetch(7))
+      assert_equal 8, file.length
+      assert_equal "6\n", file.fetch(4)
+      assert_equal "10\n", file.fetch(7)
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
       FileUtils.insert_text_at_line_number("9", @file_path, 9)
     end
@@ -189,10 +189,10 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "remove line 5 from the test file using the pattern argument, and remove line 9 from the file using the :lines argument" do
       FileUtils.remove_lines(@file_path, :pattern => "5", :lines => [8,9])
       file = IO.readlines(@file_path)
-      assert_equal(7, file.length)
-      assert_equal("6\n", file.fetch(4))
-      assert_equal("7\n", file.fetch(5))
-      assert_equal("10\n", file.fetch(6))
+      assert_equal 7, file.length
+      assert_equal "6\n", file.fetch(4)
+      assert_equal "7\n", file.fetch(5)
+      assert_equal "10\n", file.fetch(6)
       FileUtils.insert_text_at_line_number("5", @file_path, 5)
       FileUtils.insert_text_at_line_number("8", @file_path, 8)
       FileUtils.insert_text_at_line_number("9", @file_path, 9)
@@ -212,7 +212,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "copy nginx source file into target path" do
       FileUtils.config_nginx(@source_path, @target_path, @project_name)
       file = IO.readlines(@target_path)
-      assert_equal("LINE ADDED BY TEST\n", file[80])
+      assert_equal "LINE ADDED BY TEST\n", file[80]
     end
     
   end
@@ -228,12 +228,11 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "add line for test_project.local to hosts_test file" do
       FileUtils.config_hosts(@target_path, @project_name)
       file = IO.readlines(@target_path)
-      assert_equal("127.0.0.1 test_project.local\n", file[10])
+      assert_equal "127.0.0.1 test_project.local\n", file[10]
     end
     
   end
 
-  # TODO Come back to testing this method when I have looked at Capistrano template creation and value replacement.
   context "Testing JumpStart::FileUtils.replace_strings class method.\n" do
     
     setup do
@@ -249,9 +248,9 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     should "replace strings with replace_strings method" do
       FileUtils.replace_strings(@target_file, :app_name => 'test_app', :REMOTE_SERVER => 'remote_box')
       file = IO.readlines(@target_file)
-      assert_equal("set :application, 'test_app'\n", file[0])
-      assert_equal("set :domain, 'remote_box'\n", file[1])
-      assert_equal("run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44])
+      assert_equal "set :application, 'test_app'\n", file[0]
+      assert_equal "set :domain, 'remote_box'\n", file[1]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44]
     end
     
   end
@@ -259,11 +258,11 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   context "Testing JumpStart::FileUtils.check_source_type class method.\n" do
     
     should "return source as a string" do
-      assert_equal("source_as_a_string", FileUtils.check_source_type("source_as_a_string"))
+      assert_equal "source_as_a_string", FileUtils.check_source_type("source_as_a_string")
     end
     
     should "return source as an array" do
-      assert_equal(["Line from check_source_type.txt. Line number: 1\n",
+      assert_equal ["Line from check_source_type.txt. Line number: 1\n",
        "Line from check_source_type.txt. Line number: 2\n",
        "Line from check_source_type.txt. Line number: 3\n",
        "Line from check_source_type.txt. Line number: 4\n",
@@ -272,15 +271,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
        "Line from check_source_type.txt. Line number: 7\n",
        "Line from check_source_type.txt. Line number: 8\n",
        "Line from check_source_type.txt. Line number: 9\n",
-       "Line from check_source_type.txt. Line number: 10"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type.txt"))
+       "Line from check_source_type.txt. Line number: 10"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type.txt")
     end
     
     should "return source as an array, even without a file extension." do
-      assert_equal(["Line from check_source_type.txt. Line number: 1\n",
+      assert_equal ["Line from check_source_type.txt. Line number: 1\n",
        "Line from check_source_type.txt. Line number: 2\n",
        "Line from check_source_type.txt. Line number: 3\n",
        "Line from check_source_type.txt. Line number: 4\n",
-       "Line from check_source_type.txt. Line number: 5"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type"))
+       "Line from check_source_type.txt. Line number: 5"], FileUtils.check_source_type("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/check_source_type")
     end
     
   end
@@ -288,63 +287,63 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   context "Testing JumpStart::FileUtils.join_paths class method.\n" do
     
     should "return the relative path passed to it unaltered." do
-      assert_equal("path/to/file.txt", FileUtils.join_paths("path/to/file.txt"))
+      assert_equal "path/to/file.txt", FileUtils.join_paths("path/to/file.txt")
     end
     
     should "return the absolute path passed to it unaltered." do
-      assert_equal("/path/to/file.txt", FileUtils.join_paths("/path/to/file.txt"))
+      assert_equal "/path/to/file.txt", FileUtils.join_paths("/path/to/file.txt")
     end
     
     should "return the path even if it is passed as a variable" do
       string = "/path/to/file.txt"
-      assert_equal(string, FileUtils.join_paths(string))
+      assert_equal string, FileUtils.join_paths(string)
     end
     
     should "return a valid path if too many forward slashes are entered as an array" do
       a = %w[this/ //array/// /of/ /paths/ /has// /far/ //too/ ////many/ /forward// /slashes.txt]
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a))
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a)
     end
 
     should "return a valid path if too many forward slashes are entered as strings" do
       a,b,c,d,e,f,g,h,i,j = 'this/', '//array///', '/of/', '/paths/', '/has//', '/far/', '//too/', '////many/', '/forward//', '/slashes.txt'
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j)
     end
     
     should "return a valid path if paths are missing forward slashes and entered as an array" do
       a = %w[this array of paths has far too many forward slashes.txt]
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a))      
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a)
     end
 
     should "return a valid path if paths are passed as strings and have no forward slashes" do
       a,b,c,d,e,f,g,h,i,j = 'this', 'array', 'of', 'paths', 'has', 'far', 'too', 'many', 'forward', 'slashes.txt'
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j)
     end
 
     should "return a valid path some paths have too many forward slashes and some don't. Some arguments are passed in arrays, some as strings" do
       a,b,c,d,e,f,g = 'this/', '//array///', %w[/of/], '/paths/', %w[/has// /far/], '//too/', %w[////many/ /forward// /slashes.txt]
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g))
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g)
     end
     
     should "return a valid path some paths have too many forward slashes and some don't. Some arguments are passed in arrays, some as strings, mixed with nil values" do
       a,b,c,d,e,f,g,h,i,j = 'this/', '//array///', nil, %w[/of/], '/paths/', %w[/has// /far/], nil, '//too/', nil, %w[////many/ /forward// /slashes.txt]
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j))
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j)
     end
     
     should "return a valid path, even if too many files are specified" do
       a,b,c,d,e,f,g,h,i,j,k = 'this/', '//array///', nil, %w[/of/], '/paths/', %w[/has// /far/], nil, '//too/', nil, %w[////many/ /forward// /slashes.txt], "another_file.rb"
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k)
     end
 
     should "return a valid path, even if too many files are specified and the supplied paths contain whitespace and line breaks" do
       a,b,c,d,e,f,g,h,i,k = "this/\n", '   //array///', nil, %w[/of/], '/paths/  ', %w[/has// /far/], nil, "//too/\n", nil, "another_file.rb"
       j = ["////many/\n", "  /forward//  ", "\n  /slashes.txt\n\n\n"]
-      assert_equal("this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))      
+      assert_equal "this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k)
     end
     
     should "return an absolute path" do
       a,b,c,d,e,f,g,h,i,k = "///this/\n", '   //array///', nil, %w[/of/], '/paths/  ', %w[/has// /far/], nil, "//too/\n", nil, "another_file.rb"
       j = ["////many/\n", "  /forward//  ", "\n  /slashes.txt\n\n\n"]
-      assert_equal("/this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k))            
+      assert_equal "/this/array/of/paths/has/far/too/many/forward/slashes.txt", FileUtils.join_paths(a,b,c,d,e,f,g,h,i,j,k)
     end
         
   end

@@ -28,7 +28,7 @@ module JumpStart
       puts
       puts
       lookup_existing_projects
-      check_project_name
+      check_project_name(@project_name)
       check_template_name
       check_install_paths
       create_project
@@ -55,16 +55,18 @@ module JumpStart
       end
     end
     
-    def check_project_name
-      if @project_name.nil? || @project_name.empty?
+    def check_project_name(project_name)
+      if project_name.nil? || project_name.empty?
         puts
         puts "Enter a name for your project."
-        @project_name = gets.chomp
-        if @project_name.length < 3
+        project_name = gets.chomp
+        if project_name.length < 3
           puts
           puts "The name of your project must be at least 3 characters long."
-          check_project_name
+          check_project_name(project_name)
         end
+      else
+        project_name
       end
     end
     

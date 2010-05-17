@@ -23,31 +23,33 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
       
       should "run intialize method and set instance variables" do
-        @test_project = JumpStart::Base.new(["test_jumpstart_project"])
+        assert_equal "test_jumpstart_project", @test_project.project_name
+        assert_equal "test_template_1", @test_project.template_name
+        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.template_name}/jumpstart_config/#{@test_project.template_name}.yml"), @test_project.config_file
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path
+        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1", @test_project.template_path
       end
-      
-    end
-
-    context "Tests for the JumpStart::Base#start instance method. \n" do
-      
-      should "run start method" do
-
-      end    
       
     end
 
     context "Tests for the JumpStart::Base#lookup_existing_projects instance method. \n" do
       
-      should "run lookup_existing_projects method" do
-
+      should "run lookup_existing_projects method and return an array of existing templates" do
+        @test_project.lookup_existing_projects
+        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.existing_projects
       end
       
     end
 
     context "Tests for the JumpStart::Base#check_project_name instance method. \n" do
       
-      should "run check_project_name method" do
-
+      should "return the project name unchanged and without errors" do
+        assert_equal @test_project.project_name, @test_project.check_project_name(@test_project.project_name)
+      end
+      
+      should "ask for a project name at least 3 characters long." do
+        # @test_project.check_project_name("hi")
+        # assert_equal "\nEnter a name for your project.", $stdout.puts
       end
       
     end
@@ -155,7 +157,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         ["/file_with_extension.txt", "/file_without_extension"].each do |x| 
           FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files#{x}")
         end
-        assert(@test_project.remove_unwanted_files)
+        assert @test_project.remove_unwanted_files 
       end
             
     end
@@ -163,30 +165,30 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method.\n" do
             
       should "run run_scripts_from_yaml method with the contents of :run_after_install_command symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
-        assert_nil(@test_project.run_scripts_from_yaml(:run_after_install_command))
+        assert_nil @test_project.run_scripts_from_yaml(:run_after_install_command)
       end
       
       should "run the :run_after_install_command symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-        assert_equal(["echo \"run after install command\""], @test_project.run_scripts_from_yaml(:run_after_install_command))
+        assert_equal ["echo \"run after install command\""], @test_project.run_scripts_from_yaml(:run_after_install_command)
       end
       
       should "run run_scripts_from_yaml method with the contents of :run_after_jumpstart symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
-        assert_nil(@test_project.run_scripts_from_yaml(:run_after_jumpstart))
+        assert_nil @test_project.run_scripts_from_yaml(:run_after_jumpstart)
       end
       
       should "run the :run_after_jumpstart symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-        assert_equal(["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.run_scripts_from_yaml(:run_after_jumpstart))
+        assert_equal ["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.run_scripts_from_yaml(:run_after_jumpstart)
       end
       
       should "return nil if a symbol that is not specified in YAML is passed as an argument and the install directory does not exist" do
-        assert_nil(@test_project.run_scripts_from_yaml(:this_section_does_not_exist))
+        assert_nil @test_project.run_scripts_from_yaml(:this_section_does_not_exist)
       end
       
       should "return nil if a symbol that is not specified in the YAML is passed as an argument and the install directory has been created" do
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-        assert_nil(@test_project.run_scripts_from_yaml(:this_section_does_not_exist))
+        assert_nil @test_project.run_scripts_from_yaml(:this_section_does_not_exist)
       end
               
     end
@@ -194,24 +196,24 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base.get_line_number class method.\n" do
       
       should "return line number as 1" do
-        assert_equal(1, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_1._test_file1.txt"))
+        assert_equal 1, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_1._test_file1.txt")
       end
       
       should "return line number as 10" do
-        assert_equal(10, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_10._test_file2.txt"))
+        assert_equal 10, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_10._test_file2.txt")
       end
       
       should "return line number as 99999" do
-        assert_equal(99999, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_99999._test_file3.txt"))
+        assert_equal 99999, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_99999._test_file3.txt")
       end
       
       should "return line number as 0" do
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file"))
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file.txt"))
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file_.txt"))
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file5.txt"))
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file_.6txt"))
-        assert_equal(0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_a._test_file4.txt"))
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file")
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file.txt")
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_._test_file_.txt")
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file5.txt")
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/test_file_.6txt")
+        assert_equal 0, JumpStart::Base.get_line_number("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_base/_a._test_file4.txt")
       end
         
     end
@@ -219,31 +221,26 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base.remove_last_line? class method.\n" do
             
       should "return false" do
-        refute(JumpStart::Base.remove_last_line?("/path/to/file.txt"))
-        refute(JumpStart::Base.remove_last_line?("/path/to/_._file.txt"))
-        refute(JumpStart::Base.remove_last_line?("_.__file.txt"))
-        refute(JumpStart::Base.remove_last_line?("/path/to/_R._file.txt"))
-        refute(JumpStart::Base.remove_last_line?("/path/to/_.1_file.txt"))
-        refute(JumpStart::Base.remove_last_line?("/path/to/_1._file.txt"))
-        refute(JumpStart::Base.remove_last_line?("/path/to/_111._file.txt"))
+        refute JumpStart::Base.remove_last_line?("/path/to/file.txt")
+        refute JumpStart::Base.remove_last_line?("/path/to/_._file.txt")
+        refute JumpStart::Base.remove_last_line?("_.__file.txt")
+        refute JumpStart::Base.remove_last_line?("/path/to/_R._file.txt")
+        refute JumpStart::Base.remove_last_line?("/path/to/_.1_file.txt")
+        refute JumpStart::Base.remove_last_line?("/path/to/_1._file.txt")
+        refute JumpStart::Base.remove_last_line?("/path/to/_111._file.txt")
       end
       
       should "return true" do
-        assert(JumpStart::Base.remove_last_line?("/path/to/_L._file.txt"))
-        assert(JumpStart::Base.remove_last_line?("_L._file.txt"))
-        assert(JumpStart::Base.remove_last_line?("/path/to/_l._file.txt"))
-        assert(JumpStart::Base.remove_last_line?("_l._file.txt"))
+        assert JumpStart::Base.remove_last_line?("/path/to/_L._file.txt")
+        assert JumpStart::Base.remove_last_line?("_L._file.txt")
+        assert JumpStart::Base.remove_last_line?("/path/to/_l._file.txt")
+        assert JumpStart::Base.remove_last_line?("_l._file.txt")
       end
       
     end 
      
     context "Tests for initializing and running JumpStart instances\n" do
      
-      should "be able to create a new jumpstart with no arguments" do
-        @test_project = JumpStart::Base.new([])
-        refute_nil(@test_project)
-      end
-
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do
 
         setup do
@@ -252,54 +249,54 @@ class TestJumpstartBase < Test::Unit::TestCase
         end
 
         should "be able to create a new jumpstart with the project name as the first argument" do
-          refute_nil(@test_project)
+          refute_nil @test_project
         end
 
         should "have set @project_name variable to 'test_jumpstart_project'" do
-          assert_equal("test_jumpstart_project", @test_project.project_name)
+          assert_equal "test_jumpstart_project", @test_project.project_name
         end
 
         should "have set @template_name variable to 'test_template_1'" do
-          assert_equal("test_template_1", @test_project.template_name)
+          assert_equal "test_template_1", @test_project.template_name
         end
 
         should "have set @install_path to 'ROOT_PATH/test/destination_dir'" do
-          assert_equal("#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path)
+          assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path
         end
 
         should "generate a test project in ROOT_PATH/test/destination_dir/test_jumpstart_project with the test_template_1 template" do
           @test_project.start
-          assert(Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_with_extension.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_without_extension"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_1.rb"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_2.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt"))
-          refute(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt"))
-          assert(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt"))
-          refute(File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt"))
+          assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_with_extension.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_whole_file_without_extension")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_1.rb")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_2.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
+          refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
+          assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
+          refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
         end
 
         should "remove last lines from files and append template info" do
           @test_project.start
-          file_1 =  IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
-          file_2 =  IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
-          assert_equal("THIS IS THE LAST LINE\n", file_1[9])
-          assert_equal("THIS IS THE LAST LINE\n", file_2[9])
-          assert_equal("9\n", file_1[8])
-          assert_equal("9\n", file_2[8])
-          refute(file_1[10])
-          refute(file_2[10])
+          file_1 = IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
+          file_2 = IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
+          assert_equal "THIS IS THE LAST LINE\n", file_1[9]
+          assert_equal "THIS IS THE LAST LINE\n", file_2[9]
+          assert_equal "9\n", file_1[8]
+          assert_equal "9\n", file_2[8]
+          refute file_1[10]
+          refute file_2[10]
         end
       
       end
