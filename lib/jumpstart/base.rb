@@ -44,7 +44,7 @@ module JumpStart
     
     def start
       puts "\n******************************************************************************************************************************************\n\n"
-      puts "JumpStarting....\n".yellow
+      puts "JumpStarting....\n".purple
       lookup_existing_projects
       check_project_name
       check_template_name
@@ -79,7 +79,7 @@ module JumpStart
         @project_name = gets.chomp
         check_project_name
       elsif @project_name.length < 3
-        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".red
+        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".yellow
         @project_name = gets.chomp
         check_project_name
       else
@@ -92,7 +92,7 @@ module JumpStart
         jumpstart_options
       else
         unless @existing_projects.include? @template_name
-          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".green + ") / no (" + "n".red + ")?\n"
+          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".yellow + ") / no (" + "n".yellow + ")?\n"
           input = gets.chomp
           if input == "yes" || input == "y"
             puts "creating JumpStart template #{@template_name}"
@@ -106,7 +106,7 @@ module JumpStart
     
     def create_template
       if Dir.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name))
-        puts "\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)} already exists. The template will not be created."
+        puts "\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name).red} already exists. The template will not be created."
         exit_jumpstart
       else
         FileUtils.mkdir_p(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config"))
@@ -122,7 +122,7 @@ module JumpStart
       global_options = {'c' => 'config'}
       templates = {}
       puts "******************************************************************************************************************************************\n"
-      puts "jumpstart options!\n".yellow
+      puts "jumpstart options!\n".purple
       puts "What would you like to do?"
       puts "To run an existing jumpstart enter it's number or it's name.\n"
       count = 0
@@ -151,7 +151,7 @@ module JumpStart
     def configure_jumpstart
       # TODO Define configure_jumpstart method
       puts "******************************************************************************************************************************************\n"
-      puts "jumpstart configuration.\n"
+      puts "jumpstart configuration.\n".purple
       
       # This should be removed when method is finished.
       exit_jumpstart
@@ -168,7 +168,7 @@ module JumpStart
       end
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
-        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_jumpstart
       end
     end
@@ -270,7 +270,7 @@ module JumpStart
             system "#{x}"
           end
         rescue
-          puts "\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name).red}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name.to_s.red} until it can change into the new projects home directory."
+          puts "\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name).red}.\nIn the interest of safety JumpStart will NOT run any YAML scripts from #{script_name.to_s.red_bold} until it can change into the new projects home directory."
         end
       end
     end
@@ -307,7 +307,7 @@ module JumpStart
     end
     
     def exit_jumpstart
-      puts "\n\nExiting JumpStart...".yellow
+      puts "\n\nExiting JumpStart...".purple
       puts "Goodbye!\n"
       puts "******************************************************************************************************************************************\n"
       exit

@@ -85,7 +85,7 @@ module JumpStart::FileTools
     elsif args[:lines] != nil && args[:line] != nil
       puts
       puts "You have used an incorrect syntax for the FileUtils.remove_lines method.".red
-      puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time.".red
+      puts "You have specified a" + " :line".red_bold + " argument at the same time as a " + ":lines".red_bold + " argument, only one can be used at a time."
       raise ArgumentError
     end
     if args[:pattern] != nil then
@@ -186,7 +186,7 @@ module JumpStart::FileTools
         puts          
       else
         puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?".yellow
-        puts "Type yes (" + "y".green + ") or no (" + "n".red + ")"
+        puts "Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")"
         puts
         input = gets.chomp
         if input == "yes" || input == "y"
