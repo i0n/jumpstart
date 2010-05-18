@@ -268,7 +268,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
         @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
         @test_project.check_for_strings_to_replace
-        assert_equal("\nChecking for strings to replace inside files...\n\nTarget file: \e[1m\e[32m/test/replace_strings.txt\e[0m\nStrings to replace:\n\nKey:    \e[1m\e[32mjam\e[0m\nValue:  \e[1m\e[32mstrawberry\e[0m\n\nKey:    \e[1m\e[32mcity\e[0m\nValue:  \e[1m\e[32mlondon\e[0m\n\n\n", @test_project.output.string)
+        assert_equal("\nChecking for strings to replace inside files...\n\nTarget file: \e[32m/test/replace_strings.txt\e[0m\nStrings to replace:\n\nKey:    \e[32mjam\e[0m\nValue:  \e[32mstrawberry\e[0m\n\nKey:    \e[32mcity\e[0m\nValue:  \e[32mlondon\e[0m\n\n\n", @test_project.output.string)
       end
       
       should "return false if @replace_strings is empty." do

@@ -24,12 +24,41 @@ module FileUtils
 end
 
 class String
+    
   def red; colorize(self, "\e[1m\e[31m"); end
-  def green; colorize(self, "\e[1m\e[32m"); end
-  def dark_green; colorize(self, "\e[32m"); end
+  def green; colorize(self, "\e[32m"); end
+  def green_bold; colorize(self, "\e[1m\e[32m"); end
   def yellow; colorize(self, "\e[1m\e[33m"); end
-  def blue; colorize(self, "\e[1m\e[34m"); end
-  def dark_blue; colorize(self, "\e[34m"); end
+  def blue; colorize(self, "\e[34m"); end
+  def blue_bold; colorize(self, "\e[1m\e[34m"); end
   def purple; colorize(self, "\e[1m\e[35m"); end
   def colorize(text, color_code)  "#{color_code}#{text}\e[0m" end
+  
+  # Codes for changing output text:
+
+  # 0   Turn off all attributes
+  # 1   Set bright mode
+  # 4   Set underline mode
+  # 5   Set blink mode
+  # 7   Exchange foreground and background colors
+  # 8   Hide text (foreground color would be the same as background)
+  # 30  Black text
+  # 31  Red text
+  # 32  Green text
+  # 33  Yellow text
+  # 34  Blue text
+  # 35  Magenta text
+  # 36  Cyan text
+  # 37  White text
+  # 39  Default text color
+  # 40  Black background
+  # 41  Red background
+  # 42  Green background
+  # 43  Yellow background
+  # 44  Blue background
+  # 45  Magenta background
+  # 46  Cyan background
+  # 47  White background
+  # 49  Default background color
+      
 end
