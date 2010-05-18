@@ -30,12 +30,8 @@ module JumpStart
     end
     
     def start
-      puts
-      puts "******************************************************************************************************************************************"
-      puts
-      puts "JumpStarting...."
-      puts
-      puts
+      puts "\n******************************************************************************************************************************************\n"
+      puts "JumpStarting....\n\n"
       lookup_existing_projects
       check_project_name
       check_template_name
@@ -112,23 +108,18 @@ module JumpStart
     def jumpstart_options
       global_options = {'c' => 'config'}
       templates = {}
-      puts "******************************************************************************************************************************************"
-      puts
-      puts "jumpstart options!"
-      puts
+      puts "******************************************************************************************************************************************\n"
+      puts "jumpstart options!\n"
       puts "What would you like to do?"
-      puts "To run an existing jumpstart enter it's number or it's name."
-      puts
+      puts "To run an existing jumpstart enter it's number or it's name.\n"
       count = 0
       @existing_projects.each do |x|
         count += 1
         templates[count.to_s] = x
         puts "#{count}: #{x}"
       end
-      puts
-      puts "To create a new jumpstart enter a name for it."
-      puts
-      puts "To view/set jumpstart configuration options type 'config' or 'c'."
+      puts "\nTo create a new jumpstart enter a name for it."
+      puts "\nTo view/set jumpstart configuration options type 'config' or 'c'."
       input = gets.chomp
       global_options.each do |x,y|
         if input == 'c' || input == 'config'
@@ -146,10 +137,8 @@ module JumpStart
         
     def configure_jumpstart
       # TODO Define configure_jumpstart method
-      puts "******************************************************************************************************************************************"
-      puts
-      puts "jumpstart configuration."
-      puts
+      puts "******************************************************************************************************************************************\n"
+      puts "jumpstart configuration.\n"
       
       # This should be removed when method is finished.
       exit_jumpstart
@@ -160,8 +149,7 @@ module JumpStart
         begin
           Dir.chdir(x)
         rescue
-          puts
-          puts "The directory #{x} could not be found, or you do not have the correct permissions to access it."
+          puts "\nThe directory #{x} could not be found, or you do not have the correct permissions to access it."
           exit_jumpstart
         end
       end
@@ -265,34 +253,26 @@ module JumpStart
         begin
           Dir.chdir("#{@install_path}/#{@project_name}")
           @config_file[script_name].each do |x|
-            puts
-            puts "Executing command: #{x}"
+            puts "\nExecuting command: #{x}"
             system "#{x}"
           end
         rescue
-          puts
-          puts "Could not access the directory #{FileUtils.join_paths(@install_path, @project_name)}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
+          puts "\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name)}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
         end
       end
     end
     
     def check_for_strings_to_replace
       unless @replace_strings.nil?
-        puts
-        puts "Checking for strings to replace inside files..."
-        puts
+        puts "\nChecking for strings to replace inside files...\n"
         @replace_strings.each do |file|
-          puts "Target file: #{file[:target_path]}"
-          puts
-          puts "Strings to replace:"
-          puts
+          puts "Target file: #{file[:target_path]}\n"
+          puts "Strings to replace:\n"
           check_replace_string_pairs_for_project_name_sub(file[:symbols])
           file[:symbols].each do |x,y|
             puts "Key:    #{x}"
-            puts "Value:  #{y}"
-            puts
+            puts "Value:  #{y}\n"
           end
-          puts
           puts
           path = FileUtils.join_paths(@install_path, @project_name, file[:target_path])
           FileUtils.replace_strings(path, file[:symbols])
@@ -311,13 +291,9 @@ module JumpStart
     end
     
     def exit_jumpstart
-      puts
-      puts
-      puts "Exiting JumpStart..."
-      puts "Goodbye!"
-      puts
-      puts "******************************************************************************************************************************************"
-      puts
+      puts "\n\nExiting JumpStart..."
+      puts "Goodbye!\n"
+      puts "******************************************************************************************************************************************\n"
       exit
     end
     
