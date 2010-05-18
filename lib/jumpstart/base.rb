@@ -1,7 +1,7 @@
 module JumpStart
   class Base
     
-    attr_accessor :input, :output, :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options
+    attr_accessor :input, :output, :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
     attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     def puts(*args)
@@ -275,7 +275,9 @@ module JumpStart
     end
     
     def check_for_strings_to_replace
-      unless @replace_strings.nil?
+      if @replace_strings.nil? || @replace_strings.empty?
+        false
+      else
         puts "\nChecking for strings to replace inside files...\n"
         @replace_strings.each do |file|
           puts "Target file: #{file[:target_path]}\n"

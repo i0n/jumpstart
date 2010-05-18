@@ -250,9 +250,30 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
     
     context "Tests for the JumpStart::#check_for_strings_to_replace instance method.\n" do
+
+      setup do
+        @output = StringIO.new
+        @test_project.output = @output
+      end
       
-      should "" do
-        
+      should "return true if @replace_strings array contains hash data that is formatted correctly" do
+        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
+        FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
+        @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
+        assert(@test_project.check_for_strings_to_replace)
+      end
+      
+      should "output message if data formatted correctly" do
+        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
+        FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
+        @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
+        @test_project.check_for_strings_to_replace
+        assert_equal("\nChecking for strings to replace inside files...\nTarget file: /test/replace_strings.txt\nStrings to replace:\nKey:    jam\nValue:  strawberry\nKey:    city\nValue:  london\n\n", @test_project.output.string)
+      end
+      
+      should "return false if @replace_strings is empty." do
+        @test_project.replace_strings = []
+        refute(@test_project.check_for_strings_to_replace)
       end
       
     end
