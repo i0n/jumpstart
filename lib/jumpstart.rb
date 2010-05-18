@@ -3,6 +3,7 @@ require 'find'
 require 'fileutils'
 require 'yaml'
 
+# TODO Test this under Windows.
 begin
   require 'Win32/Console/ANSI' if RUBY_PLATFORM =~ /win32/
 rescue LoadError
