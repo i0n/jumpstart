@@ -3,6 +3,12 @@ require 'find'
 require 'fileutils'
 require 'yaml'
 
+begin
+  require 'Win32/Console/ANSI' if RUBY_PLATFORM =~ /win32/
+rescue LoadError
+  raise 'You must gem install win32console to use color on Windows'
+end
+
 module JumpStart
   
   ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
