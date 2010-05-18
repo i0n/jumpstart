@@ -43,7 +43,7 @@ class String
   # 4   Set underline mode
   # 5   Set blink mode
   # 7   Exchange foreground and background colors
-  # 8   Hide text (foreground color would be the same as background)
+  # 8   Hide text (foreground colour would be the same as background)
   # 30  Black text
   # 31  Red text
   # 32  Green text
@@ -52,7 +52,7 @@ class String
   # 35  Magenta text
   # 36  Cyan text
   # 37  White text
-  # 39  Default text color
+  # 39  Default text colour
   # 40  Black background
   # 41  Red background
   # 42  Green background
@@ -61,6 +61,6 @@ class String
   # 45  Magenta background
   # 46  Cyan background
   # 47  White background
-  # 49  Default background color
+  # 49  Default background colour
       
 end
