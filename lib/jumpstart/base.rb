@@ -300,6 +300,7 @@ module JumpStart
           end
         end
       end
+      hash
     end
     
     def exit_jumpstart

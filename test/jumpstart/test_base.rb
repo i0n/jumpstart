@@ -259,8 +259,37 @@ class TestJumpstartBase < Test::Unit::TestCase
 
     context "Tests for the JumpStart::#check_replace_string_pairs_for_project_name_sub instance method.\n" do
 
-      should "" do
-        
+      should "find :project_name symbol and return @project_name" do
+        @values = {:project_name => "some_random_name"}
+        @test_project.check_replace_string_pairs_for_project_name_sub(@values)
+        assert_equal "test_jumpstart_project", @values[:project_name]
+      end
+      
+      should "change values hash as it contains :project_name symbol" do
+        @values = {:project_name => "some_random_name"}
+        assert_equal({:project_name => "test_jumpstart_project"}, @test_project.check_replace_string_pairs_for_project_name_sub(@values))
+      end
+      
+      should "treat all other symbols normally and not replace anything" do
+        @values = {:womble => "uncle_bulgaria", :jam => "strawberry", :city => "london"}
+        @test_project.check_replace_string_pairs_for_project_name_sub(@values)
+        assert_equal "uncle_bulgaria", @values[:womble]
+        assert_equal "strawberry", @values[:jam]
+        assert_equal "london", @values[:city]
+      end
+      
+      should "find :project_name symbol even if it is mixed with other symbols which should return unchanged" do
+        @values = {:womble => "uncle_bulgaria", :jam => "strawberry", :project_name => "some_random_name", :city => "london"}
+        @test_project.check_replace_string_pairs_for_project_name_sub(@values)
+        assert_equal "uncle_bulgaria", @values[:womble]
+        assert_equal "strawberry", @values[:jam]
+        assert_equal "london", @values[:city]
+        assert_equal "test_jumpstart_project", @values[:project_name]
+      end
+      
+      should "return hash even if it is empty" do
+        @values = {}
+        assert_equal @values, @test_project.check_replace_string_pairs_for_project_name_sub(@values)
       end
       
     end
