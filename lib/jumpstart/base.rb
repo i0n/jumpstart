@@ -41,9 +41,10 @@ module JumpStart
     
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if DEFAULT_TEMPLATE_NAME exists then the command is launched without any menu display.
+    
     def start
-      puts "\n******************************************************************************************************************************************\n"
-      puts "JumpStarting....\n\n"
+      puts "\n******************************************************************************************************************************************\n\n"
+      puts "JumpStarting....\n".yellow
       lookup_existing_projects
       check_project_name
       check_template_name
@@ -74,11 +75,11 @@ module JumpStart
     
     def check_project_name
       if @project_name.nil? || @project_name.empty?
-        puts "\nEnter a name for your project."
+        puts "\nEnter a name for your project.".yellow
         @project_name = gets.chomp
         check_project_name
       elsif @project_name.length < 3
-        puts "\nThe name of your project must be at least 3 characters long."
+        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".red
         @project_name = gets.chomp
         check_project_name
       else
@@ -91,7 +92,7 @@ module JumpStart
         jumpstart_options
       else
         unless @existing_projects.include? @template_name
-          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?\n"
+          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".green + ") / no (" + "n".red + ")?\n"
           input = gets.chomp
           if input == "yes" || input == "y"
             puts "creating JumpStart template #{@template_name}"
@@ -113,7 +114,7 @@ module JumpStart
         File.open(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
           file.puts yaml
         end
-        puts "The template has been generated.\n"
+        puts "The template #{@template_name.green} has been generated.\n"
       end
     end
     
@@ -121,7 +122,7 @@ module JumpStart
       global_options = {'c' => 'config'}
       templates = {}
       puts "******************************************************************************************************************************************\n"
-      puts "jumpstart options!\n"
+      puts "jumpstart options!\n".yellow
       puts "What would you like to do?"
       puts "To run an existing jumpstart enter it's number or it's name.\n"
       count = 0
@@ -131,7 +132,7 @@ module JumpStart
         puts "#{count}: #{x}"
       end
       puts "\nTo create a new jumpstart enter a name for it."
-      puts "\nTo view/set jumpstart configuration options type 'config' or 'c'."
+      puts "\nTo view/set jumpstart configuration options type " + "config".yellow + " or " + "c".yellow + "."
       input = gets.chomp
       global_options.each do |x,y|
         if input == 'c' || input == 'config'
@@ -161,13 +162,13 @@ module JumpStart
         begin
           Dir.chdir(x)
         rescue
-          puts "\nThe directory #{x} could not be found, or you do not have the correct permissions to access it."
+          puts "\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it."
           exit_jumpstart
         end
       end
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
-        puts "The directory #{FileUtils.join_paths(@install_path, @project_name)} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists. As this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_jumpstart
       end
     end
@@ -175,7 +176,7 @@ module JumpStart
     def create_project
       Dir.chdir(@install_path)
       unless @install_command.nil?
-        puts "Executing command: #{@install_command} #{@project_name}"
+        puts "Executing command: #{@install_command.green} #{@project_name.green}"
         system "#{@install_command} #{@project_name}"
       end
     end
@@ -265,11 +266,11 @@ module JumpStart
         begin
           Dir.chdir("#{@install_path}/#{@project_name}")
           @config_file[script_name].each do |x|
-            puts "\nExecuting command: #{x}"
+            puts "\nExecuting command: #{x.green}"
             system "#{x}"
           end
         rescue
-          puts "\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name)}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name} until it can change into the new projects home directory."
+          puts "\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name).red}. In the interest of safety JumpStart will NOT run any YAML scripts from #{script_name.to_s.red} until it can change into the new projects home directory."
         end
       end
     end
@@ -278,16 +279,16 @@ module JumpStart
       if @replace_strings.nil? || @replace_strings.empty?
         false
       else
-        puts "\nChecking for strings to replace inside files...\n"
+        puts "\nChecking for strings to replace inside files...\n\n"
         @replace_strings.each do |file|
-          puts "Target file: #{file[:target_path]}\n"
-          puts "Strings to replace:\n"
+          puts "Target file: #{file[:target_path].green}\n"
+          puts "Strings to replace:\n\n"
           check_replace_string_pairs_for_project_name_sub(file[:symbols])
           file[:symbols].each do |x,y|
-            puts "Key:    #{x}"
-            puts "Value:  #{y}\n"
+            puts "Key:    #{x.to_s.green}"
+            puts "Value:  #{y.to_s.green}\n\n"
           end
-          puts
+          puts "\n"
           path = FileUtils.join_paths(@install_path, @project_name, file[:target_path])
           FileUtils.replace_strings(path, file[:symbols])
         end
@@ -306,7 +307,7 @@ module JumpStart
     end
     
     def exit_jumpstart
-      puts "\n\nExiting JumpStart..."
+      puts "\n\nExiting JumpStart...".yellow
       puts "Goodbye!\n"
       puts "******************************************************************************************************************************************\n"
       exit

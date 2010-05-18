@@ -67,12 +67,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         
         should "ask the user to provide a longer project name" do
           @test_project.check_project_name
-          assert_equal "\nThe name of your project must be at least 3 characters long.\n", @test_project.output.string
+          assert_equal "\e[1m\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n", @test_project.output.string
         end
         
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
           @test_project.check_project_name
-          assert_equal "\nThe name of your project must be at least 3 characters long.\n", @test_project.output.string
+          assert_equal "\e[1m\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n", @test_project.output.string
           assert_equal "testo", @test_project.check_project_name
         end
                                 
@@ -90,12 +90,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
           @test_project.check_project_name
-          assert_equal "\nEnter a name for your project.\n", @test_project.output.string
+          assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil and then set it when a name of at least 3 characters is provided" do
           @test_project.check_project_name
-          assert_equal "\nEnter a name for your project.\n", @test_project.output.string
+          assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
           assert_equal "testorama", @test_project.check_project_name
         end
         
@@ -268,7 +268,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
         @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
         @test_project.check_for_strings_to_replace
-        assert_equal("\nChecking for strings to replace inside files...\nTarget file: /test/replace_strings.txt\nStrings to replace:\nKey:    jam\nValue:  strawberry\nKey:    city\nValue:  london\n\n", @test_project.output.string)
+        assert_equal("\nChecking for strings to replace inside files...\n\nTarget file: \e[1m\e[32m/test/replace_strings.txt\e[0m\nStrings to replace:\n\nKey:    \e[1m\e[32mjam\e[0m\nValue:  \e[1m\e[32mstrawberry\e[0m\n\nKey:    \e[1m\e[32mcity\e[0m\nValue:  \e[1m\e[32mlondon\e[0m\n\n\n", @test_project.output.string)
       end
       
       should "return false if @replace_strings is empty." do

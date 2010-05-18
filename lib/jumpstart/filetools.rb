@@ -36,7 +36,7 @@ module JumpStart::FileTools
         x.puts file
       end
     else
-      raise ArgumentError, "Line number must be 1 or higher."
+      raise ArgumentError, "Line number must be 1 or higher.".red
     end
   end
 
@@ -46,20 +46,20 @@ module JumpStart::FileTools
         if File.exists?(x)
           if File.writable?(x)
             puts
-            puts "Removing the unwanted file: #{x}"
+            puts "Removing the unwanted file: #{x.green}"
             File.delete(x)
           else
             puts
-            puts "You do not have the correct privileges to delete #{x}. It has NOT been deleted."
+            puts "You do not have the correct privileges to delete #{x.red}. It has NOT been deleted."
           end
         else
           puts
-          puts "The file #{x} could not be deleted as it could not be found."
+          puts "The file #{x.red} could not be deleted as it could not be found."
         end          
       rescue
         puts
-        puts "Uh-oh, we've hit a snag with the remove_files method."
-        puts "The file #{x} could not be deleted, do you have the correct privileges to access it?"
+        puts "Uh-oh, we've hit a snag with the remove_files method.".red
+        puts "The file #{x.red} could not be deleted, do you have the correct privileges to access it?"
       end
     end
   end
@@ -84,8 +84,8 @@ module JumpStart::FileTools
       end
     elsif args[:lines] != nil && args[:line] != nil
       puts
-      puts "You have used an incorrect syntax for the FileUtils.remove_lines method."
-      puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time."
+      puts "You have used an incorrect syntax for the FileUtils.remove_lines method.".red
+      puts "You have specified a :line argument at the same time as a :lines argument, only one can be used at a time.".red
       raise ArgumentError
     end
     if args[:pattern] != nil then
@@ -123,7 +123,7 @@ module JumpStart::FileTools
       puts
       puts "******************************************************************************************************************************************"
       puts
-      puts "You need to specify three paramters to use this script:\n\n1: The Source File.\n2: The Target File.\n3: The App Name."
+      puts "You need to specify three paramters to use this script:\n\n1: The Source File.\n2: The Target File.\n3: The App Name.".yellow
       puts
       puts "e.g. nginx_auto_config /Users/i0n/Sites/bin/templates/rails/config/nginx.local.conf /usr/local/nginx/conf/nginx.conf test_app"
       puts
@@ -148,16 +148,16 @@ module JumpStart::FileTools
         File.open(target_file, "w") do |file|
           file.puts nginx_config
         end
-        puts "Success! NginX config for #{app_name} has been added to #{target_file}"
+        puts "Success! NginX config for #{app_name.green} has been added to #{target_file.green}"
         puts
         puts "******************************************************************************************************************************************"
         puts
       else
-        puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?"
-        puts "Type yes (y) or no (n)"
+        puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?".yellow
+        puts "Type yes (" + "y".green + ") or no (" + "n".red + ")"
         input = gets.chomp
         if input == "yes" || input == "y"
-          puts "Setting permissions for #{target_file}"
+          puts "Setting permissions for #{target_file.green}"
           system "sudo chmod 755 #{target_file}"
           config_nginx(source_file, target_file, app_name)
         else
@@ -182,15 +182,15 @@ module JumpStart::FileTools
         File.open(target_file, "w") do |file|
           file.puts etc_hosts
         end
-        puts "Success! #{app_name} has been added to #{target_file}"
+        puts "Success! #{app_name.green} has been added to #{target_file.green}"
         puts          
       else
-        puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?"
-        puts "Type yes (y) or no (n)"
+        puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?".yellow
+        puts "Type yes (" + "y".green + ") or no (" + "n".red + ")"
         puts
         input = gets.chomp
         if input == "yes" || input == "y"
-          puts "Setting permissions for #{target_file}"
+          puts "Setting permissions for #{target_file.green}"
           puts
           system "sudo chmod 755 #{target_file}"
           config_etc_hosts(app_name)
@@ -199,7 +199,7 @@ module JumpStart::FileTools
         end
       end
     rescue
-      puts "There was a problem accessing the file #{target_file}, you may need to adjust the privileges."
+      puts "There was a problem accessing the file #{target_file.red}, you may need to adjust the privileges."
       puts
     end
     puts "******************************************************************************************************************************************"
