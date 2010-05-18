@@ -110,6 +110,14 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#create_template instance method. \n" do
+      
+      should "run create_template method" do
+
+      end
+      
+    end
 
     context "Tests for the JumpStart::Base#jumpstart_options instance method. \n" do
       
@@ -184,7 +192,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
-    # TODO Add tests that involve extended FileUtils methods after writing tests for FileUtils module.
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
       should "run check_local_nginx_configuration method" do
@@ -240,6 +247,22 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_nil @test_project.run_scripts_from_yaml(:this_section_does_not_exist)
       end
               
+    end
+    
+    context "Tests for the JumpStart::#check_for_strings_to_replace instance method.\n" do
+      
+      should "" do
+        
+      end
+      
+    end
+
+    context "Tests for the JumpStart::#check_replace_string_pairs_for_project_name_sub instance method.\n" do
+
+      should "" do
+        
+      end
+      
     end
         
     context "Tests for the JumpStart::Base.get_line_number class method.\n" do
