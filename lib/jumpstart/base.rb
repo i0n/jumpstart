@@ -1,10 +1,20 @@
 module JumpStart
   class Base
     
-    attr_accessor :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options
+    attr_accessor :input, :output, :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options
     attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
+    def puts(*args)
+      @output.puts(*args)    
+    end
+
+    def gets(*args)
+      @input.gets(*args)
+    end
+    
     def initialize(args)
+      @input  = $stdin
+      @output = $stdout
       @project_name = args.shift
       if args[0] != nil
         @template_name = args.shift
@@ -28,7 +38,7 @@ module JumpStart
       puts
       puts
       lookup_existing_projects
-      check_project_name(@project_name)
+      check_project_name
       check_template_name
       check_install_paths
       create_project
@@ -55,18 +65,17 @@ module JumpStart
       end
     end
     
-    def check_project_name(project_name)
-      if project_name.nil? || project_name.empty?
-        puts
-        puts "Enter a name for your project."
-        project_name = gets.chomp
-        if project_name.length < 3
-          puts
-          puts "The name of your project must be at least 3 characters long."
-          check_project_name(project_name)
-        end
+    def check_project_name
+      if @project_name.nil? || @project_name.empty?
+        puts "\nEnter a name for your project."
+        @project_name = gets.chomp
+        check_project_name
+      elsif @project_name.length < 3
+        puts "\nThe name of your project must be at least 3 characters long."
+        @project_name = gets.chomp
+        check_project_name
       else
-        project_name
+        @project_name
       end
     end
     

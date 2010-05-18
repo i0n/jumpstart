@@ -7,7 +7,7 @@ module JumpStart
 end
 
 class TestJumpstartBase < Test::Unit::TestCase
-    
+        
   context "Testing JumpStart::Base with a DEFAULT_TEMPLATE_NAME and JUMPSTART_TEMPLATES_PATH specified.\n" do
     
     setup do
@@ -43,15 +43,64 @@ class TestJumpstartBase < Test::Unit::TestCase
 
     context "Tests for the JumpStart::Base#check_project_name instance method. \n" do
       
-      should "return the project name unchanged and without errors" do
-        assert_equal @test_project.project_name, @test_project.check_project_name(@test_project.project_name)
+      context "when the project name is over three characters" do
+        
+        should "return the project name unchanged and without errors" do
+          assert_equal @test_project.project_name, @test_project.check_project_name
+        end
+        
       end
       
-      should "ask for a project name at least 3 characters long." do
-        # @test_project.check_project_name("hi")
-        # assert_equal "\nEnter a name for your project.", $stdout.puts
+      context "when the project name is not empty but is not more than 3 characters" do
+        
+        setup do
+          @test_project = JumpStart::Base.new(["tr"])
+          @input = StringIO.new("testo\n")
+          @output = StringIO.new
+          @test_project.input = @input
+          @test_project.output = @output
+        end
+        
+        should "read input from STDIN" do
+          assert_equal "testo\n", @test_project.input.string
+        end
+        
+        should "ask the user to provide a longer project name" do
+          @test_project.check_project_name
+          assert_equal "\nThe name of your project must be at least 3 characters long.\n", @test_project.output.string
+        end
+        
+        should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
+          @test_project.check_project_name
+          assert_equal "\nThe name of your project must be at least 3 characters long.\n", @test_project.output.string
+          assert_equal "testo", @test_project.check_project_name
+        end
+                                
       end
       
+      context "when the project name is empty or nil" do
+        
+        setup do
+          @test_project = JumpStart::Base.new([nil])
+          @input = StringIO.new("testorama\n")
+          @output = StringIO.new
+          @test_project.input = @input
+          @test_project.output = @output
+        end
+        
+        should "ask the user to specify a name for the project if @project_name is empty or nil" do
+          @test_project.check_project_name
+          assert_equal "\nEnter a name for your project.\n", @test_project.output.string
+        end
+        
+        should "ask the user to specify a name for the project if @project_name is empty or nil and then set it when a name of at least 3 characters is provided" do
+          @test_project.check_project_name
+          assert_equal "\nEnter a name for your project.\n", @test_project.output.string
+          assert_equal "testorama", @test_project.check_project_name
+        end
+        
+      end      
+            
     end
 
     context "Tests for the JumpStart::Base#check_template_name instance method. \n" do

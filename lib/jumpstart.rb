@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'find'
 require 'fileutils'
-require 'optparse'
 require 'yaml'
 
 module JumpStart
