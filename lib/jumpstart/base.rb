@@ -311,18 +311,21 @@ module JumpStart
     end
     
     class << self
-      
+
       def get_line_number(file_name)
-        /_(?<number>\d+)\._\w*/ =~ file_name
-        number.to_i
-      end
-      
-      def remove_last_line?(file_name)
-        /_(?<remove_last_line>[lL]{1})\._{1}\w*/ =~ file_name
-        if remove_last_line.nil?
-          false
+        if file_name.match(/_(\d+)\._\w*/)
+          number = file_name.match(/_(\d+)\._\w*/)[1]
+          number.to_i
         else
+          false
+        end
+      end
+
+      def remove_last_line?(file_name)
+        if file_name.match(/_([lL]{1})\._{1}\w*/)
           true
+        else
+          false
         end
       end
       
