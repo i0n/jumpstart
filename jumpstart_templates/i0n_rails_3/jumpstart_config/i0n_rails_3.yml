@@ -2,7 +2,8 @@
 
 :install_path: /Users/i0n/Sites
 
-:install_command: rails -d mysql -J -T
+:install_command: rails 
+:install_command_args: -d mysql -J -T
 
 :run_after_install_command:
   - rails g controller home

@@ -15,9 +15,9 @@ module JumpStart
     def initialize(args)
       @input  = $stdin
       @output = $stdout
-      @project_name = args.shift
+      @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
-        @template_name = args.shift
+        @template_name = args.shift.dup
       elsif DEFAULT_TEMPLATE_NAME != nil
         @template_name = DEFAULT_TEMPLATE_NAME
       end
@@ -26,6 +26,7 @@ module JumpStart
       @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
       @install_command = @config_file[:install_command]
+      @install_command_args = @config_file[:install_command_args]
       @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
     
@@ -176,8 +177,8 @@ module JumpStart
     def create_project
       Dir.chdir(@install_path)
       unless @install_command.nil?
-        puts "Executing command: #{@install_command.green} #{@project_name.green}"
-        system "#{@install_command} #{@project_name}"
+        puts "Executing command: #{@install_command.green} #{@project_name.green} #{@install_command_args.green}"
+        system "#{@install_command} #{@project_name} #{@install_command_args}"
       end
     end
             
@@ -264,7 +265,7 @@ module JumpStart
     def run_scripts_from_yaml(script_name)
       unless @config_file[script_name].nil? || @config_file[script_name].empty?
         begin
-          Dir.chdir("#{@install_path}/#{@project_name}")
+          Dir.chdir(FileUtils.join_paths(@install_path, @project_name))
           @config_file[script_name].each do |x|
             puts "\nExecuting command: #{x.green}"
             system "#{x}"
