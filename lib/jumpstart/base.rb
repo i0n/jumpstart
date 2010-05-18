@@ -26,7 +26,6 @@ module JumpStart
       @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
       @install_command = @config_file[:install_command]
-      @install_command_options = @config_file[:install_command_options]
       @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
     
@@ -48,10 +47,10 @@ module JumpStart
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
-      check_local_nginx_configuration
       remove_unwanted_files
       run_scripts_from_yaml(:run_after_jumpstart)
       check_for_strings_to_replace
+      check_local_nginx_configuration
     end
         
     def lookup_existing_projects
@@ -84,12 +83,13 @@ module JumpStart
         jumpstart_options
       else
         unless @existing_projects.include? @template_name
-          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?"
-          puts
+          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\nyes (y) / no (n)?\n"
           input = gets.chomp
           if input == "yes" || input == "y"
             puts "creating JumpStart template #{@template_name}"
             # TODO Create functionality for creating templates if they do not exist
+            FileUtils.mkdir_p(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config"))
+            FileUtils.touch(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"))
           elsif input == "no" || input == "n"
             exit_jumpstart
           end
@@ -163,8 +163,8 @@ module JumpStart
     def create_project
       Dir.chdir(@install_path)
       unless @install_command.nil?
-        puts "Executing command: #{@install_command} #{@project_name} #{@install_command_options}"
-        system "#{@install_command} #{@project_name} #{@install_command_options}"
+        puts "Executing command: #{@install_command} #{@project_name}"
+        system "#{@install_command} #{@project_name}"
       end
     end
             

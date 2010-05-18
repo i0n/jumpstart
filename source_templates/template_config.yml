@@ -1,0 +1,72 @@
+---
+# The commands in a jumpstart config file are executed in the order displayed in this file.
+  
+# The path to where the project directory will be created
+# e.g. :install_path: /Users/i0n/Sites
+:install_path:
+
+## Can be omitted or left blank.
+# The command that this template will run. The main shell command to create the project.
+# e.g. :install_command: rails -d mysql -J -T
+:install_command: 
+
+## Can be omitted or left blank.
+# Add extra commands that you want to run after the main install command, but before template generation has started.
+# e.g. 
+# :run_after_install_command:
+#   - rails g controller home
+#   - rails g model home
+:run_after_install_command:
+
+## Can be omitted or left blank.
+# List files that you would like removed from the newly generated project.
+# Paths use the newly created project folder as root.
+# e.g.
+# :remove_files:
+#   - /public/index.html
+#   - /public/favicon.ico
+#   - /public/images/rails.png
+:remove_files:
+
+## Can be omitted or left blank.
+# Add extra commands that you want to run after template generation has completed.
+# e.g.
+# :run_after_jumpstart:
+#   - rake db:create
+#   - capify!
+#   - git init
+#   - git add .
+#   - git commit -q -v -a -m "Initial commit"
+:run_after_jumpstart:
+
+## Can be omitted or left blank.
+# List files that you would like to perform string substitution on. This can be useful for populating files such as a capistrano deploy.rb file.
+# Paths use the newly created project folder as root.
+# Any key:value pair can be used for substitution, simply add the key name in CAPS to the template file then specify the symbol key and value as in the example.
+# Note! The value of :project_name is hard coded to be the same as the projects name, no matter the value entered in this config file. This helps with capistrano.
+# e.g.
+# :replace_strings:
+#   - :target_path: /config/deploy.rb
+#     :symbols:
+#       :project_name: name_of_my_app
+#       :remote_server: thoughtplant
+#   - :target_path: /another/config/file.rb
+#     :symbols:
+#       :project_name: name_of_my_app
+#       :womble: uncle_bulgaria
+:replace_strings:
+  - :target_path:
+    :symbols:
+  
+## Can be omitted or left blank.
+# If you would like jumpstart to configure your local nginx setup specify a path. Handy for rails.
+# e.g.
+# :local_nginx_conf: /usr/local/nginx/conf/nginx.conf
+:local_nginx_conf:
+  
+## Can be omitted or left blank.
+# If you would like jumpstart to configure your remote nginx setup specify a path.
+# EXPERIMENTAL FEATURE NOT YET IMPLEMENTED
+# e.g.
+# :remote_nginx_conf: /opt/nginx/conf/nginx.conf
+:remote_nginx_conf:
