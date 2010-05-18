@@ -29,6 +29,18 @@ module JumpStart
       @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
     
+    # TODO Refactor startup so that if no arguments are passed to the jumpstart command it launches an options menu
+    # Options in the menu should include:
+    # 1. Create a new project from template
+    # 2. Create a new template
+    # 3. Set default template
+    
+    # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
+    # If a default template has been set, jumpstart should create the project.
+    # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
+    
+    # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
+    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if DEFAULT_TEMPLATE_NAME exists then the command is launched without any menu display.
     def start
       puts "\n******************************************************************************************************************************************\n"
       puts "JumpStarting....\n\n"
@@ -101,7 +113,7 @@ module JumpStart
         File.open(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
           file.puts yaml
         end
-        puts "The template has been generated."
+        puts "The template has been generated.\n"
       end
     end
     
