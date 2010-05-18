@@ -25,13 +25,13 @@ end
 
 class String
     
-  def red;        colourise(self, "\e[1m\e[31m"); end
-  def green;      colourise(self, "\e[32m"); end
-  def green_bold; colourise(self, "\e[1m\e[32m"); end
-  def yellow;     colourise(self, "\e[1m\e[33m"); end
-  def blue;       colourise(self, "\e[34m"); end
-  def blue_bold;  colourise(self, "\e[1m\e[34m"); end
-  def purple;     colourise(self, "\e[1m\e[35m"); end
+  def red;          colourise(self, "\e[1m\e[31m"); end
+  def green;        colourise(self, "\e[32m"); end
+  def green_bold;   colourise(self, "\e[1m\e[32m"); end
+  def yellow;       colourise(self, "\e[1m\e[33m"); end
+  def blue;         colourise(self, "\e[34m"); end
+  def blue_bold;    colourise(self, "\e[1m\e[34m"); end
+  def purple;       colourise(self, "\e[1m\e[35m"); end
   
   def colourise(text, colour_code)  "#{colour_code}#{text}\e[0m" end
   
