@@ -87,13 +87,25 @@ module JumpStart
           input = gets.chomp
           if input == "yes" || input == "y"
             puts "creating JumpStart template #{@template_name}"
-            # TODO Create functionality for creating templates if they do not exist
-            FileUtils.mkdir_p(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config"))
-            FileUtils.touch(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"))
+            create_template
           elsif input == "no" || input == "n"
             exit_jumpstart
           end
         end
+      end
+    end
+    
+    def create_template
+      if Dir.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name))
+        puts "\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)} already exists. The template will not be created."
+        exit_jumpstart
+      else
+        FileUtils.mkdir_p(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config"))
+        yaml = IO.read(FileUtils.join_paths(ROOT_PATH, "/source_templates/template_config.yml"))
+        File.open(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
+          file.puts yaml
+        end
+        puts "The template has been generated."
       end
     end
     
@@ -243,8 +255,7 @@ module JumpStart
       file_array = []
       root_path = FileUtils.join_paths(@install_path, @project_name)
       @config_file[:remove_files].each do |file|
-        FileUtils.join_paths(root_path, file)
-        file_array << file
+        file_array << FileUtils.join_paths(root_path, file)
       end
       FileUtils.remove_files(file_array)
     end
