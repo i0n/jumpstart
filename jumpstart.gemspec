@@ -11,7 +11,10 @@ Gem::Specification.new do |s|
   s.authors = ["i0n"]
   s.date = %q{2010-05-19}
   s.default_executable = %q{jumpstart}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{JumpStart is a script runner and template parser written in Ruby with Ruby projects in mind.
+
+                        That said it should function equally well for any project in any language where many actions need to be performed to setup a new project.
+}
   s.email = %q{ianalexanderwood@gmail.com}
   s.executables = ["jumpstart"]
   s.extra_rdoc_files = [
@@ -117,6 +120,12 @@ Gem::Specification.new do |s|
      "jumpstart_templates/i0n_rails_3/public/stylesheets/sass/screen.sass",
      "lib/jumpstart.rb",
      "lib/jumpstart/base.rb",
+     "lib/jumpstart/doc/JumpStart.html",
+     "lib/jumpstart/doc/JumpStart/Base.html",
+     "lib/jumpstart/doc/base_rb.html",
+     "lib/jumpstart/doc/created.rid",
+     "lib/jumpstart/doc/index.html",
+     "lib/jumpstart/doc/rdoc.css",
      "lib/jumpstart/filetools.rb",
      "source_templates/template_config.yml",
      "test/fake_nginx_path/local_nginx_1.conf",
@@ -185,7 +194,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{Quickly start Ruby projects just the way you want them using a single YAML file and reusable templates.}
   s.test_files = [
     "test/helper.rb",
      "test/jumpstart/test_base.rb",
