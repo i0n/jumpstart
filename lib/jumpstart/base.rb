@@ -179,7 +179,7 @@ module JumpStart
       when input == "3"
         set_default_template_menu
       when input == "4"
-        set_templates_directory
+        set_templates_dir
       when input == "x"
         exit_jumpstart
       else
@@ -229,7 +229,7 @@ module JumpStart
       
     end
     
-    def set_templates_directory
+    def set_templates_dir
       
     end
     
