@@ -1,0 +1,1566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: JumpStart::Base</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="home-metadata">
+			<div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#classes">Classes</a>
+          <a href="../index.html#methods">Methods</a>
+        </h3>
+			</div>
+		</div>
+
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../base_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="base.rb">base.rb</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-c-get_line_number">::get_line_number</a></li>
+					
+					<li><a href="#method-c-new">::new</a></li>
+					
+					<li><a href="#method-c-remove_last_line%3F">::remove_last_line?</a></li>
+					
+					<li><a href="#method-i-check_for_strings_to_replace">#check_for_strings_to_replace</a></li>
+					
+					<li><a href="#method-i-check_install_paths">#check_install_paths</a></li>
+					
+					<li><a href="#method-i-check_local_nginx_configuration">#check_local_nginx_configuration</a></li>
+					
+					<li><a href="#method-i-check_project_name">#check_project_name</a></li>
+					
+					<li><a href="#method-i-check_replace_string_pairs_for_project_name_sub">#check_replace_string_pairs_for_project_name_sub</a></li>
+					
+					<li><a href="#method-i-check_template_name">#check_template_name</a></li>
+					
+					<li><a href="#method-i-configure_jumpstart">#configure_jumpstart</a></li>
+					
+					<li><a href="#method-i-create_new_files_from_whole_templates">#create_new_files_from_whole_templates</a></li>
+					
+					<li><a href="#method-i-create_new_folders">#create_new_folders</a></li>
+					
+					<li><a href="#method-i-create_project">#create_project</a></li>
+					
+					<li><a href="#method-i-create_template">#create_template</a></li>
+					
+					<li><a href="#method-i-exit_jumpstart">#exit_jumpstart</a></li>
+					
+					<li><a href="#method-i-gets">#gets</a></li>
+					
+					<li><a href="#method-i-jumpstart_options">#jumpstart_options</a></li>
+					
+					<li><a href="#method-i-lookup_existing_projects">#lookup_existing_projects</a></li>
+					
+					<li><a href="#method-i-parse_template_dir">#parse_template_dir</a></li>
+					
+					<li><a href="#method-i-populate_files_from_append_templates">#populate_files_from_append_templates</a></li>
+					
+					<li><a href="#method-i-populate_files_from_line_templates">#populate_files_from_line_templates</a></li>
+					
+					<li><a href="#method-i-puts">#puts</a></li>
+					
+					<li><a href="#method-i-remove_unwanted_files">#remove_unwanted_files</a></li>
+					
+					<li><a href="#method-i-run_scripts_from_yaml">#run_scripts_from_yaml</a></li>
+					
+					<li><a href="#method-i-start">#start</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../JumpStart.html">JumpStart</a></li>
+				
+					<li><a href="../JumpStart/Base.html">JumpStart::Base</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">JumpStart::Base</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+		<div id="attribute-method-details" class="method-section section">
+			<h3 class="section-header">Attributes</h3>
+
+			
+			<div id="input-attribute-method" class="method-detail">
+				<a name="input"></a>
+				
+				<a name="input="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">input</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="output-attribute-method" class="method-detail">
+				<a name="output"></a>
+				
+				<a name="output="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">output</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="project-name-attribute-method" class="method-detail">
+				<a name="project_name"></a>
+				
+				<a name="project_name="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">project_name</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="template-name-attribute-method" class="method-detail">
+				<a name="template_name"></a>
+				
+				<a name="template_name="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">template_name</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="existing-projects-attribute-method" class="method-detail">
+				<a name="existing_projects"></a>
+				
+				<a name="existing_projects="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">existing_projects</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="config-file-attribute-method" class="method-detail">
+				<a name="config_file"></a>
+				
+				<a name="config_file="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">config_file</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="install-path-attribute-method" class="method-detail">
+				<a name="install_path"></a>
+				
+				<a name="install_path="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">install_path</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="template-path-attribute-method" class="method-detail">
+				<a name="template_path"></a>
+				
+				<a name="template_path="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">template_path</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="install-command-attribute-method" class="method-detail">
+				<a name="install_command"></a>
+				
+				<a name="install_command="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">install_command</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="install-command-options-attribute-method" class="method-detail">
+				<a name="install_command_options"></a>
+				
+				<a name="install_command_options="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">install_command_options</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="replace-strings-attribute-method" class="method-detail">
+				<a name="replace_strings"></a>
+				
+				<a name="replace_strings="></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">replace_strings</span><span
+						class="attribute-access-type">[RW]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="dir-list-attribute-method" class="method-detail">
+				<a name="dir_list"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">dir_list</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="whole-templates-attribute-method" class="method-detail">
+				<a name="whole_templates"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">whole_templates</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="append-templates-attribute-method" class="method-detail">
+				<a name="append_templates"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">append_templates</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="line-templates-attribute-method" class="method-detail">
+				<a name="line_templates"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">line_templates</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="nginx-local-template-attribute-method" class="method-detail">
+				<a name="nginx_local_template"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">nginx_local_template</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+			<div id="nginx-remote-template-attribute-method" class="method-detail">
+				<a name="nginx_remote_template"></a>
+				
+				<div class="method-heading attribute-method-heading">
+					<span class="method-name">nginx_remote_template</span><span
+						class="attribute-access-type">[R]</span>
+				</div>
+
+				<div class="method-description">
+				
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="get-line-number-method" class="method-detail ">
+				<a name="method-c-get_line_number"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">get_line_number</span><span
+						class="method-args">(file_name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="get-line-number-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 321</span>
+321:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_line_number</span>(<span class="ruby-identifier">file_name</span>)
+322:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">file_name</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/_(\d+)\._\w*/</span>)
+323:           <span class="ruby-identifier">number</span> = <span class="ruby-identifier">file_name</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/_(\d+)\._\w*/</span>)[<span class="ruby-value">1</span>]
+324:           <span class="ruby-identifier">number</span>.<span class="ruby-identifier">to_i</span>
+325:         <span class="ruby-keyword kw">else</span>
+326:           <span class="ruby-keyword kw">false</span>
+327:         <span class="ruby-keyword kw">end</span>
+328:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="method-c-new"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">new</span><span
+						class="method-args">(args)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 17</span>
+17:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">args</span>)
+18:       <span class="ruby-ivar">@input</span>  = <span class="ruby-identifier">$stdin</span>
+19:       <span class="ruby-ivar">@output</span> = <span class="ruby-identifier">$stdout</span>
+20:       <span class="ruby-ivar">@project_name</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+21:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+22:         <span class="ruby-ivar">@template_name</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">dup</span>
+23:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">DEFAULT_TEMPLATE_NAME</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+24:         <span class="ruby-ivar">@template_name</span> = <span class="ruby-constant">DEFAULT_TEMPLATE_NAME</span>
+25:       <span class="ruby-keyword kw">end</span>
+26:       <span class="ruby-ivar">@existing_projects</span> = []
+27:       <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-ivar">@template_name</span>, <span class="ruby-value str">&quot;/jumpstart_config/&quot;</span>, <span class="ruby-node">&quot;#{@template_name}.yml&quot;</span>))
+28:       <span class="ruby-ivar">@install_path</span> = <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:install_path</span>].<span class="ruby-identifier">to_s</span>)
+29:       <span class="ruby-ivar">@template_path</span> = <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-ivar">@template_name</span>)
+30:       <span class="ruby-ivar">@install_command</span> = <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:install_command</span>]
+31:       <span class="ruby-ivar">@install_command_args</span> = <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:install_command_args</span>]
+32:       <span class="ruby-ivar">@replace_strings</span> = <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:replace_strings</span>].<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>}
+33:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="remove-last-line--method" class="method-detail ">
+				<a name="method-c-remove_last_line%3F"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">remove_last_line?</span><span
+						class="method-args">(file_name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="remove-last-line--source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 330</span>
+330:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove_last_line?</span>(<span class="ruby-identifier">file_name</span>)
+331:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">file_name</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/_([lL]{1})\._{1}\w*/</span>)
+332:           <span class="ruby-keyword kw">true</span>
+333:         <span class="ruby-keyword kw">else</span>
+334:           <span class="ruby-keyword kw">false</span>
+335:         <span class="ruby-keyword kw">end</span>
+336:       <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="check-for-strings-to-replace-method" class="method-detail ">
+				<a name="method-i-check_for_strings_to_replace"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_for_strings_to_replace</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-for-strings-to-replace-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 281</span>
+281:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_for_strings_to_replace</span>
+282:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@replace_strings</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@replace_strings</span>.<span class="ruby-identifier">empty?</span>
+283:         <span class="ruby-keyword kw">false</span>
+284:       <span class="ruby-keyword kw">else</span>
+285:         <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nChecking for strings to replace inside files...\n\n&quot;</span>
+286:         <span class="ruby-ivar">@replace_strings</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+287:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Target file: #{file[:target_path].green}\n&quot;</span>
+288:           <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Strings to replace:\n\n&quot;</span>
+289:           <span class="ruby-identifier">check_replace_string_pairs_for_project_name_sub</span>(<span class="ruby-identifier">file</span>[<span class="ruby-value">:symbols</span>])
+290:           <span class="ruby-identifier">file</span>[<span class="ruby-value">:symbols</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">|</span>
+291:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Key:    #{x.to_s.green}&quot;</span>
+292:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Value:  #{y.to_s.green}\n\n&quot;</span>
+293:           <span class="ruby-keyword kw">end</span>
+294:           <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\n&quot;</span>
+295:           <span class="ruby-identifier">path</span> = <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">file</span>[<span class="ruby-value">:target_path</span>])
+296:           <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">replace_strings</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">file</span>[<span class="ruby-value">:symbols</span>])
+297:         <span class="ruby-keyword kw">end</span>
+298:       <span class="ruby-keyword kw">end</span>
+299:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="check-install-paths-method" class="method-detail ">
+				<a name="method-i-check_install_paths"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_install_paths</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-install-paths-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 163</span>
+163:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_install_paths</span>
+164:       [<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@template_path</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+165:         <span class="ruby-keyword kw">begin</span>
+166:           <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-identifier">x</span>)
+167:         <span class="ruby-keyword kw">rescue</span>
+168:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it.&quot;</span>
+169:           <span class="ruby-identifier">exit_jumpstart</span>
+170:         <span class="ruby-keyword kw">end</span>
+171:       <span class="ruby-keyword kw">end</span>
+172:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>))
+173:         <span class="ruby-identifier">puts</span>
+174:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything.&quot;</span>
+175:         <span class="ruby-identifier">exit_jumpstart</span>
+176:       <span class="ruby-keyword kw">end</span>
+177:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="check-local-nginx-configuration-method" class="method-detail ">
+				<a name="method-i-check_local_nginx_configuration"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_local_nginx_configuration</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-local-nginx-configuration-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 251</span>
+251:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_local_nginx_configuration</span>
+252:       <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@nginx_local_template</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:local_nginx_conf</span>].<span class="ruby-identifier">nil?</span>
+253:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">config_nginx</span>(<span class="ruby-ivar">@nginx_local_template</span>, <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:local_nginx_conf</span>], <span class="ruby-ivar">@project_name</span>)
+254:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">config_hosts</span>(<span class="ruby-value str">&quot;/etc/hosts&quot;</span>, <span class="ruby-ivar">@project_name</span>)
+255:       <span class="ruby-keyword kw">end</span>
+256:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="check-project-name-method" class="method-detail ">
+				<a name="method-i-check_project_name"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_project_name</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-project-name-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 79</span>
+79:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_project_name</span>
+80:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@project_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@project_name</span>.<span class="ruby-identifier">empty?</span>
+81:         <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nEnter a name for your project.&quot;</span>.<span class="ruby-identifier">yellow</span>
+82:         <span class="ruby-ivar">@project_name</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+83:         <span class="ruby-identifier">check_project_name</span>
+84:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@project_name</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">3</span>
+85:         <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nThe name of your project must be at least 3 characters long. Please enter a valid name.&quot;</span>.<span class="ruby-identifier">yellow</span>
+86:         <span class="ruby-ivar">@project_name</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+87:         <span class="ruby-identifier">check_project_name</span>
+88:       <span class="ruby-keyword kw">else</span>
+89:         <span class="ruby-ivar">@project_name</span>
+90:       <span class="ruby-keyword kw">end</span>
+91:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="check-replace-string-pairs-for-project-name-sub-method" class="method-detail ">
+				<a name="method-i-check_replace_string_pairs_for_project_name_sub"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_replace_string_pairs_for_project_name_sub</span><span
+						class="method-args">(hash)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-replace-string-pairs-for-project-name-sub-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 301</span>
+301:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_replace_string_pairs_for_project_name_sub</span>(<span class="ruby-identifier">hash</span>)
+302:       <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@project_name</span>.<span class="ruby-identifier">nil?</span>
+303:         <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+304:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-value">:project_name</span>
+305:             <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-ivar">@project_name</span>
+306:           <span class="ruby-keyword kw">end</span>
+307:         <span class="ruby-keyword kw">end</span>
+308:       <span class="ruby-keyword kw">end</span>
+309:       <span class="ruby-identifier">hash</span>
+310:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="check-template-name-method" class="method-detail ">
+				<a name="method-i-check_template_name"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">check_template_name</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="check-template-name-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 93</span>
+ 93:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_template_name</span>
+ 94:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@template_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@template_name</span>.<span class="ruby-identifier">empty?</span>
+ 95:         <span class="ruby-identifier">jumpstart_options</span>
+ 96:       <span class="ruby-keyword kw">else</span>
+ 97:         <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@existing_projects</span>.<span class="ruby-identifier">include?</span> <span class="ruby-ivar">@template_name</span>
+ 98:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;y&quot;</span>.<span class="ruby-identifier">yellow</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;) / no (&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;n&quot;</span>.<span class="ruby-identifier">yellow</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;)?\n&quot;</span>
+ 99:           <span class="ruby-identifier">input</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+100:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;yes&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;y&quot;</span>
+101:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;creating JumpStart template #{@template_name}&quot;</span>
+102:             <span class="ruby-identifier">create_template</span>
+103:           <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;no&quot;</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;n&quot;</span>
+104:             <span class="ruby-identifier">exit_jumpstart</span>
+105:           <span class="ruby-keyword kw">end</span>
+106:         <span class="ruby-keyword kw">end</span>
+107:       <span class="ruby-keyword kw">end</span>
+108:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="configure-jumpstart-method" class="method-detail ">
+				<a name="method-i-configure_jumpstart"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">configure_jumpstart</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="configure-jumpstart-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 154</span>
+154:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">configure_jumpstart</span>
+155:       <span class="ruby-comment cmt"># TODO Define configure_jumpstart method</span>
+156:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;******************************************************************************************************************************************\n&quot;</span>
+157:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;jumpstart configuration.\n&quot;</span>.<span class="ruby-identifier">purple</span>
+158:       
+159:       <span class="ruby-comment cmt"># This should be removed when method is finished.</span>
+160:       <span class="ruby-identifier">exit_jumpstart</span>
+161:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="create-new-files-from-whole-templates-method" class="method-detail ">
+				<a name="method-i-create_new_files_from_whole_templates"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_new_files_from_whole_templates</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-new-files-from-whole-templates-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 225</span>
+225:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_new_files_from_whole_templates</span>
+226:       <span class="ruby-ivar">@whole_templates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+227:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">touch</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">x</span>))
+228:         <span class="ruby-identifier">file_contents</span> = <span class="ruby-constant">IO</span>.<span class="ruby-identifier">readlines</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@template_path</span>, <span class="ruby-identifier">x</span>))
+229:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">x</span>), <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span><span class="ruby-operator">|</span>
+230:           <span class="ruby-identifier">y</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">file_contents</span>
+231:         <span class="ruby-keyword kw">end</span>
+232:       <span class="ruby-keyword kw">end</span>
+233:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="create-new-folders-method" class="method-detail ">
+				<a name="method-i-create_new_folders"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_new_folders</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-new-folders-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 216</span>
+216:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_new_folders</span>
+217:       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-ivar">@install_path</span>)
+218:       <span class="ruby-ivar">@dir_list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+219:         <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">x</span>))
+220:           <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">x</span>))
+221:         <span class="ruby-keyword kw">end</span>
+222:       <span class="ruby-keyword kw">end</span>
+223:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="create-project-method" class="method-detail ">
+				<a name="method-i-create_project"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_project</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-project-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 179</span>
+179:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_project</span>
+180:       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-ivar">@install_path</span>)
+181:       <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@install_command</span>.<span class="ruby-identifier">nil?</span>
+182:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Executing command: #{@install_command.green} #{@project_name.green} #{@install_command_args.green}&quot;</span>
+183:         <span class="ruby-identifier">system</span> <span class="ruby-node">&quot;#{@install_command} #{@project_name} #{@install_command_args}&quot;</span>
+184:       <span class="ruby-keyword kw">end</span>
+185:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="create-template-method" class="method-detail ">
+				<a name="method-i-create_template"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">create_template</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="create-template-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 110</span>
+110:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_template</span>
+111:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-ivar">@template_name</span>))
+112:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name).red} already exists. The template will not be created.&quot;</span>
+113:         <span class="ruby-identifier">exit_jumpstart</span>
+114:       <span class="ruby-keyword kw">else</span>
+115:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-ivar">@template_name</span>, <span class="ruby-value str">&quot;/jumpstart_config&quot;</span>))
+116:         <span class="ruby-identifier">yaml</span> = <span class="ruby-constant">IO</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">ROOT_PATH</span>, <span class="ruby-value str">&quot;/source_templates/template_config.yml&quot;</span>))
+117:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-ivar">@template_name</span>, <span class="ruby-value str">&quot;/jumpstart_config&quot;</span>, <span class="ruby-node">&quot;#{@template_name}.yml&quot;</span>), <span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+118:           <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">yaml</span>
+119:         <span class="ruby-keyword kw">end</span>
+120:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;The template #{@template_name.green} has been generated.\n&quot;</span>
+121:       <span class="ruby-keyword kw">end</span>
+122:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="exit-jumpstart-method" class="method-detail ">
+				<a name="method-i-exit_jumpstart"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">exit_jumpstart</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="exit-jumpstart-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 312</span>
+312:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exit_jumpstart</span>
+313:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\n\nExiting JumpStart...&quot;</span>.<span class="ruby-identifier">purple</span>
+314:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Goodbye!\n&quot;</span>
+315:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;******************************************************************************************************************************************\n&quot;</span>
+316:       <span class="ruby-identifier">exit</span>
+317:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="gets-method" class="method-detail ">
+				<a name="method-i-gets"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">gets</span><span
+						class="method-args">(*args)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Monkeypatch gets to make testing easier.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="gets-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 13</span>
+13:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">gets</span>(*<span class="ruby-identifier">args</span>)
+14:       <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">gets</span>(*<span class="ruby-identifier">args</span>)
+15:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="jumpstart-options-method" class="method-detail ">
+				<a name="method-i-jumpstart_options"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">jumpstart_options</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="jumpstart-options-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 124</span>
+124:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">jumpstart_options</span>
+125:       <span class="ruby-identifier">global_options</span> = {<span class="ruby-value str">'c'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'config'</span>}
+126:       <span class="ruby-identifier">templates</span> = {}
+127:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;******************************************************************************************************************************************\n&quot;</span>
+128:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;jumpstart options!\n&quot;</span>.<span class="ruby-identifier">purple</span>
+129:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;What would you like to do?&quot;</span>
+130:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;To run an existing jumpstart enter it's number or it's name.\n&quot;</span>
+131:       <span class="ruby-identifier">count</span> = <span class="ruby-value">0</span>
+132:       <span class="ruby-ivar">@existing_projects</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+133:         <span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+134:         <span class="ruby-identifier">templates</span>[<span class="ruby-identifier">count</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">x</span>
+135:         <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{count}: #{x}&quot;</span>
+136:       <span class="ruby-keyword kw">end</span>
+137:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nTo create a new jumpstart enter a name for it.&quot;</span>
+138:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nTo view/set jumpstart configuration options type &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;config&quot;</span>.<span class="ruby-identifier">yellow</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; or &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;c&quot;</span>.<span class="ruby-identifier">yellow</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;.&quot;</span>
+139:       <span class="ruby-identifier">input</span> = <span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+140:       <span class="ruby-identifier">global_options</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">|</span>
+141:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'c'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'config'</span>
+142:           <span class="ruby-identifier">configure_jumpstart</span>
+143:         <span class="ruby-keyword kw">end</span>
+144:       <span class="ruby-keyword kw">end</span>
+145:       <span class="ruby-identifier">templates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span>,<span class="ruby-identifier">y</span><span class="ruby-operator">|</span>
+146:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">input</span>
+147:           <span class="ruby-ivar">@template_name</span> = <span class="ruby-identifier">templates</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">x</span>)
+148:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">y</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">input</span>
+149:           <span class="ruby-ivar">@template_name</span> = <span class="ruby-identifier">y</span>
+150:         <span class="ruby-keyword kw">end</span>
+151:       <span class="ruby-keyword kw">end</span>      
+152:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="lookup-existing-projects-method" class="method-detail ">
+				<a name="method-i-lookup_existing_projects"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">lookup_existing_projects</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="lookup-existing-projects-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 68</span>
+68:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">lookup_existing_projects</span>
+69:       <span class="ruby-identifier">project_dirs</span> = <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>) <span class="ruby-operator">-</span><span class="ruby-constant">IGNORE_DIRS</span>
+70:       <span class="ruby-identifier">project_dirs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+71:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-identifier">x</span>)).<span class="ruby-identifier">include?</span> <span class="ruby-value str">&quot;jumpstart_config&quot;</span>
+72:           <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-constant">JUMPSTART_TEMPLATES_PATH</span>, <span class="ruby-identifier">x</span>, <span class="ruby-value str">'/jumpstart_config/'</span>, <span class="ruby-node">&quot;#{x}.yml&quot;</span>))
+73:             <span class="ruby-ivar">@existing_projects</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">x</span>
+74:           <span class="ruby-keyword kw">end</span>
+75:         <span class="ruby-keyword kw">end</span>
+76:       <span class="ruby-keyword kw">end</span>
+77:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="parse-template-dir-method" class="method-detail ">
+				<a name="method-i-parse_template_dir"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">parse_template_dir</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="parse-template-dir-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 187</span>
+187:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse_template_dir</span>
+188:       <span class="ruby-ivar">@dir_list</span> = []
+189:       <span class="ruby-identifier">file_list</span> = []
+190:       <span class="ruby-ivar">@whole_templates</span> = []
+191:       <span class="ruby-ivar">@append_templates</span> = []
+192:       <span class="ruby-ivar">@line_templates</span> = []
+193:       <span class="ruby-constant">Find</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@template_path</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+194:         <span class="ruby-keyword kw">case</span>
+195:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">x</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp re">/\/jumpstart_config/</span> <span class="ruby-keyword kw">then</span>
+196:           <span class="ruby-identifier">file_list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">sub!</span>(<span class="ruby-ivar">@template_path</span>, <span class="ruby-value str">''</span>)
+197:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">x</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">!~</span> <span class="ruby-regexp re">/\/jumpstart_config/</span> <span class="ruby-keyword kw">then</span>
+198:           <span class="ruby-ivar">@dir_list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">sub!</span>(<span class="ruby-ivar">@template_path</span>, <span class="ruby-value str">''</span>)
+199:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">x</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\/jumpstart_config\/nginx.local.conf/</span> <span class="ruby-keyword kw">then</span>
+200:           <span class="ruby-ivar">@nginx_local_template</span> = <span class="ruby-identifier">x</span>
+201:         <span class="ruby-keyword kw">when</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">x</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\/jumpstart_config\/nginx.remote.conf/</span> <span class="ruby-keyword kw">then</span>
+202:           <span class="ruby-ivar">@nginx_remote_template</span> = <span class="ruby-identifier">x</span>
+203:         <span class="ruby-keyword kw">end</span>
+204:       <span class="ruby-keyword kw">end</span>
+205:       <span class="ruby-identifier">file_list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+206:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/_([lL]?)\._{1}\w*/</span>
+207:           <span class="ruby-ivar">@append_templates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+208:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/_(\d+)\._{1}\w*/</span>
+209:           <span class="ruby-ivar">@line_templates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+210:         <span class="ruby-keyword kw">else</span>
+211:           <span class="ruby-ivar">@whole_templates</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+212:         <span class="ruby-keyword kw">end</span>
+213:       <span class="ruby-keyword kw">end</span>
+214:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="populate-files-from-append-templates-method" class="method-detail ">
+				<a name="method-i-populate_files_from_append_templates"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">populate_files_from_append_templates</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="populate-files-from-append-templates-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 235</span>
+235:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">populate_files_from_append_templates</span>
+236:       <span class="ruby-ivar">@append_templates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+237:         <span class="ruby-identifier">new_name</span> = <span class="ruby-identifier">x</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp re">/_([lL]?)\._{1}/</span>, <span class="ruby-value str">''</span>)
+238:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">touch</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">new_name</span>))
+239:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">append_to_end_of_file</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@template_path</span>, <span class="ruby-identifier">x</span>), <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">new_name</span>), <span class="ruby-constant">JumpStart</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">remove_last_line?</span>(<span class="ruby-identifier">x</span>))
+240:       <span class="ruby-keyword kw">end</span>
+241:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="populate-files-from-line-templates-method" class="method-detail ">
+				<a name="method-i-populate_files_from_line_templates"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">populate_files_from_line_templates</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="populate-files-from-line-templates-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 243</span>
+243:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">populate_files_from_line_templates</span>
+244:       <span class="ruby-ivar">@line_templates</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+245:         <span class="ruby-identifier">new_name</span> = <span class="ruby-identifier">x</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp re">/_(\d+)\._{1}/</span>, <span class="ruby-value str">''</span>)
+246:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">touch</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">new_name</span>))
+247:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">insert_text_at_line_number</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@template_path</span>, <span class="ruby-identifier">x</span>), <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>, <span class="ruby-identifier">new_name</span>), <span class="ruby-constant">JumpStart</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">get_line_number</span>(<span class="ruby-identifier">x</span>))
+248:       <span class="ruby-keyword kw">end</span>
+249:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="puts-method" class="method-detail ">
+				<a name="method-i-puts"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">puts</span><span
+						class="method-args">(*args)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Monkeypatch puts to make testing easier.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="puts-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 8</span>
+ 8:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">puts</span>(*<span class="ruby-identifier">args</span>)
+ 9:       <span class="ruby-ivar">@output</span>.<span class="ruby-identifier">puts</span>(*<span class="ruby-identifier">args</span>)    
+10:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="remove-unwanted-files-method" class="method-detail ">
+				<a name="method-i-remove_unwanted_files"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">remove_unwanted_files</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="remove-unwanted-files-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 258</span>
+258:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove_unwanted_files</span>
+259:       <span class="ruby-identifier">file_array</span> = []
+260:       <span class="ruby-identifier">root_path</span> = <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>)
+261:       <span class="ruby-ivar">@config_file</span>[<span class="ruby-value">:remove_files</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+262:         <span class="ruby-identifier">file_array</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-identifier">root_path</span>, <span class="ruby-identifier">file</span>)
+263:       <span class="ruby-keyword kw">end</span>
+264:       <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">remove_files</span>(<span class="ruby-identifier">file_array</span>)
+265:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="run-scripts-from-yaml-method" class="method-detail ">
+				<a name="method-i-run_scripts_from_yaml"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">run_scripts_from_yaml</span><span
+						class="method-args">(script_name)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="run-scripts-from-yaml-source">
+<pre>
+     <span class="ruby-comment cmt"># File base.rb, line 267</span>
+267:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_scripts_from_yaml</span>(<span class="ruby-identifier">script_name</span>)
+268:       <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@config_file</span>[<span class="ruby-identifier">script_name</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@config_file</span>[<span class="ruby-identifier">script_name</span>].<span class="ruby-identifier">empty?</span>
+269:         <span class="ruby-keyword kw">begin</span>
+270:           <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span>(<span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">join_paths</span>(<span class="ruby-ivar">@install_path</span>, <span class="ruby-ivar">@project_name</span>))
+271:           <span class="ruby-ivar">@config_file</span>[<span class="ruby-identifier">script_name</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
+272:             <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nExecuting command: #{x.green}&quot;</span>
+273:             <span class="ruby-identifier">system</span> <span class="ruby-node">&quot;#{x}&quot;</span>
+274:           <span class="ruby-keyword kw">end</span>
+275:         <span class="ruby-keyword kw">rescue</span>
+276:           <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nCould not access the directory #{FileUtils.join_paths(@install_path, @project_name).red}.\nIn the interest of safety JumpStart will NOT run any YAML scripts from #{script_name.to_s.red_bold} until it can change into the new projects home directory.&quot;</span>
+277:         <span class="ruby-keyword kw">end</span>
+278:       <span class="ruby-keyword kw">end</span>
+279:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="start-method" class="method-detail ">
+				<a name="method-i-start"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">start</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+TODO Ensure that if jumpstart is launched with two arguments they are
+parsed as @<a href="Base.html#project_name">project_name</a> and @<a
+href="Base.html#template_name">template_name</a>, and the command is
+launched without any menu display. TODO Ensure that if jumpstart is
+launched with one argument it is parsed as @<a
+href="Base.html#project_name">project_name</a>, and if
+DEFAULT_TEMPLATE_NAME exists then the command is launched without any menu
+display.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="start-source">
+<pre>
+    <span class="ruby-comment cmt"># File base.rb, line 48</span>
+48:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start</span>
+49:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\n******************************************************************************************************************************************\n\n&quot;</span>
+50:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;JumpStarting....\n&quot;</span>.<span class="ruby-identifier">purple</span>
+51:       <span class="ruby-identifier">lookup_existing_projects</span>
+52:       <span class="ruby-identifier">check_project_name</span>
+53:       <span class="ruby-identifier">check_template_name</span>
+54:       <span class="ruby-identifier">check_install_paths</span>
+55:       <span class="ruby-identifier">create_project</span>
+56:       <span class="ruby-identifier">run_scripts_from_yaml</span>(<span class="ruby-value">:run_after_install_command</span>)
+57:       <span class="ruby-identifier">parse_template_dir</span>
+58:       <span class="ruby-identifier">create_new_folders</span>
+59:       <span class="ruby-identifier">create_new_files_from_whole_templates</span>
+60:       <span class="ruby-identifier">populate_files_from_append_templates</span>
+61:       <span class="ruby-identifier">populate_files_from_line_templates</span>
+62:       <span class="ruby-identifier">remove_unwanted_files</span>
+63:       <span class="ruby-identifier">run_scripts_from_yaml</span>(<span class="ruby-value">:run_after_jumpstart</span>)
+64:       <span class="ruby-identifier">check_for_strings_to_replace</span>
+65:       <span class="ruby-identifier">check_local_nginx_configuration</span>
+66:     <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+

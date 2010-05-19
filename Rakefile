@@ -5,8 +5,9 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "jumpstart"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Quickly start Ruby projects just the way you want them using a single YAML file and reusable templates.}
+    gem.description = %Q{JumpStart is a script runner and template parser written in Ruby with Ruby projects in mind.\n
+                        That said it should function equally well for any project in any language where many actions need to be performed to setup a new project.\n}
     gem.email = "ianalexanderwood@gmail.com"
     gem.homepage = "http://github.com/i0n/jumpstart"
     gem.authors = ["i0n"]
