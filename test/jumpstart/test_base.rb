@@ -11,8 +11,8 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project.default_template_name = "test_template_1"
       @test_project.template_name = "test_template_1"
       @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-      @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       @test_project.set_config_file_options
+      @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
     end
     
     teardown do
@@ -369,8 +369,8 @@ class TestJumpstartBase < Test::Unit::TestCase
           @test_project.default_template_name = "test_template_1"
           @test_project.template_name = "test_template_1"
           @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
           @test_project.set_config_file_options
+          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         end
     
         should "be able to create a new jumpstart with the project name as the first argument" do
