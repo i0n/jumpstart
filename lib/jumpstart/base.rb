@@ -119,6 +119,7 @@ module JumpStart
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
         puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        # TODO lots of refactoring to make this work
         # exit_jumpstart
       end      
     end
