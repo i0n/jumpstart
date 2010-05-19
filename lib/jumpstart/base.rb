@@ -24,14 +24,14 @@ module JumpStart
         @template_name = DEFAULT_TEMPLATE_NAME
       end
       @existing_templates = []
-      @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+      
+      set_config_file_options
       @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
+      check_install_path
+      
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
-      @install_command = @config_file[:install_command]
-      @install_command_args = @config_file[:install_command_args]
-      @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
-        
+            
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
     # If a default template has been set, jumpstart should create the project.
     # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
@@ -39,26 +39,15 @@ module JumpStart
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if DEFAULT_TEMPLATE_NAME exists then the command is launched without any menu display.
     
-    def start
-      puts "\n******************************************************************************************************************************************\n\n"
-      puts "JumpStarting....\n".purple
+    def check_setup
       lookup_existing_templates
       check_project_name
       check_template_name
-      check_install_paths
-      create_project
-      run_scripts_from_yaml(:run_after_install_command)
-      parse_template_dir
-      create_new_folders
-      create_new_files_from_whole_templates
-      populate_files_from_append_templates
-      populate_files_from_line_templates
-      remove_unwanted_files
-      run_scripts_from_yaml(:run_after_jumpstart)
-      check_for_strings_to_replace
-      check_local_nginx_configuration
+      check_template_path
+      set_config_file_options
+      check_install_path
     end
-        
+    
     def lookup_existing_templates
       template_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
       template_dirs.each do |x|
@@ -101,6 +90,54 @@ module JumpStart
       end
     end
     
+    def check_template_path
+      begin
+        Dir.chdir(@template_path)
+      rescue
+        puts "\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it."
+        exit_jumpstart
+      end
+    end
+    
+    def set_config_file_options
+      if File.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+        @install_command = @config_file[:install_command]
+        @install_command_args = @config_file[:install_command_args]
+        @replace_strings = @config_file[:replace_strings].each {|x| x}
+      else
+        puts "Could not find a valid config file, would you like to create it?"
+        exit_jumpstart
+        # TODO Write method for creating config file
+      end
+    end
+    
+    def check_install_path
+      @install_path = system "pwd" if @install_path.nil?
+      if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
+        puts
+        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        exit_jumpstart
+      end      
+    end
+ 
+    def start
+      puts "\n******************************************************************************************************************************************\n\n"
+      puts "JumpStarting....\n".purple
+      check_setup
+      create_project
+      run_scripts_from_yaml(:run_after_install_command)
+      parse_template_dir
+      create_new_folders
+      create_new_files_from_whole_templates
+      populate_files_from_append_templates
+      populate_files_from_line_templates
+      remove_unwanted_files
+      run_scripts_from_yaml(:run_after_jumpstart)
+      check_for_strings_to_replace
+      check_local_nginx_configuration
+    end
+          
     def create_template
       if Dir.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name).red} already exists. The template will not be created."
@@ -171,6 +208,7 @@ module JumpStart
         @template_name = @existing_template[(input.to_i - 1)]
         check_project_name
         project = JumpStart::Base.new([@project_name, @template_name])
+        project.check_setup
         project.start
       when input == "m"
         jumpstart_menu
@@ -192,22 +230,6 @@ module JumpStart
     # Sets the default template to be used by JumpStart.
     def set_default_template
       
-    end
-            
-    def check_install_paths
-      [@install_path, @template_path].each do |x|
-        begin
-          Dir.chdir(x)
-        rescue
-          puts "\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it."
-          exit_jumpstart
-        end
-      end
-      if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
-        puts
-        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
-        exit_jumpstart
-      end
     end
         
     def create_project
