@@ -35,8 +35,8 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#lookup_existing_projects instance method. \n" do
       
       should "run lookup_existing_projects method and return an array of existing templates" do
-        @test_project.lookup_existing_projects
-        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.existing_projects
+        @test_project.lookup_existing_templates
+        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.existing_templates
       end
       
     end

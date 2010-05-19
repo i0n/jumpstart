@@ -1,7 +1,7 @@
 module JumpStart
   class Base
     
-    attr_accessor :input, :output, :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
+    attr_accessor :input, :output, :project_name, :template_name, :existing_templates, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
     attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     # Monkeypatch puts to make testing easier.
@@ -23,7 +23,7 @@ module JumpStart
       elsif DEFAULT_TEMPLATE_NAME != nil
         @template_name = DEFAULT_TEMPLATE_NAME
       end
-      @existing_projects = []
+      @existing_templates = []
       @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
       @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
@@ -42,7 +42,7 @@ module JumpStart
     def start
       puts "\n******************************************************************************************************************************************\n\n"
       puts "JumpStarting....\n".purple
-      lookup_existing_projects
+      lookup_existing_templates
       check_project_name
       check_template_name
       check_install_paths
@@ -59,12 +59,12 @@ module JumpStart
       check_local_nginx_configuration
     end
         
-    def lookup_existing_projects
-      project_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
-      project_dirs.each do |x|
+    def lookup_existing_templates
+      template_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
+      template_dirs.each do |x|
         if Dir.entries(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x)).include? "jumpstart_config"
           if File.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x, '/jumpstart_config/', "#{x}.yml"))
-            @existing_projects << x
+            @existing_templates << x
           end
         end
       end
@@ -88,7 +88,7 @@ module JumpStart
       if @template_name.nil? || @template_name.empty?
         jumpstart_menu
       else
-        unless @existing_projects.include? @template_name
+        unless @existing_templates.include? @template_name
           puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".yellow + ") / no (" + "n".yellow + ")?\n"
           input = gets.chomp
           if input == "yes" || input == "y"
@@ -150,7 +150,7 @@ module JumpStart
     end
     
     def new_project_from_template_menu
-
+      
     end
     
     def new_template_menu
