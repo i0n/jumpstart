@@ -31,13 +31,7 @@ module JumpStart
       @install_command_args = @config_file[:install_command_args]
       @replace_strings = @config_file[:replace_strings].each {|x| x}
     end
-    
-    # TODO Refactor startup so that if no arguments are passed to the jumpstart command it launches an options menu
-    # Options in the menu should include:
-    # 1. Create a new project from template
-    # 2. Create a new template
-    # 3. Set default template
-    
+        
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
     # If a default template has been set, jumpstart should create the project.
     # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
@@ -92,7 +86,7 @@ module JumpStart
     
     def check_template_name
       if @template_name.nil? || @template_name.empty?
-        jumpstart_options
+        jumpstart_menu
       else
         unless @existing_projects.include? @template_name
           puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".yellow + ") / no (" + "n".yellow + ")?\n"
@@ -121,45 +115,57 @@ module JumpStart
       end
     end
     
-    def jumpstart_options
-      global_options = {'c' => 'config'}
-      templates = {}
-      puts "******************************************************************************************************************************************\n"
-      puts "jumpstart options!\n".purple
-      puts "What would you like to do?"
-      puts "To run an existing jumpstart enter it's number or it's name.\n"
-      count = 0
-      @existing_projects.each do |x|
-        count += 1
-        templates[count.to_s] = x
-        puts "#{count}: #{x}"
-      end
-      puts "\nTo create a new jumpstart enter a name for it."
-      puts "\nTo view/set jumpstart configuration options type " + "config".yellow + " or " + "c".yellow + "."
-      input = gets.chomp
-      global_options.each do |x,y|
-        if input == 'c' || input == 'config'
-          configure_jumpstart
-        end
-      end
-      templates.each do |x,y|
-        if x == input
-          @template_name = templates.fetch(x)
-        elsif y == input
-          @template_name = y
-        end
-      end      
-    end
-        
-    def configure_jumpstart
-      # TODO Define configure_jumpstart method
-      puts "******************************************************************************************************************************************\n"
-      puts "jumpstart configuration.\n".purple
-      
-      # This should be removed when method is finished.
-      exit_jumpstart
+    # TODO Refactor startup so that if no arguments are passed to the jumpstart command it launches an options menu
+    # Options in the menu should include:
+    # 1. Create a new project from template
+    # 2. Create a new template
+    # 3. Set default template
+    
+    def jumpstart_menu
+      puts "\n\n******************************************************************************************************************************************\n\n"
+      puts "JUMPSTART MENU\n\n".purple
+      puts "Type a number for the option you want.\n\n"
+      puts "1".yellow + " Create a new project from an existing template\n"
+      puts "2".yellow + " Create a new template\n"
+      puts "3".yellow + " Set default template\n\n"
+      puts "x".yellow + "Exit jumpstart\n\n"
+      puts "******************************************************************************************************************************************\n\n"
+      jumpstart_menu_options
     end
     
+    def jumpstart_menu_options
+      input = gets.chomp
+      case
+      when input == "1"
+        new_project_from_template_menu
+      when input == "2"
+        new_template_menu
+      when input == "3"
+        set_default_template_menu
+      when inpuy == "x"
+        exit_jumpstart
+      else
+        puts "That command hasn't been understood. Try again!".red
+      end
+    end
+    
+    def new_project_from_template_menu
+
+    end
+    
+    def new_template_menu
+      
+    end
+    
+    def set_default_template_menu
+      
+    end
+    
+    # Sets the default template to be used by JumpStart.
+    def set_default_template
+      
+    end
+            
     def check_install_paths
       [@install_path, @template_path].each do |x|
         begin
