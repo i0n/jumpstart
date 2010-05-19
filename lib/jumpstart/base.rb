@@ -150,7 +150,35 @@ module JumpStart
     end
     
     def new_project_from_template_menu
-      
+      puts "\n\n******************************************************************************************************************************************\n\n"
+      puts "CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
+      puts "Type a number for the template that you want."
+      count = 0
+      @existing_templates.each do |t|
+        count += 1
+        puts "#{count.to_s.yellow} t"
+      end
+      puts "\nm".yellow + "Back to main menu."
+      puts "\nx".yellow + "Exit jumpstart\n\n"
+      puts "******************************************************************************************************************************************\n\n"
+      new_project_from_template_options
+    end
+    
+    def new_project_from_template_options
+      input = gets.chomp
+      case
+      when input.to_i <= @existing_templates.count && input.to_i > 0
+        @template_name = @existing_template[(input.to_i - 1)]
+        check_project_name
+        project = JumpStart::Base.new([@project_name, @template_name])
+        project.start
+      when input == "m"
+        jumpstart_menu
+      when input == "x"
+        exit_jumpstart
+      else
+        puts "That command hasn't been understood. Try again!".red
+      end
     end
     
     def new_template_menu
