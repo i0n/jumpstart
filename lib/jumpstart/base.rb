@@ -31,7 +31,11 @@ module JumpStart
       
       @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
     end
-            
+    
+    # TODO Refactor so that initialize creates and attempts to set all instance variables. This will allow variables to be set by calling the relevant accessor, e.g. project.project_name = "woohoo"
+    # TODO Refactor so that check_setup varifies valid information for each method sent. Keep validations clear of install process so that everything can be checked before install is underway
+    # TODO Refactor so that start run the installer, with a sanity check call to check_setup beforehand. check_setup should return nothing if all variables are valid.
+    
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
     # If a default template has been set, jumpstart should create the project.
     # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
