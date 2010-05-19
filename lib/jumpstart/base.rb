@@ -4,10 +4,12 @@ module JumpStart
     attr_accessor :input, :output, :project_name, :template_name, :existing_projects, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
     attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
+    # Monkeypatch puts to make testing easier.
     def puts(*args)
       @output.puts(*args)    
     end
 
+    # Monkeypatch gets to make testing easier.
     def gets(*args)
       @input.gets(*args)
     end
