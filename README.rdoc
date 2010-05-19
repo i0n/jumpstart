@@ -3,9 +3,6 @@
 jumpstart is a gem for quickly creating projects.
 It does this by running options from a YAML file that you can create, or you can let the gem do it for you.
 It's dead easy to do.
-Say you want to create a jumpstart template for a specific rails configuration
-Create a folder for your jumpstart templates.
-Inside this folder create
 
 == Note on Patches/Pull Requests
  
