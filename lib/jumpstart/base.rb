@@ -160,9 +160,10 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "JUMPSTART MENU\n".purple
       puts "Here are your options:\n\n"
-      puts "1".yellow + " Create a new project from an existing template\n"
-      puts "2".yellow + " Create a new template\n"
-      puts "3".yellow + " Set default template\n\n"
+      puts "1".yellow + " Create a new project from an existing template.\n"
+      puts "2".yellow + " Create a new template.\n"
+      puts "3".yellow + " Set the default template.\n"
+      puts "4".yellow + "Set the templates directory.\n\n"
       puts "x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       jumpstart_menu_options
@@ -177,6 +178,8 @@ module JumpStart
         new_template_menu
       when input == "3"
         set_default_template_menu
+      when input == "4"
+        set_templates_directory
       when input == "x"
         exit_jumpstart
       else
@@ -223,6 +226,10 @@ module JumpStart
     end
     
     def set_default_template_menu
+      
+    end
+    
+    def set_templates_directory
       
     end
     
