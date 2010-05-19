@@ -1,7 +1,7 @@
 module JumpStart
   class Base
     
-    attr_accessor :input, :output, :project_name, :template_name, :existing_templates, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
+    attr_accessor :input, :output, :jumpstart_templates_path, :default_template_name, :project_name, :template_name, :existing_templates, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
     attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     # Monkeypatch puts to make testing easier.
@@ -19,15 +19,19 @@ module JumpStart
       @input  = $stdin
       # setup for testing output
       @output = $stdout
-      # set the name of the project from the first argument passed, or from the constant DEFAULT_TEMPLATE_NAME if no argument passed.
+      # The path to the jumpstart templates directory
+      @jumpstart_templates_path = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:jumpstart_templates_path]
+      # sets the default template to use if it has not been passed as an argument.
+      @default_template_name = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:default_template_name]
+      # set the name of the project from the first argument passed, or from the constant @default_template_name if no argument passed.
       @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
         @template_name = args.shift.dup
-      elsif DEFAULT_TEMPLATE_NAME != nil
-        @template_name = DEFAULT_TEMPLATE_NAME
+      elsif @default_template_name != nil
+        @template_name = @default_template_name
       end
       # set instance variable @template_path as the directory to read templates from.
-      @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
+      @template_path = FileUtils.join_paths(@jumpstart_templates_path, @template_name)
       # set up instance variable containing an array that will be populated with existing jumpstart templates
       @existing_templates = []
       # Sets @config_file, @install_command, @install_command_args and @replace_strings instance variables, if a YAML file can be found for the template.
@@ -48,7 +52,7 @@ module JumpStart
     # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
     
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
-    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if DEFAULT_TEMPLATE_NAME exists then the command is launched without any menu display.
+    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if @default_template_name exists then the command is launched without any menu display.
     
     def check_setup
       lookup_existing_templates
@@ -60,10 +64,10 @@ module JumpStart
     end
     
     def lookup_existing_templates
-      template_dirs = Dir.entries(JUMPSTART_TEMPLATES_PATH) -IGNORE_DIRS
+      template_dirs = Dir.entries(@jumpstart_templates_path) -IGNORE_DIRS
       template_dirs.each do |x|
-        if Dir.entries(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x)).include? "jumpstart_config"
-          if File.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, x, '/jumpstart_config/', "#{x}.yml"))
+        if Dir.entries(FileUtils.join_paths(@jumpstart_templates_path, x)).include? "jumpstart_config"
+          if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, x, '/jumpstart_config/', "#{x}.yml"))
             @existing_templates << x
           end
         end
@@ -100,8 +104,8 @@ module JumpStart
     end
     
     def set_config_file_options
-      if File.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-        @config_file = YAML.load_file(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+      if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command = @config_file[:install_command]
         @install_command_args = @config_file[:install_command_args]
         @replace_strings = @config_file[:replace_strings].each {|x| x}
@@ -137,13 +141,13 @@ module JumpStart
     end
           
     def create_template
-      if Dir.exists?(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name))
-        puts "\nThe directory #{FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name).red} already exists. The template will not be created."
+      if Dir.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name))
+        puts "\nThe directory #{FileUtils.join_paths(@jumpstart_templates_path, @template_name).red} already exists. The template will not be created."
         exit_jumpstart
       else
-        FileUtils.mkdir_p(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config"))
+        FileUtils.mkdir_p(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config"))
         yaml = IO.read(FileUtils.join_paths(ROOT_PATH, "/source_templates/template_config.yml"))
-        File.open(FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
+        File.open(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
           file.puts yaml
         end
         puts "The template #{@template_name.green} has been generated.\n"
