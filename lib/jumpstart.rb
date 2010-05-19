@@ -3,11 +3,11 @@ require 'find'
 require 'fileutils'
 require 'yaml'
 
-# TODO Test this under Windows.
+# TODO Test this under Windows, and look into conditionally including this dependency with bundler.
 begin
   require 'Win32/Console/ANSI' if RUBY_PLATFORM =~ /win32/
 rescue LoadError
-  raise 'You must gem install win32console to use color on Windows'
+  raise 'You must gem install win32console to use colored output on Windows'
 end
 
 module JumpStart

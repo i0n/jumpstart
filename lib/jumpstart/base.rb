@@ -15,21 +15,28 @@ module JumpStart
     end
     
     def initialize(args)
+      # setup for testing input
       @input  = $stdin
+      # setup for testing output
       @output = $stdout
+      # set the name of the project from the first argument passed, or from the constant DEFAULT_TEMPLATE_NAME if no argument passed.
       @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
         @template_name = args.shift.dup
       elsif DEFAULT_TEMPLATE_NAME != nil
         @template_name = DEFAULT_TEMPLATE_NAME
       end
+      # set instance variable @template_path as the directory to read templates from.
+      @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
+      # set up instance variable containing an array that will be populated with existing jumpstart templates
       @existing_templates = []
-      
+      # Sets @config_file, @install_command, @install_command_args and @replace_strings instance variables, if a YAML file can be found for the template.
+      # Relies on @template_name being set
       set_config_file_options
+      # Sets @install_path from @config_file. 
+      # TODO Look at refactoring this section
       @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
       check_install_path
-      
-      @template_path = FileUtils.join_paths(JUMPSTART_TEMPLATES_PATH, @template_name)
     end
     
     # TODO Refactor so that initialize creates and attempts to set all instance variables. This will allow variables to be set by calling the relevant accessor, e.g. project.project_name = "woohoo"
@@ -80,17 +87,6 @@ module JumpStart
     def check_template_name
       if @template_name.nil? || @template_name.empty?
         jumpstart_menu
-      else
-        unless @existing_templates.include? @template_name
-          puts "A JumpStart template of the name #{@template_name} doesn't exist, would you like to create it?\n yes (" + "y".yellow + ") / no (" + "n".yellow + ")?\n"
-          input = gets.chomp
-          if input == "yes" || input == "y"
-            puts "creating JumpStart template #{@template_name}"
-            create_template
-          elsif input == "no" || input == "n"
-            exit_jumpstart
-          end
-        end
       end
     end
     
@@ -110,9 +106,7 @@ module JumpStart
         @install_command_args = @config_file[:install_command_args]
         @replace_strings = @config_file[:replace_strings].each {|x| x}
       else
-        puts "Could not find a valid config file, would you like to create it?"
-        exit_jumpstart
-        # TODO Write method for creating config file
+        jumpstart_menu
       end
     end
     
@@ -164,12 +158,12 @@ module JumpStart
     
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "JUMPSTART MENU\n\n".purple
-      puts "Type a number for the option you want.\n\n"
+      puts "JUMPSTART MENU\n".purple
+      puts "Here are your options:\n\n"
       puts "1".yellow + " Create a new project from an existing template\n"
       puts "2".yellow + " Create a new template\n"
       puts "3".yellow + " Set default template\n\n"
-      puts "x".yellow + "Exit jumpstart\n\n"
+      puts "x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       jumpstart_menu_options
     end
@@ -183,10 +177,11 @@ module JumpStart
         new_template_menu
       when input == "3"
         set_default_template_menu
-      when inpuy == "x"
+      when input == "x"
         exit_jumpstart
       else
         puts "That command hasn't been understood. Try again!".red
+        jumpstart_menu_options
       end
     end
     
@@ -371,7 +366,7 @@ module JumpStart
     
     def exit_jumpstart
       puts "\n\nExiting JumpStart...".purple
-      puts "Goodbye!\n"
+      puts "\nGoodbye!\n\n"
       puts "******************************************************************************************************************************************\n"
       exit
     end
