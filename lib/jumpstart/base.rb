@@ -199,7 +199,7 @@ module JumpStart
         count += 1
         puts "#{count.to_s.yellow} t"
       end
-      puts "\n  m".yellow + " Back to main menu."
+      puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       new_project_from_template_options
@@ -214,7 +214,7 @@ module JumpStart
         project = JumpStart::Base.new([@project_name, @template_name])
         project.check_setup
         project.start
-      when input == "m"
+      when input == "b"
         jumpstart_menu
       when input == "x"
         exit_jumpstart
@@ -236,10 +236,10 @@ module JumpStart
       puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
       puts "  1".yellow + " Set templates directory.\n"
       puts "  2".yellow + " Reset templates directory to default"
-      puts "  m".yellow + " Back to main menu.\n\n"
+      puts "  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
-      template_dir_options
+      templates_dir_options
     end
     
     def templates_dir_options
@@ -249,7 +249,7 @@ module JumpStart
         set_templates_dir
       when input == "2"
         reset_templates_dir_to_default
-      when input == "m"
+      when input == "b"
         jumpstart_menu
       when input == "x"
         exit_jumpstart
