@@ -279,23 +279,23 @@ module JumpStart
     end
     
     def reset_templates_dir_to_default
-      puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
-      current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
-      default_files_and_dirs = FileUtils.sort_contained_files_and_dirs(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
-      current_files_and_dirs[:dirs].each do |dir|
-        if default_files_and_dirs[:dirs].include?(dir)
-          puts "  Templates exist in the default directory that will be overwritten if you move your current templates. Proceed?\n\n".yellow
-          puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
-          input = gets.chomp
-          if input == "yes" || input == "y"
-            
-          else
-            jumpstart_menu
-          end
+      if @jumpstart_templates_path == "#{ROOT_PATH}/jumpstart_templates"
+        puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
+      else  
+        puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
+        current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
+        puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n\n".yellow
+        puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
+        input = gets.chomp
+        if input == "yes" || input == "y"
+          FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
+          current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
+          current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x), FileUtils.join_paths(input, x)) }
+          @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
+          dump_global_yaml
         end
       end
-      @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
-      dump_global_yaml
+      templates_dir_menu
     end
     
     # Sets the default template to be used by JumpStart.
