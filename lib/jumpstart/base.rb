@@ -282,12 +282,14 @@ module JumpStart
               files << x.sub(@jumpstart_templates_path, '')
             end
           end
-          puts "copying existing templates over to new directory."
+          puts "copying existing templates to #{input}"
           dirs.each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
           files.each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(input, x)) }
           File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
             YAML.dump( @jumpstart_templates_path, out )
           end
+          puts "Transfer complete!".green
+          jumpstart_menu
         rescue
           puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
         end
