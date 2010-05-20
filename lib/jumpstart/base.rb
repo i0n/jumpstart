@@ -199,7 +199,7 @@ module JumpStart
         count += 1
         puts "#{count.to_s.yellow} t"
       end
-      puts "\n  b".yellow + " Back to main menu."
+      puts "\n\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       new_project_from_template_options
@@ -235,7 +235,7 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
       puts "  1".yellow + " Set templates directory.\n"
-      puts "  2".yellow + " Reset templates directory to default"
+      puts "  2".yellow + " Reset templates directory to default\n\n"
       puts "  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
@@ -286,9 +286,9 @@ module JumpStart
           dirs.each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
           files.each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(input, x)) }
           File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
-            YAML.dump( @jumpstart_templates_path, out )
+            YAML.dump( {:jumpstart_templates_path => @jumpstart_templates_path, :default_template_name => @default_template_name}, out )
           end
-          puts "Transfer complete!".green
+          puts "\nTransfer complete!".green
           jumpstart_menu
         rescue
           puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
