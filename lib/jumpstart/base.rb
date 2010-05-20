@@ -50,10 +50,10 @@ module JumpStart
     def set_config_file_options(templates_path, template_name)
       if File.exists?(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
-        @install_command = @config_file[:install_command] if @install_command.nil?
-        @install_command_args = @config_file[:install_command_args] if @install_command_args.nil?
-        @replace_strings = @config_file[:replace_strings].each {|x| x} if @replace_strings.nil?
-        @install_path = FileUtils.join_paths(@config_file[:install_path]) if @install_path.nil?
+        @install_command ||= @config_file[:install_command]
+        @install_command_args ||= @config_file[:install_command_args]
+        @replace_strings ||= @config_file[:replace_strings].each {|x| x}
+        @install_path ||= FileUtils.join_paths(@config_file[:install_path])
       else
         jumpstart_menu
       end
