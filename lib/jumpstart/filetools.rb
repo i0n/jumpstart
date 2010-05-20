@@ -240,13 +240,5 @@ module JumpStart::FileTools
     full_path[0].insert(0, '/') if absolute_path
     full_path.join('/')
   end
-  
-  def create_folders(install_path, file_array)
-    file_array.each do |x|
-      unless Dir.exists?(join_paths(install_path, x))
-        Dir.mkdir(join_paths(install_path, x))
-      end
-    end
-  end
-    
+      
 end

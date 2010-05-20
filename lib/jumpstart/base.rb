@@ -126,7 +126,7 @@ module JumpStart
       execute_install_command
       run_scripts_from_yaml(:run_after_install_command)
       parse_template_dir
-      FileUtils.create_folders(FileUtils.join_paths(@install_path, @project_name), @dir_list)
+      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) }
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
@@ -328,6 +328,15 @@ module JumpStart
         end
       end
     end
+            
+    # source can be a path to a directory to clone or an array of files.
+    def duplicate_files(source, install_path)
+      
+    end
+    
+    # FileUtils.cp(@whole_templates,  )
+    
+    
             
     def create_new_files_from_whole_templates
       @whole_templates.each do |x|
