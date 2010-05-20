@@ -279,9 +279,21 @@ module JumpStart
     end
     
     def reset_templates_dir_to_default
-      puts "Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates"
+      puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
       current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
       default_files_and_dirs = FileUtils.sort_contained_files_and_dirs(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
+      current_files_and_dirs[:dirs].each do |dir|
+        if default_files_and_dirs[:dirs].include?(dir)
+          puts "  Templates exist in the default directory that will be overwritten if you move your current templates. Proceed?\n\n".yellow
+          puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
+          input = gets.chomp
+          if input == "yes" || input == "y"
+            
+          else
+            jumpstart_menu
+          end
+        end
+      end
       @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
       dump_global_yaml
     end

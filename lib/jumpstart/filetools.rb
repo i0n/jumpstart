@@ -40,6 +40,17 @@ module JumpStart::FileTools
     end
   end
 
+  def delete_dir_contents(target_dir)
+    files_and_dirs = Find.find(target_dir)
+    files_and_dirs.each do |x|
+      if File.file?(x)
+        FileUtils.rm(x)
+      elsif File.directory?(x) && x != target_dir && Dir.exists?(x)
+        FileUtils.remove_dir(x)
+      end
+    end
+  end
+
   def remove_files(file_array)
     file_array.each do |x|
       begin

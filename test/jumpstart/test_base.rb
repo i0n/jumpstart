@@ -5,7 +5,7 @@ class TestJumpstartBase < Test::Unit::TestCase
   context "Testing JumpStart::Base with a @default_template_name and @jumpstart_templates_path specified.\n" do
     
     setup do
-      clean_destination_dir
+      FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
       @test_project.default_template_name = "test_template_1"
@@ -16,7 +16,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
     
     teardown do
-      clean_destination_dir
+      FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
     end
     
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
