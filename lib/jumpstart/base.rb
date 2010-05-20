@@ -36,7 +36,6 @@ module JumpStart
       @existing_templates = []
     end
     
-    # TODO Refactor so that initialize creates and attempts to set all instance variables. This will allow variables to be set by calling the relevant accessor, e.g. project.project_name = "woohoo"
     # TODO Refactor so that check_setup varifies valid information for each method sent. Keep validations clear of install process so that everything can be checked before install is underway
     # TODO Refactor so that start run the installer, with a sanity check call to check_setup beforehand. check_setup should return nothing if all variables are valid.
     
