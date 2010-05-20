@@ -234,11 +234,34 @@ module JumpStart
     
     # TODO Write method(s) for setting the default template
     def set_default_template_menu
-      
+      puts "\n\n******************************************************************************************************************************************\n\n"
+      puts "  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n".purple
+      count = 0
+      @existing_templates.each do |t|
+        count += 1
+        puts "  #{count.to_s.yellow} #{t}"
+      end
+      puts "  b".yellow + " Back to main menu.\n\n"
+      puts "  x".yellow + " Exit jumpstart\n\n"
+      puts "******************************************************************************************************************************************\n\n"
+      set_default_template_options
     end
     
     # Sets the default template to be used by JumpStart.
-    def set_default_template
+    def set_default_template_options
+      input = gets.chomp
+      case
+      when input.to_i <= @existing_templates.count && input.to_i > 0
+        @default_template_name = @existing_template[(input.to_i - 1)]
+        dump_global_yaml
+      when input == "b"
+        jumpstart_menu
+      when input == "x"
+        exit_jumpstart
+      else
+        puts "That command hasn't been understood. Try again!".red
+        set_default_template_options
+      end
       
     end
     
