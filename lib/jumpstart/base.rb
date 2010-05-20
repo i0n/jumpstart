@@ -254,6 +254,8 @@ module JumpStart
       when input.to_i <= @existing_templates.count && input.to_i > 0
         @default_template_name = @existing_templates[(input.to_i - 1)]
         dump_global_yaml
+        puts "  The default jumpstart template has been set to: #{@default_template_name.green}"
+        jumpstart_menu
       when input == "b"
         jumpstart_menu
       when input == "x"
