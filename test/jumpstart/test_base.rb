@@ -157,15 +157,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-          
-    context "Tests for the JumpStart::Base#create_new_files_from_whole_templates instance method. \n" do
-      
-      should "run create_new_files_from_whole_templates method" do
-  
-      end
-      
-    end
-  
+            
     context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method. \n" do
       
       should "run populate_files_from_append_templates method" do

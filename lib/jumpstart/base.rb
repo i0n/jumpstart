@@ -126,8 +126,10 @@ module JumpStart
       execute_install_command
       run_scripts_from_yaml(:run_after_install_command)
       parse_template_dir
+      # makes folders for the project
       @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) }
-      create_new_files_from_whole_templates
+      # create files from whole templates
+      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) }
       populate_files_from_append_templates
       populate_files_from_line_templates
       remove_unwanted_files
@@ -279,7 +281,7 @@ module JumpStart
               files << x.sub(@jumpstart_templates_path, '')
             end
           end
-          FileUtils.create_folders(input, dirs)
+          dirs.each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
         rescue
           puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
         end
@@ -328,26 +330,7 @@ module JumpStart
         end
       end
     end
-            
-    # source can be a path to a directory to clone or an array of files.
-    def duplicate_files(source, install_path)
-      
-    end
-    
-    # FileUtils.cp(@whole_templates,  )
-    
-    
-            
-    def create_new_files_from_whole_templates
-      @whole_templates.each do |x|
-        FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x))
-        file_contents = IO.read(FileUtils.join_paths(@template_path, x))
-        File.open(FileUtils.join_paths(@install_path, @project_name, x), "w") do |y|
-          y.puts file_contents
-        end
-      end
-    end
-    
+                              
     def populate_files_from_append_templates
       @append_templates.each do |x|
         new_name = x.sub(/_([lL]?)\._{1}/, '')
