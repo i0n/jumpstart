@@ -40,6 +40,7 @@ module JumpStart::FileTools
     end
   end
 
+  # Deletes all files and folders in a directory. Leaves target_dir intact.
   def delete_dir_contents(target_dir)
     files_and_dirs = Find.find(target_dir)
     files_and_dirs.each do |x|
