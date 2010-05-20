@@ -123,10 +123,10 @@ module JumpStart
       puts "\n******************************************************************************************************************************************\n\n"
       puts "JumpStarting....\n".purple
       check_setup
-      create_project
+      execute_install_command
       run_scripts_from_yaml(:run_after_install_command)
       parse_template_dir
-      create_new_folders
+      FileUtils.create_folders(FileUtils.join_paths(@install_path, @project_name), @dir_list)
       create_new_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
@@ -179,7 +179,7 @@ module JumpStart
       when input == "3"
         set_default_template_menu
       when input == "4"
-        set_templates_dir
+        templates_dir_menu
       when input == "x"
         exit_jumpstart
       else
@@ -229,9 +229,62 @@ module JumpStart
       
     end
     
+    def templates_dir_menu
+      puts "\n\n******************************************************************************************************************************************\n\n"
+      puts "JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
+      puts "1".yellow + "Set templates directory.\n"
+      puts "2".yellow + "Reset templates directory to default"
+      puts "\nm".yellow + "Back to main menu."
+      puts "\nx".yellow + "Exit jumpstart\n\n"
+      puts "******************************************************************************************************************************************\n\n"
+    end
+    
+    def templates_dir_options
+      input = gets.chomp
+      case
+      when input == "1"
+        set_templates_dir
+      when input == "2"
+        reset_templates_dir_to_default
+      when input == "m"
+        jumpstart_menu
+      when input == "x"
+        exit_jumpstart
+      else
+        puts "That command hasn't been understood. Try again!".red
+        templates_dir_options
+      end
+    end
+    
     # Sets the path for templates to be used by JumpStart.
     def set_templates_dir
-      
+      puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
+      input = gets.chomp
+      root_path = input.sub(/\/\w*\/*$/, '')
+      case
+      when Dir.exists?(input)
+        puts "A directory of that name already exists, please choose a directory that does not exist."
+        set_template_dir
+      when Dir.exists?(root_path)
+        begin
+          Dir.chdir(root_path)
+          Dir.mkdir(input)
+          dirs = []
+          files = []
+          Find.find(@jumpstart_templates_path) do |x|
+            case
+            when File.directory?(x)
+              dirs << x.sub(@jumpstart_templates_path, '')
+            when File.file?(x)
+              files << x.sub(@jumpstart_templates_path, '')
+            end
+          end
+          FileUtils.create_folders(input, dirs)
+        rescue
+          puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
+        end
+        
+      end
     end
     
     # Sets the default template to be used by JumpStart.
@@ -239,7 +292,7 @@ module JumpStart
       
     end
         
-    def create_project
+    def execute_install_command
       Dir.chdir(@install_path)
       unless @install_command.nil?
         puts "Executing command: #{@install_command.green} #{@project_name.green} #{@install_command_args.green}"
@@ -275,20 +328,11 @@ module JumpStart
         end
       end
     end
-    
-    def create_new_folders
-      Dir.chdir(@install_path)
-      @dir_list.each do |x|
-        unless Dir.exists?(FileUtils.join_paths(@install_path, @project_name, x))
-          Dir.mkdir(FileUtils.join_paths(@install_path, @project_name, x))
-        end
-      end
-    end
-    
+            
     def create_new_files_from_whole_templates
       @whole_templates.each do |x|
         FileUtils.touch(FileUtils.join_paths(@install_path, @project_name, x))
-        file_contents = IO.readlines(FileUtils.join_paths(@template_path, x))
+        file_contents = IO.read(FileUtils.join_paths(@template_path, x))
         File.open(FileUtils.join_paths(@install_path, @project_name, x), "w") do |y|
           y.puts file_contents
         end
