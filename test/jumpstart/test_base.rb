@@ -11,7 +11,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project.default_template_name = "test_template_1"
       @test_project.template_name = "test_template_1"
       @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-      @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+      @test_project.set_config_file_options
       @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
     end
     
@@ -61,7 +61,7 @@ class TestJumpstartBase < Test::Unit::TestCase
           @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
           @test_project.default_template_name = "test_template_1"
           @test_project.template_name = "test_template_1"
-          @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+          @test_project.set_config_file_options
           @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         end
         
@@ -93,7 +93,7 @@ class TestJumpstartBase < Test::Unit::TestCase
           @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
           @test_project.default_template_name = "test_template_1"
           @test_project.template_name = "test_template_1"
-          @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+          @test_project.set_config_file_options
           @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         end
         
@@ -356,17 +356,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for initializing and running JumpStart instances\n" do
      
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do
-    
-        # setup do
-        #   @test_project = JumpStart::Base.new(["test_jumpstart_project"])
-        #   @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-        #   @test_project.default_template_name = "test_template_1"
-        #   @test_project.template_name = "test_template_1"
-        #   @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-        #   @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
-        #   @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
-        # end
-    
+        
         should "be able to create a new jumpstart with the project name as the first argument" do
           refute_nil @test_project
         end

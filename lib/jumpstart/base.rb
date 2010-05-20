@@ -46,9 +46,9 @@ module JumpStart
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if @default_template_name exists then the command is launched without any menu display.
     
-    def set_config_file_options(templates_path, template_name)
-      if File.exists?(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
-        @config_file = YAML.load_file(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
+    def set_config_file_options
+      if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command ||= @config_file[:install_command]
         @install_command_args ||= @config_file[:install_command_args]
         @replace_strings ||= @config_file[:replace_strings].each {|x| x}
@@ -61,7 +61,7 @@ module JumpStart
     def check_setup
       # Sets @config_file, @install_command, @install_command_args, @replace_strings and @install_path instance variables, if a YAML file can be found for the template.
       # Relies on @template_name being set
-      set_config_file_options(@jumpstart_templates_path, @template_name)
+      set_config_file_options
       lookup_existing_templates
       check_project_name
       check_template_name
