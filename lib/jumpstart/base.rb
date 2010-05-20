@@ -150,13 +150,7 @@ module JumpStart
         puts "The template #{@template_name.green} has been generated.\n"
       end
     end
-    
-    # TODO Refactor startup so that if no arguments are passed to the jumpstart command it launches an options menu
-    # Options in the menu should include:
-    # 1. Create a new project from template
-    # 2. Create a new template
-    # 3. Set default template
-    
+        
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART MENU\n".purple
@@ -171,6 +165,7 @@ module JumpStart
     end
     
     def jumpstart_menu_options
+      lookup_existing_templates
       input = gets.chomp
       case
       when input == "1"
@@ -192,13 +187,13 @@ module JumpStart
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
-      puts "  Type a number for the template that you want."
+      puts "  Type a number for the template that you want.\n\n"
       count = 0
       @existing_templates.each do |t|
         count += 1
-        puts "#{count.to_s.yellow} t"
+        puts "  #{count.to_s.yellow} #{t}"
       end
-      puts "\n\n  b".yellow + " Back to main menu."
+      puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       new_project_from_template_options
