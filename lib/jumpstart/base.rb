@@ -213,7 +213,7 @@ module JumpStart
       input = gets.chomp
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
-        @template_name = @existing_template[(input.to_i - 1)]
+        @template_name = @existing_templates[(input.to_i - 1)]
         check_project_name
         project = JumpStart::Base.new([@project_name, @template_name])
         project.check_setup
@@ -252,7 +252,7 @@ module JumpStart
       input = gets.chomp
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
-        @default_template_name = @existing_template[(input.to_i - 1)]
+        @default_template_name = @existing_templates[(input.to_i - 1)]
         dump_global_yaml
       when input == "b"
         jumpstart_menu
@@ -262,9 +262,7 @@ module JumpStart
         puts "That command hasn't been understood. Try again!".red
         set_default_template_options
       end
-      
     end
-    
     
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
