@@ -36,9 +36,6 @@ module JumpStart
       @existing_templates = []
     end
     
-    # TODO Refactor so that check_setup varifies valid information for each method sent. Keep validations clear of install process so that everything can be checked before install is underway
-    # TODO Refactor so that start run the installer, with a sanity check call to check_setup beforehand. check_setup should return nothing if all variables are valid.
-    
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
     # If a default template has been set, jumpstart should create the project.
     # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
@@ -278,6 +275,7 @@ module JumpStart
       end
     end
     
+    # Resets the JumpStart template directory to the default location. (within the gem.)
     def reset_templates_dir_to_default
       if @jumpstart_templates_path == "#{ROOT_PATH}/jumpstart_templates"
         puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
