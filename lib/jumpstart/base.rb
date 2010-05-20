@@ -264,19 +264,10 @@ module JumpStart
         begin
           Dir.chdir(root_path)
           Dir.mkdir(input)
-          dirs = []
-          files = []
-          Find.find(@jumpstart_templates_path) do |x|
-            case
-            when File.directory?(x)
-              dirs << x.sub(@jumpstart_templates_path, '')
-            when File.file?(x)
-              files << x.sub(@jumpstart_templates_path, '')
-            end
-          end
-          puts "copying existing templates to #{input}"
-          dirs.each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
-          files.each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(input, x)) }
+          files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
+          puts "\nCopying existing templates to #{input}"
+          files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
+          files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(input, x)) }
           @jumpstart_templates_path = input.to_s
           dump_global_yaml
           puts "\nTransfer complete!".green
@@ -284,8 +275,15 @@ module JumpStart
         rescue
           puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
         end
-        
       end
+    end
+    
+    def reset_templates_dir_to_default
+      puts "Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates"
+      current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
+      default_files_and_dirs = FileUtils.sort_contained_files_and_dirs(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
+      @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
+      dump_global_yaml
     end
     
     # Sets the default template to be used by JumpStart.

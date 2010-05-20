@@ -241,5 +241,18 @@ module JumpStart::FileTools
     full_path[0].insert(0, '/') if absolute_path
     full_path.join('/')
   end
+  
+  def sort_contained_files_and_dirs(path)
+    dirs, files = [], []
+    Find.find(path) do |x|
+      case
+      when File.directory?(x)
+        dirs << x.sub(path, '')
+      when File.file?(x)
+        files << x.sub(path, '')
+      end
+    end
+    {:files => files, :dirs => dirs}
+  end
       
 end
