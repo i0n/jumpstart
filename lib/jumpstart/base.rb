@@ -34,7 +34,6 @@ module JumpStart
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(@jumpstart_templates_path, @template_name)
       # set up instance variable containing an array that will be populated with existing jumpstart templates
-      @existing_templates = []
     end
     
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
@@ -71,6 +70,7 @@ module JumpStart
     
     # TODO lookup_existing_templates needs tests
     def lookup_existing_templates
+      @existing_templates = []
       template_dirs = Dir.entries(@jumpstart_templates_path) - IGNORE_DIRS
       template_dirs.each do |x|
         if Dir.entries(FileUtils.join_paths(@jumpstart_templates_path, x)).include? "jumpstart_config"
