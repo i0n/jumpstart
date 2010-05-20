@@ -241,7 +241,7 @@ module JumpStart
         count += 1
         puts "  #{count.to_s.yellow} #{t}"
       end
-      puts "  b".yellow + " Back to main menu.\n\n"
+      puts "\n  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       set_default_template_options
