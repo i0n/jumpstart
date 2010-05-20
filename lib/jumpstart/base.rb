@@ -285,9 +285,8 @@ module JumpStart
           puts "copying existing templates to #{input}"
           dirs.each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
           files.each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(input, x)) }
-          File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
-            YAML.dump( {:jumpstart_templates_path => @jumpstart_templates_path, :default_template_name => @default_template_name}, out )
-          end
+          @jumpstart_templates_path = input.to_s
+          dump_global_yaml
           puts "\nTransfer complete!".green
           jumpstart_menu
         rescue
@@ -414,6 +413,12 @@ module JumpStart
         end
       end
       hash
+    end
+    
+    def dump_global_yaml
+      File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
+        YAML.dump( {:jumpstart_templates_path => @jumpstart_templates_path, :default_template_name => @default_template_name}, out )
+      end
     end
     
     def exit_jumpstart
