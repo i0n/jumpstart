@@ -14,6 +14,7 @@ module JumpStart
       @input.gets(*args)
     end
     
+    # TODO initialize needs more tests
     def initialize(args)
       # setup for testing input
       @input  = $stdin
@@ -42,7 +43,10 @@ module JumpStart
     
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if @default_template_name exists then the command is launched without any menu display.
+    # TODO Document methods for RDOC
+    # Finish README etc for github
     
+    # TODO set_config_file_options needs tests
     def set_config_file_options
       if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
@@ -55,6 +59,7 @@ module JumpStart
       end
     end
     
+    # TODO check_setup needs tests
     def check_setup
       set_config_file_options
       lookup_existing_templates
@@ -64,6 +69,7 @@ module JumpStart
       check_install_path
     end
     
+    # TODO lookup_existing_templates needs tests
     def lookup_existing_templates
       template_dirs = Dir.entries(@jumpstart_templates_path) - IGNORE_DIRS
       template_dirs.each do |x|
@@ -75,6 +81,7 @@ module JumpStart
       end
     end
     
+    # TODO check_project_name needs tests
     def check_project_name
       if @project_name.nil? || @project_name.empty?
         puts "\nEnter a name for your project.".yellow
@@ -89,12 +96,14 @@ module JumpStart
       end
     end
     
+    # TODO check_template_name needs tests.
     def check_template_name
       if @template_name.nil? || @template_name.empty?
         jumpstart_menu
       end
     end
     
+    # TODO check_template_path needs tests
     def check_template_path
       begin
         Dir.chdir(@template_path)
@@ -104,6 +113,7 @@ module JumpStart
       end
     end
         
+    # TODO check_install_path needs tests
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil?
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
@@ -132,6 +142,7 @@ module JumpStart
       check_local_nginx_configuration
     end
           
+    # TODO create_template needs tests
     def create_template
       if Dir.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(@jumpstart_templates_path, @template_name).red} already exists. The template will not be created."
@@ -159,6 +170,7 @@ module JumpStart
       jumpstart_menu_options
     end
     
+    # TODO jumpstart_menu_options needs tests
     def jumpstart_menu_options
       lookup_existing_templates
       input = gets.chomp
@@ -179,6 +191,8 @@ module JumpStart
       end
     end
     
+    # TODO Check/finish methods for creating a new project through the menu
+    # TODO new_project_from_template_menu needs tests
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
@@ -194,6 +208,7 @@ module JumpStart
       new_project_from_template_options
     end
     
+    # TODO new_project_from_template_options needs tests
     def new_project_from_template_options
       input = gets.chomp
       case
@@ -212,13 +227,21 @@ module JumpStart
       end
     end
     
+    # TODO Write method(s) for creating a new template
     def new_template_menu
       
     end
     
+    # TODO Write method(s) for setting the default template
     def set_default_template_menu
       
     end
+    
+    # Sets the default template to be used by JumpStart.
+    def set_default_template
+      
+    end
+    
     
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
@@ -231,6 +254,7 @@ module JumpStart
       templates_dir_options
     end
     
+    # TODO templates_dir_options needs tests
     def templates_dir_options
       input = gets.chomp
       case
@@ -248,6 +272,7 @@ module JumpStart
       end
     end
     
+    # TODO set_templates_dir needs tests
     # Sets the path for templates to be used by JumpStart.
     def set_templates_dir
       puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
@@ -275,6 +300,7 @@ module JumpStart
       end
     end
     
+    # TODO reset_templates_dir_to_default needs tests
     # Resets the JumpStart template directory to the default location. (within the gem.)
     def reset_templates_dir_to_default
       if @jumpstart_templates_path == "#{ROOT_PATH}/jumpstart_templates"
@@ -296,12 +322,8 @@ module JumpStart
       end
       templates_dir_menu
     end
-    
-    # Sets the default template to be used by JumpStart.
-    def set_default_template
-      
-    end
-        
+            
+    # TODO execute_install_command needs tests
     def execute_install_command
       Dir.chdir(@install_path)
       unless @install_command.nil?
@@ -310,6 +332,7 @@ module JumpStart
       end
     end
             
+    # TODO parse_template_dir needs tests
     def parse_template_dir
       @dir_list = []
       file_list = []
@@ -339,6 +362,7 @@ module JumpStart
       end
     end
                               
+    #TODO populate_files_from_append_templates needs tests
     def populate_files_from_append_templates
       @append_templates.each do |x|
         new_name = x.sub(/_([lL]?)\._{1}/, '')
@@ -347,6 +371,7 @@ module JumpStart
       end
     end
     
+    # TODO populate_files_from_line_templates needs tests
     def populate_files_from_line_templates
       @line_templates.each do |x|
         new_name = x.sub(/_(\d+)\._{1}/, '')
@@ -355,6 +380,7 @@ module JumpStart
       end
     end
     
+    # TODO check_local_nginx_configuration needs tests
     def check_local_nginx_configuration
       unless @nginx_local_template.nil? && @config_file[:local_nginx_conf].nil?
         FileUtils.config_nginx(@nginx_local_template, @config_file[:local_nginx_conf], @project_name)
