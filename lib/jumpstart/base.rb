@@ -293,6 +293,7 @@ module JumpStart
           current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x), FileUtils.join_paths(input, x)) }
           @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
           dump_global_yaml
+          puts "SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates\n\n".green
         end
       end
       templates_dir_menu
