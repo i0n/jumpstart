@@ -109,7 +109,7 @@ module JumpStart
         Dir.chdir(@template_path)
       rescue
         puts "\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it."
-        exit_jumpstart
+        exit_normal
       end
     end
         
@@ -119,7 +119,7 @@ module JumpStart
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
         puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
-        exit_jumpstart
+        exit_normal
       end      
     end
  
@@ -140,13 +140,14 @@ module JumpStart
       run_scripts_from_yaml(:run_after_jumpstart)
       check_for_strings_to_replace
       check_local_nginx_configuration
+      exit_with_success
     end
           
     # TODO create_template needs tests
     def create_template
       if Dir.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(@jumpstart_templates_path, @template_name).red} already exists. The template will not be created."
-        exit_jumpstart
+        exit_normal
       else
         FileUtils.mkdir_p(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config"))
         yaml = IO.read(FileUtils.join_paths(ROOT_PATH, "/source_templates/template_config.yml"))
@@ -184,7 +185,7 @@ module JumpStart
       when input == "4"
         templates_dir_menu
       when input == "x"
-        exit_jumpstart
+        exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
         jumpstart_menu_options
@@ -221,7 +222,7 @@ module JumpStart
       when input == "b"
         jumpstart_menu
       when input == "x"
-        exit_jumpstart
+        exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
       end
@@ -259,7 +260,7 @@ module JumpStart
       when input == "b"
         jumpstart_menu
       when input == "x"
-        exit_jumpstart
+        exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
         set_default_template_options
@@ -288,7 +289,7 @@ module JumpStart
       when input == "b"
         jumpstart_menu
       when input == "x"
-        exit_jumpstart
+        exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
         templates_dir_options
@@ -471,9 +472,16 @@ module JumpStart
       end
     end
     
-    def exit_jumpstart
-      puts "\n\nExiting JumpStart...".purple
-      puts "\nGoodbye!\n\n"
+    def exit_with_success
+      puts "\n\n  Exiting JumpStart...".purple
+      puts "\n  Success! ".green + @project_name.green_bold" has been created at: ".green + FileUtils.join_paths(@install_path, @project_name).green_bold + "\n\n".green
+      puts "******************************************************************************************************************************************\n"
+      exit
+    end
+    
+    def exit_normal
+      puts "\n\n  Exiting JumpStart...".purple
+      puts "\n  Goodbye!\n\n"
       puts "******************************************************************************************************************************************\n"
       exit
     end
