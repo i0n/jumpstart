@@ -290,10 +290,10 @@ module JumpStart
         if input == "yes" || input == "y"
           FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
           current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
-          current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x), FileUtils.join_paths(input, x)) }
+          current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(@jumpstart_templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
           @jumpstart_templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
           dump_global_yaml
-          puts "SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates\n\n".green
+          puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
         end
       end
       templates_dir_menu
