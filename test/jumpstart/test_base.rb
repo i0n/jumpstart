@@ -71,12 +71,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         
         should "ask the user to provide a longer project name" do
           @test_project.check_project_name
-          assert_equal "\e[1m\e[33m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n", @test_project.output.string
+          assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
         end
         
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
           @test_project.check_project_name
-          assert_equal "\e[1m\e[33m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n", @test_project.output.string
+          assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
           assert_equal "testo", @test_project.check_project_name
         end
                                 

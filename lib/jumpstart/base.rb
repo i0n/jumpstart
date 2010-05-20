@@ -88,7 +88,7 @@ module JumpStart
         @project_name = gets.chomp
         check_project_name
       elsif @project_name.length < 3
-        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".yellow
+        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".red
         @project_name = gets.chomp
         check_project_name
       else
