@@ -59,8 +59,6 @@ module JumpStart
     end
     
     def check_setup
-      # Sets @config_file, @install_command, @install_command_args, @replace_strings and @install_path instance variables, if a YAML file can be found for the template.
-      # Relies on @template_name being set
       set_config_file_options
       lookup_existing_templates
       check_project_name
