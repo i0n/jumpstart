@@ -222,11 +222,12 @@ module JumpStart::FileTools
   # If too many files (paths containing one or more '.' fullstops) are specified in the supplied paths, the first one that creates a path will be returned.
   # If the path is an absolute path (starting with /) this will be preserved.
   def join_paths(*args)
-    args.flatten!
+    paths = args.dup
+    paths.flatten!
     full_path = []
     file_detected = false
-    absolute_path = true if args[0].start_with?('/')
-    args.each do |path|
+    absolute_path = true if paths[0].to_s.start_with?('/')
+    paths.each do |path|
       unless path.nil?
         path.strip!
         path.slice!(0) while path.start_with?('/')

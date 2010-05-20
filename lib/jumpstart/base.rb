@@ -34,9 +34,6 @@ module JumpStart
       @template_path = FileUtils.join_paths(@jumpstart_templates_path, @template_name)
       # set up instance variable containing an array that will be populated with existing jumpstart templates
       @existing_templates = []
-      # Sets @config_file, @install_command, @install_command_args, @replace_strings and @install_path instance variables, if a YAML file can be found for the template.
-      # Relies on @template_name being set
-      set_config_file_options
     end
     
     # TODO Refactor so that initialize creates and attempts to set all instance variables. This will allow variables to be set by calling the relevant accessor, e.g. project.project_name = "woohoo"
@@ -50,19 +47,22 @@ module JumpStart
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if @default_template_name exists then the command is launched without any menu display.
     
-    def set_config_file_options
-      if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-        @config_file = YAML.load_file(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-        @install_command = @config_file[:install_command] 
-        @install_command_args = @config_file[:install_command_args] 
-        @replace_strings = @config_file[:replace_strings].each {|x| x}
-        @install_path = FileUtils.join_paths(@config_file[:install_path].to_s)
+    def set_config_file_options(templates_path, template_name)
+      if File.exists?(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(templates_path, template_name, "/jumpstart_config/", "#{template_name}.yml"))
+        @install_command = @config_file[:install_command] if @install_command.nil?
+        @install_command_args = @config_file[:install_command_args] if @install_command_args.nil?
+        @replace_strings = @config_file[:replace_strings].each {|x| x} if @replace_strings.nil?
+        @install_path = FileUtils.join_paths(@config_file[:install_path]) if @install_path.nil?
       else
         jumpstart_menu
       end
     end
     
     def check_setup
+      # Sets @config_file, @install_command, @install_command_args, @replace_strings and @install_path instance variables, if a YAML file can be found for the template.
+      # Relies on @template_name being set
+      set_config_file_options(@jumpstart_templates_path, @template_name)
       lookup_existing_templates
       check_project_name
       check_template_name
@@ -71,7 +71,7 @@ module JumpStart
     end
     
     def lookup_existing_templates
-      template_dirs = Dir.entries(@jumpstart_templates_path) -IGNORE_DIRS
+      template_dirs = Dir.entries(@jumpstart_templates_path) - IGNORE_DIRS
       template_dirs.each do |x|
         if Dir.entries(FileUtils.join_paths(@jumpstart_templates_path, x)).include? "jumpstart_config"
           if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, x, '/jumpstart_config/', "#{x}.yml"))
@@ -111,7 +111,7 @@ module JumpStart
     end
         
     def check_install_path
-      @install_path = system "pwd" if @install_path.nil?
+      @install_path = FileUtils.pwd if @install_path.nil?
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts
         puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
@@ -160,13 +160,13 @@ module JumpStart
     
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "JUMPSTART MENU\n".purple
-      puts "Here are your options:\n\n"
-      puts "1".yellow + " Create a new project from an existing template.\n"
-      puts "2".yellow + " Create a new template.\n"
-      puts "3".yellow + " Set the default template.\n"
-      puts "4".yellow + "Set the templates directory.\n\n"
-      puts "x".yellow + " Exit jumpstart\n\n"
+      puts "  JUMPSTART MENU\n".purple
+      puts "  Here are your options:\n\n"
+      puts "  1".yellow + " Create a new project from an existing template.\n"
+      puts "  2".yellow + " Create a new template.\n"
+      puts "  3".yellow + " Set the default template.\n"
+      puts "  4".yellow + " Set the templates directory.\n\n"
+      puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       jumpstart_menu_options
     end
@@ -192,15 +192,15 @@ module JumpStart
     
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
-      puts "Type a number for the template that you want."
+      puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
+      puts "  Type a number for the template that you want."
       count = 0
       @existing_templates.each do |t|
         count += 1
         puts "#{count.to_s.yellow} t"
       end
-      puts "\nm".yellow + "Back to main menu."
-      puts "\nx".yellow + "Exit jumpstart\n\n"
+      puts "\n  m".yellow + " Back to main menu."
+      puts "\n  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
       new_project_from_template_options
     end
@@ -233,12 +233,13 @@ module JumpStart
     
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
-      puts "1".yellow + "Set templates directory.\n"
-      puts "2".yellow + "Reset templates directory to default"
-      puts "\nm".yellow + "Back to main menu."
-      puts "\nx".yellow + "Exit jumpstart\n\n"
+      puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
+      puts "  1".yellow + " Set templates directory.\n"
+      puts "  2".yellow + " Reset templates directory to default"
+      puts "  m".yellow + " Back to main menu.\n\n"
+      puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
+      template_dir_options
     end
     
     def templates_dir_options

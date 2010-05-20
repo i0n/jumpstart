@@ -11,7 +11,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project.default_template_name = "test_template_1"
       @test_project.template_name = "test_template_1"
       @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-      @test_project.set_config_file_options
+      @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
       @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
     end
     
@@ -58,6 +58,11 @@ class TestJumpstartBase < Test::Unit::TestCase
           @output = StringIO.new
           @test_project.input = @input
           @test_project.output = @output
+          @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+          @test_project.default_template_name = "test_template_1"
+          @test_project.template_name = "test_template_1"
+          @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         end
         
         should "read input from STDIN" do
@@ -85,6 +90,11 @@ class TestJumpstartBase < Test::Unit::TestCase
           @output = StringIO.new
           @test_project.input = @input
           @test_project.output = @output
+          @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+          @test_project.default_template_name = "test_template_1"
+          @test_project.template_name = "test_template_1"
+          @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
@@ -347,15 +357,15 @@ class TestJumpstartBase < Test::Unit::TestCase
      
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do
     
-        setup do
-          @test_project = JumpStart::Base.new(["test_jumpstart_project"])
-          @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-          @test_project.default_template_name = "test_template_1"
-          @test_project.template_name = "test_template_1"
-          @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-          @test_project.set_config_file_options
-          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
-        end
+        # setup do
+        #   @test_project = JumpStart::Base.new(["test_jumpstart_project"])
+        #   @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+        #   @test_project.default_template_name = "test_template_1"
+        #   @test_project.template_name = "test_template_1"
+        #   @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
+        #   @test_project.set_config_file_options(@test_project.jumpstart_templates_path, @test_project.template_name)
+        #   @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+        # end
     
         should "be able to create a new jumpstart with the project name as the first argument" do
           refute_nil @test_project
@@ -395,7 +405,7 @@ class TestJumpstartBase < Test::Unit::TestCase
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
           refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
         end
-    
+            
         should "remove last lines from files and append template info" do
           @test_project.start
           file_1 = IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
