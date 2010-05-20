@@ -284,7 +284,7 @@ module JumpStart
       else  
         puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
         current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
-        puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n\n".yellow
+        puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n".yellow
         puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
         input = gets.chomp
         if input == "yes" || input == "y"
