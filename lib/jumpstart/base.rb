@@ -229,6 +229,7 @@ module JumpStart
       
     end
     
+    # Sets the path for templates to be used by JumpStart.
     def set_templates_dir
       
     end
