@@ -474,7 +474,7 @@ module JumpStart
     
     def exit_with_success
       puts "\n\n  Exiting JumpStart...".purple
-      puts "\n  Success! ".green + @project_name.green_bold" has been created at: ".green + FileUtils.join_paths(@install_path, @project_name).green_bold + "\n\n".green
+      puts "\n  Success! ".green + @project_name.green_bold + " has been created at: ".green + FileUtils.join_paths(@install_path, @project_name).green_bold + "\n\n".green
       puts "******************************************************************************************************************************************\n"
       exit
     end
