@@ -26,6 +26,15 @@
     :symbols:
       :project_name: name_of_my_app
       :remote_server: thoughtplant
+  - :target_path: /config/environments/development.rb
+    :symbols:
+      :project_name: name_of_my_app
+  - :target_path: /config/environments/test.rb
+    :symbols:
+      :project_name: name_of_my_app
+  - :target_path: /config/environments/production.rb
+    :symbols:
+      :project_name: name_of_my_app
   
 :local_nginx_conf: /usr/local/nginx/conf/nginx.conf
 :remote_nginx_conf: /opt/nginx/conf/nginx.conf
