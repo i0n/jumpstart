@@ -16,7 +16,7 @@
     
 :run_after_jumpstart:
   - rake db:create
-  - capify!
+  - capify .
   - git init
   - git add .
   - git commit -q -v -a -m "Initial commit"
