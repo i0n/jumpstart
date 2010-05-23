@@ -1,5 +1,5 @@
-set :application, PROJECT_NAME
-set :domain, REMOTE_SERVER
+set :application, 'PROJECT_NAME'
+set :domain, 'REMOTE_SERVER'
 set :user, 'i0n'
 
 set :repository,  "#{user}@#{domain}:/home/#{user}/git/#{application}.git"
