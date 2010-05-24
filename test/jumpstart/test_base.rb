@@ -24,11 +24,11 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
       
       should "run intialize method and set instance variables" do
-        assert_equal "test_jumpstart_project", @test_project.project_name
-        assert_equal "test_template_1", @test_project.template_name
-        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.template_name}/jumpstart_config/#{@test_project.template_name}.yml"), @test_project.config_file
-        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path
-        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1", @test_project.template_path
+        assert_equal "test_jumpstart_project", @test_project.instance_eval {@project_name}
+        assert_equal "test_template_1", @test_project.instance_eval {@template_name}
+        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.instance_eval {@template_name}}/jumpstart_config/#{@test_project.instance_eval {@template_name}}.yml"), @test_project.instance_eval {@config_file}
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.instance_eval {@install_path}
+        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1", @test_project.instance_eval {@template_path}
       end
       
     end
@@ -37,7 +37,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "run lookup_existing_projects method and return an array of existing templates" do
         @test_project.lookup_existing_templates
-        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.existing_templates
+        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.instance_eval {@existing_templates}
       end
       
     end
@@ -47,7 +47,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       context "when the project name is over three characters" do
         
         should "return the project name unchanged and without errors" do
-          assert_equal @test_project.project_name, @test_project.check_project_name
+          assert_equal @test_project.instance_eval {@project_name}, @test_project.instance_eval {check_project_name}
         end
         
       end
@@ -368,15 +368,15 @@ class TestJumpstartBase < Test::Unit::TestCase
         end
             
         should "have set @project_name variable to 'test_jumpstart_project'" do
-          assert_equal "test_jumpstart_project", @test_project.project_name
+          assert_equal "test_jumpstart_project", @test_project.instance_eval {@project_name}
         end
             
         should "have set @template_name variable to 'test_template_1'" do
-          assert_equal "test_template_1", @test_project.template_name
+          assert_equal "test_template_1", @test_project.instance_eval {@template_name}
         end
             
         should "have set @install_path to 'ROOT_PATH/test/destination_dir'" do
-          assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path
+          assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.instance_eval {@install_path}
         end
     
         should "generate a test project in ROOT_PATH/test/destination_dir/test_jumpstart_project with the test_template_1 template" do
