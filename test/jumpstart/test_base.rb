@@ -74,14 +74,14 @@ class TestJumpstartBase < Test::Unit::TestCase
         end
         
         should "ask the user to provide a longer project name" do
-          @test_project.check_project_name
+          @test_project.instance_eval {check_project_name}
           assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
         end
         
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
-          @test_project.check_project_name
+          @test_project.instance_eval {check_project_name}
           assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
-          assert_equal "testo", @test_project.check_project_name
+          assert_equal "testo", @test_project.instance_eval {check_project_name}
         end
                                 
       end
@@ -104,14 +104,14 @@ class TestJumpstartBase < Test::Unit::TestCase
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
-          @test_project.check_project_name
+          @test_project.instance_eval {check_project_name}
           assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil and then set it when a name of at least 3 characters is provided" do
-          @test_project.check_project_name
+          @test_project.instance_eval {check_project_name}
           assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
-          assert_equal "testorama", @test_project.check_project_name
+          assert_equal "testorama", @test_project.instance_eval {check_project_name}
         end
         
       end      
@@ -212,7 +212,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         ["/file_with_extension.txt", "/file_without_extension"].each do |x| 
           FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files#{x}")
         end
-        assert @test_project.remove_unwanted_files 
+        assert @test_project.instance_eval {remove_unwanted_files}
       end
             
     end
@@ -220,30 +220,30 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method.\n" do
              
        should "run run_scripts_from_yaml method with the contents of :run_after_install_command symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
-         assert_nil @test_project.run_scripts_from_yaml(:run_after_install_command)
+         assert_nil @test_project.instance_eval {run_scripts_from_yaml(:run_after_install_command)}
        end
        
        should "run the :run_after_install_command symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
          Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-         assert_equal ["echo \"run after install command\""], @test_project.run_scripts_from_yaml(:run_after_install_command)
+         assert_equal ["echo \"run after install command\""], @test_project.instance_eval {run_scripts_from_yaml(:run_after_install_command)}
        end
        
        should "run run_scripts_from_yaml method with the contents of :run_after_jumpstart symbol from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml Should be nil because the install directory does not exist." do
-         assert_nil @test_project.run_scripts_from_yaml(:run_after_jumpstart)
+         assert_nil @test_project.instance_eval {run_scripts_from_yaml(:run_after_jumpstart)}
        end
        
        should "run the :run_after_jumpstart symbols scripts from ROOT_PATH/test/test_template_1/jumpstart_config/test_template_1.yml. Should work this time as I will create the directory for the script beforehand." do
          Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-         assert_equal ["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.run_scripts_from_yaml(:run_after_jumpstart)
+         assert_equal ["echo \"run after jumpstart 1st command!\"","echo \"run after jumpstart 2nd command!\""], @test_project.instance_eval {run_scripts_from_yaml(:run_after_jumpstart)}
        end
        
        should "return nil if a symbol that is not specified in YAML is passed as an argument and the install directory does not exist" do
-         assert_nil @test_project.run_scripts_from_yaml(:this_section_does_not_exist)
+         assert_nil @test_project.instance_eval {run_scripts_from_yaml(:this_section_does_not_exist)}
        end
        
        should "return nil if a symbol that is not specified in the YAML is passed as an argument and the install directory has been created" do
          Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
-         assert_nil @test_project.run_scripts_from_yaml(:this_section_does_not_exist)
+         assert_nil @test_project.instance_eval {run_scripts_from_yaml(:this_section_does_not_exist)}
        end
                
      end
@@ -259,20 +259,20 @@ class TestJumpstartBase < Test::Unit::TestCase
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
         @test_project.instance_eval {@replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]}
-        assert(@test_project.check_for_strings_to_replace)
+        assert(@test_project.instance_eval {check_for_strings_to_replace})
       end
       
       should "output message if data formatted correctly" do
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
         @test_project.instance_eval {@replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]}
-        @test_project.check_for_strings_to_replace
+        @test_project.instance_eval {check_for_strings_to_replace}
         assert_equal("\nChecking for strings to replace inside files...\n\nTarget file: \e[32m/test/replace_strings.txt\e[0m\nStrings to replace:\n\nKey:    \e[32mjam\e[0m\nValue:  \e[32mstrawberry\e[0m\n\nKey:    \e[32mcity\e[0m\nValue:  \e[32mlondon\e[0m\n\n\n", @test_project.output.string)
       end
       
       should "return false if @replace_strings is empty." do
         @test_project.instance_eval {@replace_strings = []}
-        refute(@test_project.check_for_strings_to_replace)
+        refute(@test_project.instance_eval {check_for_strings_to_replace})
       end
       
     end

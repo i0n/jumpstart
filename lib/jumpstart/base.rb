@@ -1,6 +1,27 @@
 module JumpStart
   class Base
     
+    class << self
+
+      def get_line_number(file_name)
+        if file_name.match(/_(\d+)\._\w*/)
+          number = file_name.match(/_(\d+)\._\w*/)[1]
+          number.to_i
+        else
+          false
+        end
+      end
+
+      def remove_last_line?(file_name)
+        if file_name.match(/_([lL]{1})\._{1}\w*/)
+          true
+        else
+          false
+        end
+      end
+      
+    end
+    
     # Accessor methods to make testing input or output easier.
     attr_accessor :input
     attr_reader :output
@@ -82,6 +103,39 @@ module JumpStart
       end
     end
     
+    def start
+      puts "\n******************************************************************************************************************************************\n\n"
+      puts "JumpStarting....\n".purple
+      check_setup
+      execute_install_command
+      run_scripts_from_yaml(:run_after_install_command)
+      parse_template_dir
+      # makes folders for the project
+      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) }
+      # create files from whole templates
+      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) }
+      populate_files_from_append_templates
+      populate_files_from_line_templates
+      remove_unwanted_files
+      run_scripts_from_yaml(:run_after_jumpstart)
+      check_for_strings_to_replace
+      check_local_nginx_configuration
+      exit_with_success
+    end
+    
+    def check_replace_string_pairs_for_project_name_sub(hash)
+      unless @project_name.nil?
+        hash.each do |key, value|
+          if key == :project_name
+            hash[key] = @project_name
+          end
+        end
+      end
+      hash
+    end
+    
+    private
+    
     # TODO check_project_name needs tests
     def check_project_name
       if @project_name.nil? || @project_name.empty?
@@ -123,27 +177,7 @@ module JumpStart
         exit_normal
       end      
     end
- 
-    def start
-      puts "\n******************************************************************************************************************************************\n\n"
-      puts "JumpStarting....\n".purple
-      check_setup
-      execute_install_command
-      run_scripts_from_yaml(:run_after_install_command)
-      parse_template_dir
-      # makes folders for the project
-      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) }
-      # create files from whole templates
-      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) }
-      populate_files_from_append_templates
-      populate_files_from_line_templates
-      remove_unwanted_files
-      run_scripts_from_yaml(:run_after_jumpstart)
-      check_for_strings_to_replace
-      check_local_nginx_configuration
-      exit_with_success
-    end
-          
+           
     # TODO create_template needs tests
     def create_template
       if Dir.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name))
@@ -455,18 +489,7 @@ module JumpStart
         end
       end
     end
-    
-    def check_replace_string_pairs_for_project_name_sub(hash)
-      unless @project_name.nil?
-        hash.each do |key, value|
-          if key == :project_name
-            hash[key] = @project_name
-          end
-        end
-      end
-      hash
-    end
-    
+        
     def dump_global_yaml
       File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
         YAML.dump( {:jumpstart_templates_path => @jumpstart_templates_path, :default_template_name => @default_template_name}, out )
@@ -486,27 +509,6 @@ module JumpStart
       puts "******************************************************************************************************************************************\n"
       exit
     end
-    
-    class << self
-
-      def get_line_number(file_name)
-        if file_name.match(/_(\d+)\._\w*/)
-          number = file_name.match(/_(\d+)\._\w*/)[1]
-          number.to_i
-        else
-          false
-        end
-      end
-
-      def remove_last_line?(file_name)
-        if file_name.match(/_([lL]{1})\._{1}\w*/)
-          true
-        else
-          false
-        end
-      end
       
-    end
-    
   end
 end
