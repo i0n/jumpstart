@@ -260,9 +260,11 @@ module JumpStart::FileTools
       Find.find(path) do |x|
         case
         when File.directory?(x)
-          dirs << x.sub(path, '') unless x.sub(path, '').length == 0
+          x.sub!(path, '')
+          dirs << x unless x.length == 0
         when File.file?(x)
-          files << x.sub(path, '') unless x.sub(path, '').length == 0
+          x.sub!(path, '')
+          files << x unless x.length == 0
         end
       end
     end
