@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["i0n"]
-  s.date = %q{2010-05-19}
+  s.date = %q{2010-05-24}
   s.default_executable = %q{jumpstart}
   s.description = %q{JumpStart is a script runner and template parser written in Ruby with Ruby projects in mind.
 
