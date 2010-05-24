@@ -7,12 +7,14 @@ class TestJumpstartBase < Test::Unit::TestCase
     setup do
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
-      @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      @test_project.default_template_name = "test_template_1"
-      @test_project.template_name = "test_template_1"
-      @test_project.template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-      @test_project.set_config_file_options
-      @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+      @test_project.instance_eval do
+        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates" 
+        @default_template_name = "test_template_1"
+        @template_name = "test_template_1"
+        @template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
+        set_config_file_options
+        @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+      end
     end
     
     teardown do
@@ -53,16 +55,18 @@ class TestJumpstartBase < Test::Unit::TestCase
       context "when the project name is not empty but is not more than 3 characters" do
         
         setup do
+          input = StringIO.new("testo\n")
+          output = StringIO.new
           @test_project = JumpStart::Base.new(["tr"])
-          @input = StringIO.new("testo\n")
-          @output = StringIO.new
-          @test_project.input = @input
-          @test_project.output = @output
-          @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-          @test_project.default_template_name = "test_template_1"
-          @test_project.template_name = "test_template_1"
-          @test_project.set_config_file_options
-          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+          @test_project.instance_eval do
+            @input = input
+            @output = output
+            @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+            @default_template_name = "test_template_1"
+            @template_name = "test_template_1"
+            set_config_file_options
+            @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+          end
         end
         
         should "read input from STDIN" do
@@ -85,16 +89,18 @@ class TestJumpstartBase < Test::Unit::TestCase
       context "when the project name is empty or nil" do
         
         setup do
+          input = StringIO.new("testorama\n")
+          output = StringIO.new
           @test_project = JumpStart::Base.new([nil])
-          @input = StringIO.new("testorama\n")
-          @output = StringIO.new
-          @test_project.input = @input
-          @test_project.output = @output
-          @test_project.jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-          @test_project.default_template_name = "test_template_1"
-          @test_project.template_name = "test_template_1"
-          @test_project.set_config_file_options
-          @test_project.install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+          @test_project.instance_eval do
+            @input = input
+            @output = output
+            @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+            @default_template_name = "test_template_1"
+            @template_name = "test_template_1"
+            set_config_file_options
+            @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+          end
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
@@ -111,11 +117,11 @@ class TestJumpstartBase < Test::Unit::TestCase
       end      
             
     end
-  
+      
     context "Tests for the JumpStart::Base#check_template_name instance method. \n" do
       
       should "run check_template_name method" do
-  
+      
       end
       
     end
@@ -123,47 +129,47 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#create_template instance method. \n" do
       
       should "run create_template method" do
-  
+      
       end
       
     end
-  
+      
     context "Tests for the JumpStart::Base#jumpstart_options instance method. \n" do
       
       should "run jumpstart_options method" do
-  
+      
       end    
       
     end
-  
+      
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       
       should "run configure_jumpstart method" do
-  
+      
       end
       
     end
-  
+      
     context "Tests for the JumpStart::Base#check_install_paths instance method. \n" do
       
       should "run check_install_paths method" do
-  
+      
       end        
       
     end
-  
+      
     context "Tests for the JumpStart::Base#create_project method instance method. \n" do
       
       should "run create_project method" do
-  
+      
       end
       
     end
-  
+      
     context "Tests for the JumpStart::Base#parse_template_dir instance method. \n" do
       
       should "run parse_template_dir method" do
-  
+      
       end
       
     end
@@ -171,16 +177,16 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method. \n" do
       
       should "run populate_files_from_append_templates method" do
-  
+      
       end
       
     end
-  
-  
+      
+      
     context "Tests for the JumpStart::Base#populate_files_from_line_templates instance method. \n" do
       
       should "run populate_files_from_line_templates method" do
-  
+      
       end
       
     end
@@ -188,19 +194,19 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
       should "run check_local_nginx_configuration method" do
-  
+      
       end
       
     end
     
     context "Tests for the JumpStart::Base#remove_unwanted_files instance method. \n" do
-  
+      
       setup do
-        @test_project.project_name = "test_remove"
+        @test_project.instance_eval {@project_name = "test_remove"}
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove")
         Dir.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files")
       end
-  
+      
       should "run remove_unwanted_files method, remove files and return true." do
         
         ["/file_with_extension.txt", "/file_without_extension"].each do |x| 
@@ -243,36 +249,36 @@ class TestJumpstartBase < Test::Unit::TestCase
      end
     
     context "Tests for the JumpStart::#check_for_strings_to_replace instance method.\n" do
-  
+      
       setup do
-        @output = StringIO.new
-        @test_project.output = @output
+        output = StringIO.new
+        @test_project.instance_eval {@output = output}
       end
       
       should "return true if @replace_strings array contains hash data that is formatted correctly" do
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
-        @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
+        @test_project.instance_eval {@replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]}
         assert(@test_project.check_for_strings_to_replace)
       end
       
       should "output message if data formatted correctly" do
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test"))
         FileUtils.touch(FileUtils.join_paths(JumpStart::ROOT_PATH, "test/destination_dir/test_jumpstart_project/test/replace_strings.txt"))
-        @test_project.replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]
+        @test_project.instance_eval {@replace_strings = [{:target_path => "/test/replace_strings.txt", :symbols => {:jam => "strawberry", :city => "london"}}]}
         @test_project.check_for_strings_to_replace
         assert_equal("\nChecking for strings to replace inside files...\n\nTarget file: \e[32m/test/replace_strings.txt\e[0m\nStrings to replace:\n\nKey:    \e[32mjam\e[0m\nValue:  \e[32mstrawberry\e[0m\n\nKey:    \e[32mcity\e[0m\nValue:  \e[32mlondon\e[0m\n\n\n", @test_project.output.string)
       end
       
       should "return false if @replace_strings is empty." do
-        @test_project.replace_strings = []
+        @test_project.instance_eval {@replace_strings = []}
         refute(@test_project.check_for_strings_to_replace)
       end
       
     end
-  
+      
     context "Tests for the JumpStart::#check_replace_string_pairs_for_project_name_sub instance method.\n" do
-  
+      
       should "find :project_name symbol and return @project_name" do
         @values = {:project_name => "some_random_name"}
         @test_project.check_replace_string_pairs_for_project_name_sub(@values)
@@ -360,15 +366,15 @@ class TestJumpstartBase < Test::Unit::TestCase
         should "be able to create a new jumpstart with the project name as the first argument" do
           refute_nil @test_project
         end
-    
+            
         should "have set @project_name variable to 'test_jumpstart_project'" do
           assert_equal "test_jumpstart_project", @test_project.project_name
         end
-    
+            
         should "have set @template_name variable to 'test_template_1'" do
           assert_equal "test_template_1", @test_project.template_name
         end
-    
+            
         should "have set @install_path to 'ROOT_PATH/test/destination_dir'" do
           assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.install_path
         end
@@ -411,6 +417,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-         
+                 
   end
 end

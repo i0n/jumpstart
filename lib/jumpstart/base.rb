@@ -2,8 +2,7 @@ module JumpStart
   class Base
     
     # TODO Rewrite tests for JumpStart::Base so that methods that were private and instance variables that were not accessible return to those states. (Use context probes for tests instead)
-    attr_accessor :input, :output, :jumpstart_templates_path, :default_template_name, :project_name, :template_name, :existing_templates, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings
-    attr_reader :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
+    attr_reader :input, :output, :jumpstart_templates_path, :default_template_name, :project_name, :template_name, :existing_templates, :config_file, :install_path, :template_path, :install_command, :install_command_options, :replace_strings, :dir_list, :whole_templates, :append_templates, :line_templates, :nginx_local_template, :nginx_remote_template
 
     # Monkeypatch puts to make testing easier.
     def puts(*args)
