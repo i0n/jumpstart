@@ -98,7 +98,6 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project_3.instance_variable_set(:@default_template_name, "test_template_2")
         @test_project_3.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
         @test_project_3.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
-        # stub(@test_project_3).jumpstart_menu
         @test_project_3.stubs(:jumpstart_menu).returns("jumpstart_menu")
         assert_equal "jumpstart_menu", @test_project_3.set_config_file_options
       end
