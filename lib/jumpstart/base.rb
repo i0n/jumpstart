@@ -115,15 +115,18 @@ module JumpStart
     
     private
     
-    # TODO check_project_name needs tests
+    # TODO check_project_name needs extra tests for the match elsif
     def check_project_name
       if @project_name.nil? || @project_name.empty?
-        puts "\nEnter a name for your project.".yellow
-        @project_name = gets.chomp
+        puts "\n  Enter a name for your project.".yellow
+        @project_name = gets.chomp.strip
         check_project_name
       elsif @project_name.length < 3
-        puts "\nThe name of your project must be at least 3 characters long. Please enter a valid name.".red
-        @project_name = gets.chomp
+        puts "\n  The name #{@project_name} is too short. Please enter a name at least 3 characters long.".red
+        @project_name = gets.chomp.strip
+        check_project_name
+      elsif @project_name.match(/^\W/)
+        puts "\n  #{@project_name} begins with an invalid character. Please enter a name thats starts with a letter or a number.".red
         check_project_name
       else
         @project_name
@@ -172,6 +175,7 @@ module JumpStart
       end
     end
         
+    # TODO jumpstart_menu needs tests
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART MENU\n".purple
@@ -188,7 +192,7 @@ module JumpStart
     # TODO jumpstart_menu_options needs tests
     def jumpstart_menu_options
       lookup_existing_templates
-      input = gets.chomp
+      input = gets.chomp.strip
       case
       when input == "1"
         new_project_from_template_menu
@@ -225,7 +229,7 @@ module JumpStart
     
     # TODO new_project_from_template_options needs tests
     def new_project_from_template_options
-      input = gets.chomp
+      input = gets.chomp.strip
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
         @template_name = @existing_templates[(input.to_i - 1)]
@@ -242,9 +246,36 @@ module JumpStart
       end
     end
     
-    # TODO Write method(s) for creating a new template
+    # TODO write tests for new_template_menu
     def new_template_menu
-      
+      puts "\n\n******************************************************************************************************************************************\n\n"
+      puts "  CREATE A NEW JUMPSTART TEMPLATE\n\n".purple
+      puts "  Existing templates:\n\n"
+      lookup_existing_templates
+      @existing_templates.each do |x|
+        puts "  #{x}\n"
+      end
+    end
+    
+    # TODO write tests for new_template_options
+    def new_template_options
+      puts "\n  Enter a unique name for the new template.\n\n".yellow
+      input = gets.chomp.strip.strip
+      if @existing_templates.include?(input)
+        puts "  A template of the name #{input.red} already exists.\n\n"
+        new_template_options
+      elsif input.length < 3
+        puts "  The template name #{input.red} is too short. Please enter a name that is at least 3 characters long.\n\n"
+        new_template_options
+      elsif input.match(/^\W/)
+        puts "  The template name #{input.red} begins with an invalid character. Please enter a name that begins with a letter or a number.\n\n"
+        new_template_options
+      else
+        FileUtils.mkdir_p(FileUtils.join_paths(@jumpstart_templates_path, input, "jumpstart_config"))
+        FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(@jumpstart_templates_path, input, "jumpstart_config", "#{input}.yml"))
+        puts "  The template #{input} has been created in your default jumpstart template directory: #{@jumpstart_templates_path}\n\n".green
+        jumpstart_menu
+      end
     end
     
     # TODO Write method(s) for setting the default template
@@ -264,7 +295,7 @@ module JumpStart
     
     # Sets the default template to be used by JumpStart.
     def set_default_template_options
-      input = gets.chomp
+      input = gets.chomp.strip
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
         @default_template_name = @existing_templates[(input.to_i - 1)]
@@ -281,6 +312,7 @@ module JumpStart
       end
     end
     
+    # TODO write tests for templates_dir_menu
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
@@ -294,7 +326,7 @@ module JumpStart
     
     # TODO templates_dir_options needs tests
     def templates_dir_options
-      input = gets.chomp
+      input = gets.chomp.strip
       case
       when input == "1"
         set_templates_dir
@@ -314,7 +346,7 @@ module JumpStart
     # Sets the path for templates to be used by JumpStart.
     def set_templates_dir
       puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
-      input = gets.chomp
+      input = gets.chomp.strip
       root_path = input.sub(/\/\w*\/*$/, '')
       case
       when Dir.exists?(input)
@@ -348,7 +380,7 @@ module JumpStart
         current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(@jumpstart_templates_path)
         puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n".yellow
         puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
-        input = gets.chomp
+        input = gets.chomp.strip
         if input == "yes" || input == "y"
           FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
           current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}

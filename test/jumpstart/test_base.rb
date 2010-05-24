@@ -75,12 +75,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         
         should "ask the user to provide a longer project name" do
           @test_project.instance_eval {check_project_name}
-          assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
+          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project.output.string
         end
         
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
           @test_project.instance_eval {check_project_name}
-          assert_equal "\e[31m\nThe name of your project must be at least 3 characters long. Please enter a valid name.\e[0m\n" , @test_project.output.string
+          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project.output.string
           assert_equal "testo", @test_project.instance_eval {check_project_name}
         end
                                 
@@ -105,12 +105,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
           @test_project.instance_eval {check_project_name}
-          assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
+          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project.output.string
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil and then set it when a name of at least 3 characters is provided" do
           @test_project.instance_eval {check_project_name}
-          assert_equal "\e[1m\e[33m\nEnter a name for your project.\e[0m\n", @test_project.output.string
+          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project.output.string
           assert_equal "testorama", @test_project.instance_eval {check_project_name}
         end
         
