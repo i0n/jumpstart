@@ -109,24 +109,24 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "run contained methods" do
         FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
-        @test_project_2b = JumpStart::Base.new(["test_jumpstart_project"])
-        @test_project_2b.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
-        @test_project_2b.instance_variable_set(:@default_template_name, "test_template_2")
-        @test_project_2b.instance_variable_set(:@template_name, "test_template_2")
-        @test_project_2b.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")        
-        @test_project_2b.stubs(:set_config_file_options).returns("set_config_file_options")
-        @test_project_2b.stubs(:lookup_existing_templates).returns("lookup_existing_templates")
-        @test_project_2b.stubs(:check_project_name).returns("check_project_name")
-        @test_project_2b.stubs(:check_template_name).returns("check_template_name")
-        @test_project_2b.stubs(:check_template_path).returns("check_template_path")
-        @test_project_2b.stubs(:check_install_path).returns("check_install_path")
-        @test_project_2b.expects(:set_config_file_options).once
-        @test_project_2b.expects(:lookup_existing_templates).once
-        @test_project_2b.expects(:check_project_name).once
-        @test_project_2b.expects(:check_template_name).once
-        @test_project_2b.expects(:check_template_path).once
-        @test_project_2b.expects(:check_install_path).once
-        @test_project_2b.check_setup
+        @test_project_4 = JumpStart::Base.new(["test_jumpstart_project"])
+        @test_project_4.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
+        @test_project_4.instance_variable_set(:@default_template_name, "test_template_2")
+        @test_project_4.instance_variable_set(:@template_name, "test_template_2")
+        @test_project_4.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")        
+        @test_project_4.stubs(:set_config_file_options).returns("set_config_file_options")
+        @test_project_4.stubs(:lookup_existing_templates).returns("lookup_existing_templates")
+        @test_project_4.stubs(:check_project_name).returns("check_project_name")
+        @test_project_4.stubs(:check_template_name).returns("check_template_name")
+        @test_project_4.stubs(:check_template_path).returns("check_template_path")
+        @test_project_4.stubs(:check_install_path).returns("check_install_path")
+        @test_project_4.expects(:set_config_file_options).once
+        @test_project_4.expects(:lookup_existing_templates).once
+        @test_project_4.expects(:check_project_name).once
+        @test_project_4.expects(:check_template_name).once
+        @test_project_4.expects(:check_template_path).once
+        @test_project_4.expects(:check_install_path).once
+        @test_project_4.check_setup
       end
       
     end
@@ -138,6 +138,10 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.instance_eval {@existing_templates}
       end
             
+    end
+    
+    context "Tests for the JumpStart::Base#start instance method. \n" do
+      
     end
     
     context "Tests for the JumpStart::Base#check_project_name instance method. \n" do
