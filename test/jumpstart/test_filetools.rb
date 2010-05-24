@@ -2,7 +2,7 @@ require 'helper'
 
 class TestJumpstartFileTools < Test::Unit::TestCase
       
-  context "Testing JumpStart::FileUtils.append_after_line class method.\n" do
+  context "Testing JumpStart::FileUtils#append_after_line class method.\n" do
     
     setup do
       FileUtils.remove_lines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_after_line_test.txt", :pattern => "Inserted by append_after_line method test.")
@@ -24,7 +24,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
   
-  context "Testing JumpStart::FileUtils.append_to_end_of_file class method.\n" do
+  context "Testing JumpStart::FileUtils#append_to_end_of_file class method.\n" do
     
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/append_to_end_of_file_test.txt"
@@ -72,7 +72,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         
   end
 
-  context "Testing JumpStart::FileUtils.insert_text_at_line_number class method.\n" do
+  context "Testing JumpStart::FileUtils#insert_text_at_line_number class method.\n" do
 
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/insert_text_at_line_number_test.txt"
@@ -105,7 +105,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   end
 
-  context "Testing JumpStart::FileUtils.remove_files class method.\n" do
+  context "Testing JumpStart::FileUtils#remove_files class method.\n" do
   
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils"
@@ -133,7 +133,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       
   end
   
-  context "Testing JumpStart::FileUtils.remove_lines class method.\n" do
+  context "Testing JumpStart::FileUtils#remove_lines class method.\n" do
     
     setup do
       @file_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/remove_lines_test.txt"
@@ -199,7 +199,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
 
-  context "Testing JumpStart::FileUtils.config_nginx class method.\n" do
+  context "Testing JumpStart::FileUtils#config_nginx class method.\n" do
     
     setup do
       @source_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_nginx_source.txt"
@@ -216,7 +216,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
 
-  context "Testing JumpStart::FileUtils.config_hosts class method.\n" do
+  context "Testing JumpStart::FileUtils#config_hosts class method.\n" do
     
     setup do
       @project_name = "test_project"
@@ -232,7 +232,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
 
-  context "Testing JumpStart::FileUtils.replace_strings class method.\n" do
+  context "Testing JumpStart::FileUtils#replace_strings class method.\n" do
     
     setup do
       @target_file = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
@@ -254,7 +254,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
 
-  context "Testing JumpStart::FileUtils.check_source_type class method.\n" do
+  context "Testing JumpStart::FileUtils#check_source_type class method.\n" do
     
     should "return source as a string" do
       assert_equal "source_as_a_string", FileUtils.check_source_type("source_as_a_string")
@@ -283,7 +283,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     
   end
   
-  context "Testing JumpStart::FileUtils.join_paths class method.\n" do
+  context "Testing JumpStart::#join_paths class method.\n" do
     
     should "return the relative path passed to it unaltered." do
       assert_equal "path/to/file.txt", FileUtils.join_paths("path/to/file.txt")
@@ -347,7 +347,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         
   end
   
-  context "Testing JumpStart::FileUtils.sort_contained_files_and_dirs class method" do
+  context "Testing JumpStart::FileUtils#sort_contained_files_and_dirs class method" do
     
     setup do
       @path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/sort_contained_files_and_dirs_test"

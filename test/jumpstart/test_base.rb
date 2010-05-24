@@ -8,7 +8,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project.instance_eval do
-        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates" 
+        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
         @default_template_name = "test_template_1"
         @template_name = "test_template_1"
         @template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
@@ -22,13 +22,37 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
     
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
+            
+      should "set @jumpstart_template_path" do
+        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates", @test_project.instance_eval {@jumpstart_templates_path}
+      end
       
-      should "run intialize method and set instance variables" do
+      should "set @default_template_name" do
+        assert_equal "test_template_1", @test_project.instance_eval {@default_template_name}
+      end
+            
+      should "set @project_name" do
         assert_equal "test_jumpstart_project", @test_project.instance_eval {@project_name}
+      end
+      
+      should "set @template_name" do
         assert_equal "test_template_1", @test_project.instance_eval {@template_name}
-        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.instance_eval {@template_name}}/jumpstart_config/#{@test_project.instance_eval {@template_name}}.yml"), @test_project.instance_eval {@config_file}
-        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.instance_eval {@install_path}
+      end
+            
+      should "set @template_path" do
         assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1", @test_project.instance_eval {@template_path}
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#set_config_file_options instance method. \n" do
+            
+      should "set @config_file" do
+        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.instance_eval {@template_name}}/jumpstart_config/#{@test_project.instance_eval {@template_name}}.yml"), @test_project.instance_eval {@config_file}
+      end
+      
+      should "set @install_path" do
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.instance_eval {@install_path}
       end
       
     end
@@ -248,7 +272,7 @@ class TestJumpstartBase < Test::Unit::TestCase
                
      end
     
-    context "Tests for the JumpStart::#check_for_strings_to_replace instance method.\n" do
+    context "Tests for the JumpStart::Base#check_for_strings_to_replace instance method.\n" do
       
       setup do
         output = StringIO.new
