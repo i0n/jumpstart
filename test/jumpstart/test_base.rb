@@ -107,7 +107,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     context "Tests for the JumpStart::Base#check_setup instance method. \n" do
       
-      should "run set_config_file_options" do
+      should "run contained methods" do
         FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
         @test_project_2b = JumpStart::Base.new(["test_jumpstart_project"])
         @test_project_2b.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")

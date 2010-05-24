@@ -55,7 +55,6 @@ module JumpStart
       end
     end
     
-    # TODO check_setup needs tests
     def check_setup
       set_config_file_options
       lookup_existing_templates
