@@ -7,7 +7,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'jumpstart'
 
 class Test::Unit::TestCase
-        
+
 end
 
 module JumpStart

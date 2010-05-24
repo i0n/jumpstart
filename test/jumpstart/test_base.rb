@@ -5,13 +5,34 @@ class TestJumpstartBase < Test::Unit::TestCase
   context "Testing JumpStart::Base with a @default_template_name and @jumpstart_templates_path specified.\n" do
     
     setup do
+      input = StringIO.new
+      output = StringIO.new
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project.instance_eval do
+        @input = input
+        @output = output
         @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
         @default_template_name = "test_template_1"
         @template_name = "test_template_1"
         @template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
+        set_config_file_options
+        @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+      end
+    end
+    
+    setup do
+      input = StringIO.new
+      output = StringIO.new
+      FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      @test_project_2 = JumpStart::Base.new(["test_jumpstart_project", "a_name_that_does_not_exist"])
+      @test_project_2.instance_eval do
+        @input = input
+        @output = output
+        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+        @default_template_name = "test_template_2"
+        @template_name = "test_template_2"
+        @template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2"
         set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
@@ -48,12 +69,41 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#set_config_file_options instance method. \n" do
             
       should "set @config_file" do
-        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project.instance_eval {@template_name}}/jumpstart_config/#{@test_project.instance_eval {@template_name}}.yml"), @test_project.instance_eval {@config_file}
+        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project_2.instance_eval {@template_name}}/jumpstart_config/#{@test_project_2.instance_eval {@template_name}}.yml"), @test_project_2.instance_eval {@config_file}
       end
       
       should "set @install_path" do
-        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project.instance_eval {@install_path}
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project_2.instance_eval {@install_path}
       end
+      
+      should "set @install_command" do
+        assert_equal "rails", @test_project_2.instance_eval {@install_command}
+      end
+      
+      should "set @install_command_args" do
+        assert_equal "-J -T", @test_project_2.instance_eval {@install_command_args}
+      end
+      
+      should "set @replace_strings" do
+        assert_equal [{:target_path=>"/config/deploy.rb", :symbols=>{:project_name=>"name_of_my_app", :remote_server=>"thoughtplant"}}], @test_project_2.instance_eval {@replace_strings}
+      end
+
+      # TODO Looks like testing methods that call gets is going to be tough this way. Look at using a mocking tool like 'RR'
+      # should "load the jumpstart menu if the specified yaml config file does not exist" do
+      #   FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      #   @test_project_2b = JumpStart::Base.new(["test_jumpstart_project", "a_name_that_does_not_exist"])
+      #   @test_project_2b.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
+      #   @test_project_2b.instance_variable_set(:@default_template_name, "test_template_2")
+      #   @test_project_2b.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
+      #   @test_project_2b.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
+      #   input = StringIO.new("yo\n")
+      #   output = StringIO.new
+      #   @test_project_2b.input = input
+      #   @test_project_2b.output = output
+      #   @test_project_2b.set_config_file_options
+      #   assert_equal "jumpstart_options", @test_project_2b.instance_eval {set_config_file_options; __callee__}
+      #   assert_equal "s", output.puts
+      # end
       
     end
     

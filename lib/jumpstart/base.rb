@@ -2,17 +2,16 @@ module JumpStart
   class Base
         
     # Accessor methods to make testing input or output easier.
-    attr_accessor :input
-    attr_reader :output
-    
-    # Monkeypatch puts to make testing easier.
-    def puts(*args)
-      @output.puts(*args)    
-    end
+    attr_accessor :input, :output
 
     # Monkeypatch gets to make testing easier.
     def gets(*args)
       @input.gets(*args)
+    end
+    
+    # Monkeypatch puts to make testing easier.
+    def puts(*args)
+      @output.puts(*args)    
     end
     
     # TODO initialize needs more tests
