@@ -14,7 +14,6 @@ module JumpStart
       @output.puts(*args)    
     end
     
-    # TODO initialize needs more tests
     def initialize(args)
       # setup for testing input
       @input  = $stdin
@@ -33,7 +32,6 @@ module JumpStart
       end
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(@jumpstart_templates_path, @template_name)
-      # set up instance variable containing an array that will be populated with existing jumpstart templates
     end
     
     # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
@@ -45,7 +43,6 @@ module JumpStart
     # TODO Document methods for RDOC
     # Finish README etc for github
     
-    # TODO set_config_file_options needs tests
     def set_config_file_options
       if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(@jumpstart_templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
@@ -68,6 +65,7 @@ module JumpStart
       check_install_path
     end
     
+    # set up instance variable containing an array that will be populated with existing jumpstart templates
     # TODO lookup_existing_templates needs tests
     def lookup_existing_templates
       @existing_templates = []
