@@ -69,23 +69,23 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#set_config_file_options instance method. \n" do
             
       should "set @config_file" do
-        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project_2.instance_eval {@template_name}}/jumpstart_config/#{@test_project_2.instance_eval {@template_name}}.yml"), @test_project_2.instance_eval {@config_file}
+        assert_equal YAML.load_file("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/#{@test_project_2.instance_variable_get(:@template_name)}/jumpstart_config/#{@test_project_2.instance_variable_get(:@template_name)}.yml"), @test_project_2.instance_variable_get(:@config_file)
       end
       
       should "set @install_path" do
-        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project_2.instance_eval {@install_path}
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir", @test_project_2.instance_variable_get(:@install_path) 
       end
       
       should "set @install_command" do
-        assert_equal "rails", @test_project_2.instance_eval {@install_command}
+        assert_equal "rails", @test_project_2.instance_variable_get(:@install_command)
       end
       
       should "set @install_command_args" do
-        assert_equal "-J -T", @test_project_2.instance_eval {@install_command_args}
+        assert_equal "-J -T", @test_project_2.instance_variable_get(:@install_command_args)
       end
       
       should "set @replace_strings" do
-        assert_equal [{:target_path=>"/config/deploy.rb", :symbols=>{:project_name=>"name_of_my_app", :remote_server=>"thoughtplant"}}], @test_project_2.instance_eval {@replace_strings}
+        assert_equal [{:target_path=>"/config/deploy.rb", :symbols=>{:project_name=>"name_of_my_app", :remote_server=>"thoughtplant"}}], @test_project_2.instance_variable_get(:@replace_strings)
       end
 
       # TODO Looks like testing methods that call gets is going to be tough this way. Look at using a mocking tool like 'RR'
@@ -151,7 +151,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
           @test_project.instance_eval {check_project_name}
           assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project.output.string
-          assert_equal "testo", @test_project.instance_eval {check_project_name}
+          assert_equal "testo", @test_project.instance_eval { check_project_name }
         end
                                 
       end
