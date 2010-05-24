@@ -137,11 +137,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.lookup_existing_templates
         assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.instance_eval {@existing_templates}
       end
-      
-      should "" do
-        
-      end
-      
+            
     end
     
     context "Tests for the JumpStart::Base#check_project_name instance method. \n" do

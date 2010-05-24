@@ -65,7 +65,6 @@ module JumpStart
     end
     
     # set up instance variable containing an array that will be populated with existing jumpstart templates
-    # TODO lookup_existing_templates needs tests
     def lookup_existing_templates
       @existing_templates = []
       template_dirs = Dir.entries(@jumpstart_templates_path) - IGNORE_DIRS
