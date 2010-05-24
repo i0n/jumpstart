@@ -89,21 +89,17 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
 
       # TODO Looks like testing methods that call gets is going to be tough this way. Look at using a mocking tool like 'RR'
-      # should "load the jumpstart menu if the specified yaml config file does not exist" do
-      #   FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
-      #   @test_project_2b = JumpStart::Base.new(["test_jumpstart_project", "a_name_that_does_not_exist"])
-      #   @test_project_2b.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
-      #   @test_project_2b.instance_variable_set(:@default_template_name, "test_template_2")
-      #   @test_project_2b.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
-      #   @test_project_2b.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
-      #   input = StringIO.new("yo\n")
-      #   output = StringIO.new
-      #   @test_project_2b.input = input
-      #   @test_project_2b.output = output
-      #   @test_project_2b.set_config_file_options
-      #   assert_equal "jumpstart_options", @test_project_2b.instance_eval {set_config_file_options; __callee__}
-      #   assert_equal "s", output.puts
-      # end
+      should "load the jumpstart menu if the specified yaml config file does not exist" do
+        FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project_2b = JumpStart::Base.new(["test_jumpstart_project"])
+        @test_project_2b.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
+        @test_project_2b.instance_variable_set(:@default_template_name, "test_template_2")
+        @test_project_2b.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
+        @test_project_2b.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
+        stub(@test_project_2b).jumpstart_menu
+        @test_project_2b.set_config_file_options
+        assert_received(@test_project_2b) {|x| x.jumpstart_menu}
+      end
       
     end
     
