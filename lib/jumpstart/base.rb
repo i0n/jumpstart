@@ -249,31 +249,32 @@ module JumpStart
     # TODO write tests for new_template_menu
     def new_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "  CREATE A NEW JUMPSTART TEMPLATE\n\n".purple
-      puts "  Existing templates:\n\n"
+      puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
+      puts "  Existing templates:\n"
       lookup_existing_templates
       @existing_templates.each do |x|
-        puts "  #{x}\n"
+        puts "  #{x.green}\n"
       end
+      new_template_options
     end
     
     # TODO write tests for new_template_options
     def new_template_options
-      puts "\n  Enter a unique name for the new template.\n\n".yellow
-      input = gets.chomp.strip.strip
+      puts "\n  Enter a unique name for the new template.\n".yellow
+      input = gets.chomp.strip
       if @existing_templates.include?(input)
-        puts "  A template of the name #{input.red} already exists.\n\n"
+        puts "  A template of the name ".red + input.red_bold + " already exists.".red
         new_template_options
       elsif input.length < 3
-        puts "  The template name #{input.red} is too short. Please enter a name that is at least 3 characters long.\n\n"
+        puts "  The template name ".red + input.red_bold + " is too short. Please enter a name that is at least 3 characters long.".red
         new_template_options
       elsif input.match(/^\W/)
-        puts "  The template name #{input.red} begins with an invalid character. Please enter a name that begins with a letter or a number.\n\n"
+        puts "  The template name ".red + input.red_bold + " begins with an invalid character. Please enter a name that begins with a letter or a number.".red
         new_template_options
       else
         FileUtils.mkdir_p(FileUtils.join_paths(@jumpstart_templates_path, input, "jumpstart_config"))
         FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(@jumpstart_templates_path, input, "jumpstart_config", "#{input}.yml"))
-        puts "  The template #{input} has been created in your default jumpstart template directory: #{@jumpstart_templates_path}\n\n".green
+        puts "  The template ".green + input.green_bold + " has been created in your default jumpstart template directory ".green + @jumpstart_templates_path.green_bold + " ready for editing.".green
         jumpstart_menu
       end
     end
