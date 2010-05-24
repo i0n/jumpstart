@@ -4,6 +4,9 @@ class TestJumpstartBase < Test::Unit::TestCase
         
   context "Testing JumpStart::Base with a @default_template_name and @jumpstart_templates_path specified.\n" do
     
+    # A valid project with the project name passed in the argument.
+    # IO has been setup for testing
+    # runs set_config_file_options to set all instance variables
     setup do
       input = StringIO.new
       output = StringIO.new
@@ -21,6 +24,9 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
     end
     
+    # A valid project but with an invalid template name passed in the argument with a valid project name. Project ends up valid as @default_template_name is valid and it falls back on this.
+    # IO has been setup for testing
+    # runs set_config_file_options to set all instance variables
     setup do
       input = StringIO.new
       output = StringIO.new
@@ -38,9 +44,62 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
     end
     
+    # An invalid project (@template_name), with the project name passed as the argument
     setup do
+      FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      @test_project_3 = JumpStart::Base.new(["test_jumpstart_project"])
+      @test_project_3.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
+      @test_project_3.instance_variable_set(:@default_template_name, "test_template_2")
+      @test_project_3.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
+      @test_project_3.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
     end
     
+    # A valid project with the project name passed as the argument 
+    setup do
+      FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      @test_project_4 = JumpStart::Base.new(["test_jumpstart_project"])
+      @test_project_4.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
+      @test_project_4.instance_variable_set(:@default_template_name, "test_template_2")
+      @test_project_4.instance_variable_set(:@template_name, "test_template_2")
+      @test_project_4.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")        
+    end
+    
+    # An invalid project (@project_name is too short), then passed a valid @project_name through IO.
+    # IO has been setup for testing
+    # runs set_config_file_options to set all instance variables
+    setup do
+      input = StringIO.new("testo\n")
+      output = StringIO.new
+      @test_project_5 = JumpStart::Base.new(["tr"])
+      @test_project_5.instance_eval do
+        @input = input
+        @output = output
+        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+        @default_template_name = "test_template_1"
+        @template_name = "test_template_1"
+        set_config_file_options
+        @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+      end
+    end
+    
+    # An invalid project (@project_name is nil), then passed a valid @project_name through IO.
+    # IO has been setup for testing
+    # runs set_config_file_options to set all instance variables
+    setup do
+      input = StringIO.new("testorama\n")
+      output = StringIO.new
+      @test_project_6 = JumpStart::Base.new([nil])
+      @test_project_6.instance_eval do
+        @input = input
+        @output = output
+        @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+        @default_template_name = "test_template_1"
+        @template_name = "test_template_1"
+        set_config_file_options
+        @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+      end
+    end
+        
     teardown do
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
     end
@@ -92,12 +151,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
 
       should "load the jumpstart menu if the specified yaml config file does not exist" do
-        FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
-        @test_project_3 = JumpStart::Base.new(["test_jumpstart_project"])
-        @test_project_3.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
-        @test_project_3.instance_variable_set(:@default_template_name, "test_template_2")
-        @test_project_3.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
-        @test_project_3.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
         @test_project_3.stubs(:jumpstart_menu).returns("jumpstart_menu")
         assert_equal "jumpstart_menu", @test_project_3.set_config_file_options
       end
@@ -107,12 +160,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#check_setup instance method. \n" do
       
       should "run contained methods" do
-        FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
-        @test_project_4 = JumpStart::Base.new(["test_jumpstart_project"])
-        @test_project_4.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
-        @test_project_4.instance_variable_set(:@default_template_name, "test_template_2")
-        @test_project_4.instance_variable_set(:@template_name, "test_template_2")
-        @test_project_4.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")        
         @test_project_4.stubs(:set_config_file_options).returns("set_config_file_options")
         @test_project_4.stubs(:lookup_existing_templates).returns("lookup_existing_templates")
         @test_project_4.stubs(:check_project_name).returns("check_project_name")
@@ -154,65 +201,35 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       context "when the project name is not empty but is not more than 3 characters" do
-        
-        setup do
-          input = StringIO.new("testo\n")
-          output = StringIO.new
-          @test_project = JumpStart::Base.new(["tr"])
-          @test_project.instance_eval do
-            @input = input
-            @output = output
-            @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-            @default_template_name = "test_template_1"
-            @template_name = "test_template_1"
-            set_config_file_options
-            @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
-          end
-        end
-        
+                
         should "read input from STDIN" do
-          assert_equal "testo\n", @test_project.input.string
+          assert_equal "testo\n", @test_project_5.input.string
         end
         
         should "ask the user to provide a longer project name" do
-          @test_project.instance_eval {check_project_name}
-          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project.output.string
+          @test_project_5.instance_eval {check_project_name}
+          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project_5.output.string
         end
         
         should "ask the user to provide a longer project name and then return the name of the project when a name longer than three characters is provided" do
-          @test_project.instance_eval {check_project_name}
-          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project.output.string
-          assert_equal "testo", @test_project.instance_eval { check_project_name }
+          @test_project_5.instance_eval {check_project_name}
+          assert_equal "\e[31m\n  The name tr is too short. Please enter a name at least 3 characters long.\e[0m\n" , @test_project_5.output.string
+          assert_equal "testo", @test_project_5.instance_eval { check_project_name }
         end
                                 
       end
       
       context "when the project name is empty or nil" do
-        
-        setup do
-          input = StringIO.new("testorama\n")
-          output = StringIO.new
-          @test_project = JumpStart::Base.new([nil])
-          @test_project.instance_eval do
-            @input = input
-            @output = output
-            @jumpstart_templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-            @default_template_name = "test_template_1"
-            @template_name = "test_template_1"
-            set_config_file_options
-            @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
-          end
-        end
-        
+                
         should "ask the user to specify a name for the project if @project_name is empty or nil" do
-          @test_project.instance_eval {check_project_name}
-          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project.output.string
+          @test_project_6.instance_eval {check_project_name}
+          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project_6.output.string
         end
         
         should "ask the user to specify a name for the project if @project_name is empty or nil and then set it when a name of at least 3 characters is provided" do
-          @test_project.instance_eval {check_project_name}
-          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project.output.string
-          assert_equal "testorama", @test_project.instance_eval {check_project_name}
+          @test_project_6.instance_eval {check_project_name}
+          assert_equal "\e[1m\e[33m\n  Enter a name for your project.\e[0m\n", @test_project_6.output.string
+          assert_equal "testorama", @test_project_6.instance_eval {check_project_name}
         end
         
       end      
