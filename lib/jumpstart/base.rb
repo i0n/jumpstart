@@ -1,6 +1,7 @@
 module JumpStart
   class Base
     
+    # Accessor methods to make testing input or output easier.
     attr_accessor :input
     attr_reader :output
     
