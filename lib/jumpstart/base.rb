@@ -258,6 +258,7 @@ module JumpStart
       new_template_options
     end
     
+    # TODO add functionality for duplicating an existing template
     # TODO write tests for new_template_options
     def new_template_options
       puts "\n  Enter a unique name for the new template.\n".yellow
