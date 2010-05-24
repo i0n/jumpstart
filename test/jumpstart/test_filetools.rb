@@ -347,4 +347,36 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         
   end
   
+  context "Testing JumpStart::FileUtils.sort_contained_files_and_dirs class method" do
+    
+    setup do
+      @path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/sort_contained_files_and_dirs_test"
+    end
+    
+    should "seperate files and dirs contained in the directory specified and output the collections in a hash" do
+      results = FileUtils.sort_contained_files_and_dirs(@path)
+      assert_equal ["/file_1.txt",
+                    "/file_2",
+                    "/folder_1/file_3.txt",
+                    "/folder_1/folder_2/file_4.txt",
+                    "/folder_1/folder_2/folder_3/file_5.txt",
+                    "/folder_1/folder_2/folder_4/file_6.txt"], results[:files]
+      assert_equal ["/folder_1",
+                    "/folder_1/folder_2",
+                    "/folder_1/folder_2/folder_3",
+                    "/folder_1/folder_2/folder_4"], results[:dirs]
+    end
+    
+    should "return an empty hash when passed nil" do
+      results = FileUtils.sort_contained_files_and_dirs(nil)
+      assert_equal( {:files => [], :dirs => []}, results)
+    end
+    
+    should "return an empty hash when passed a path that does not exist" do
+      results = FileUtils.sort_contained_files_and_dirs("#{@path}/the_mighty_zargs_imaginary_path")
+      assert_equal( {:files => [], :dirs => []}, results)
+    end
+    
+  end
+  
 end

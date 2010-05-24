@@ -256,12 +256,14 @@ module JumpStart::FileTools
   
   def sort_contained_files_and_dirs(path)
     dirs, files = [], []
-    Find.find(path) do |x|
-      case
-      when File.directory?(x)
-        dirs << x.sub(path, '')
-      when File.file?(x)
-        files << x.sub(path, '')
+    if path != nil && Dir.exists?(path)
+      Find.find(path) do |x|
+        case
+        when File.directory?(x)
+          dirs << x.sub(path, '') unless x.sub(path, '').length == 0
+        when File.file?(x)
+          files << x.sub(path, '') unless x.sub(path, '').length == 0
+        end
       end
     end
     {:files => files, :dirs => dirs}
