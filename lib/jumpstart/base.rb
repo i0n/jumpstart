@@ -1,27 +1,6 @@
 module JumpStart
   class Base
-    
-    class << self
-
-      def get_line_number(file_name)
-        if file_name.match(/_(\d+)\._\w*/)
-          number = file_name.match(/_(\d+)\._\w*/)[1]
-          number.to_i
-        else
-          false
-        end
-      end
-
-      def remove_last_line?(file_name)
-        if file_name.match(/_([lL]{1})\._{1}\w*/)
-          true
-        else
-          false
-        end
-      end
-      
-    end
-    
+        
     # Accessor methods to make testing input or output easier.
     attr_accessor :input
     attr_reader :output
@@ -508,6 +487,27 @@ module JumpStart
       puts "\n  Goodbye!\n\n"
       puts "******************************************************************************************************************************************\n"
       exit
+    end
+      
+    class << self
+
+      def get_line_number(file_name)
+        if file_name.match(/_(\d+)\._\w*/)
+          number = file_name.match(/_(\d+)\._\w*/)[1]
+          number.to_i
+        else
+          false
+        end
+      end
+
+      def remove_last_line?(file_name)
+        if file_name.match(/_([lL]{1})\._{1}\w*/)
+          true
+        else
+          false
+        end
+      end
+      
     end
       
   end
