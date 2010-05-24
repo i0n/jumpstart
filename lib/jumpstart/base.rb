@@ -85,9 +85,9 @@ module JumpStart
       run_scripts_from_yaml(:run_after_install_command)
       parse_template_dir
       # makes folders for the project
-      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) }
+      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) } unless @dir_list.nil?
       # create files from whole templates
-      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) }
+      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
       populate_files_from_append_templates
       populate_files_from_line_templates
       remove_unwanted_files

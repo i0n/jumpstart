@@ -187,6 +187,31 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
     
     context "Tests for the JumpStart::Base#start instance method. \n" do
+            
+      should "run the contained methods" do
+        @test_project.stubs(:execute_install_command).returns("execute_install_command")
+        @test_project.stubs(:run_scripts_from_yaml).with(:run_after_install_command).returns("run_after_install_command")
+        @test_project.stubs(:parse_template_dir).returns("parse_template_dir")
+        @test_project.stubs(:populate_files_from_append_templates).returns("populate_files_from_append_templates")
+        @test_project.stubs(:populate_files_from_line_templates).returns("populate_files_from_line_templates")
+        @test_project.stubs(:remove_unwanted_files).returns("remove_unwanted_files")
+        @test_project.stubs(:run_scripts_from_yaml).with(:run_after_jumpstart).returns("run_after_jumpstart")
+        @test_project.stubs(:check_for_strings_to_replace).returns("check_for_strings_to_replace")
+        @test_project.stubs(:check_local_nginx_configuration).returns("check_local_nginx_configuration")
+        @test_project.stubs(:exit_with_success).returns("exit_with_success")
+        @test_project.expects(:check_setup).once
+        @test_project.expects(:execute_install_command).once
+        @test_project.expects(:run_scripts_from_yaml).with(:run_after_install_command).once
+        @test_project.expects(:parse_template_dir).once
+        @test_project.expects(:populate_files_from_append_templates).once
+        @test_project.expects(:populate_files_from_line_templates).once
+        @test_project.expects(:remove_unwanted_files).once
+        @test_project.expects(:run_scripts_from_yaml).with(:run_after_jumpstart).once
+        @test_project.expects(:check_for_strings_to_replace).once
+        @test_project.expects(:check_local_nginx_configuration).once
+        @test_project.expects(:exit_with_success).once
+        @test_project.start
+      end
       
     end
     
