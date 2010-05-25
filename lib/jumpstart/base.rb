@@ -147,10 +147,10 @@ module JumpStart
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil?
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
-        puts
-        puts "The directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
+        puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal
-      end      
+      end
+      true
     end
            
     # TODO create_template needs tests

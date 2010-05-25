@@ -351,6 +351,27 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {check_template_path}
         assert_equal "\nThe directory \e[31m/Users/i0n/Sites/jumpstart/not/a/valid/path\e[0m could not be found, or you do not have the correct permissions to access it.\n", @test_project.output.string
       end
+        
+    end
+    
+    context "Test for the JumpStart::Base#check_install_path instance method" do
+      
+      should "do nothing if a valid path is set in @install_path and @install_path + @project_name path does not exist yet" do
+        assert @test_project.instance_eval {check_install_path}
+      end
+      
+      should "provide a warning and exit JumpStart if the directory path of @install_path + @project_name already exists" do
+        FileUtils.mkdir(FileUtils.join_paths(@test_project.instance_variable_get(:@install_path), @test_project.instance_variable_get(:@project_name)))
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {check_install_path}
+        assert_equal "\nThe directory \e[31m/Users/i0n/Sites/jumpstart/test/destination_dir/test_jumpstart_project\e[0m already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything.\n", @test_project.output.string
+      end
+      
+      should "set the install path to the current directory if @install_path is nil and then run the method again, checking the path of @install_path + @project_name" do
+        @test_project.instance_variable_set(:@install_path, nil)
+        assert(@test_project.instance_eval {check_install_path})
+        assert_equal FileUtils.pwd , @test_project.instance_variable_get(:@install_path)
+      end
       
     end
     
