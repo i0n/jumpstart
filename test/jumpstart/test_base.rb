@@ -407,11 +407,57 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
       
-    context "Tests for the JumpStart::Base#jumpstart_options instance method. \n" do
+    context "Tests for the JumpStart::Base#jumpstart_menu_options instance method. \n" do
       
-      should "run jumpstart_options method" do
+      setup do
+        @test_project.stubs(:lookup_existing_templates)
+        @test_project.stubs(:new_project_from_template_menu)
+        @test_project.stubs(:new_template_menu)
+        @test_project.stubs(:set_default_template_menu)
+        @test_project.stubs(:templates_dir_menu)
+      end
       
-      end    
+      should "run new_project_from_template_menu if input is '1'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
+        @test_project.expects(:new_project_from_template_menu).once
+        @test_project.instance_eval {jumpstart_menu_options}
+      end
+      
+      should "run new_template_menu if input is '2'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("2\n"))
+        @test_project.expects(:new_template_menu).once
+        @test_project.instance_eval {jumpstart_menu_options}      
+      end
+      
+      should "run set_default_template_menu if input is '3'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("3\n"))
+        @test_project.expects(:set_default_template_menu).once
+        @test_project.instance_eval {jumpstart_menu_options}            
+      end
+      
+      should "run templates_dir_menu if input is '4'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("4\n"))
+        @test_project.expects(:templates_dir_menu).once
+        @test_project.instance_eval {jumpstart_menu_options}                  
+      end
+      
+      should "exit if input is 'x'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {jumpstart_menu_options}                          
+      end
+      
+      should "ask for another input if the value entered is not '1,2,3,4 or x'. Test with 'blarg'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
+        @test_project.expects(:jumpstart_menu_options).once
+        @test_project.instance_eval {jumpstart_menu_options}
+      end
+
+      should "ask for another input if the value entered is not '1,2,3,4 or x'. Test with 'a'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("a\n"))
+        @test_project.expects(:jumpstart_menu_options).once
+        @test_project.instance_eval {jumpstart_menu_options}
+      end
       
     end
       

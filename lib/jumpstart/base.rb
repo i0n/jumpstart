@@ -179,7 +179,6 @@ module JumpStart
       jumpstart_menu_options
     end
     
-    # TODO jumpstart_menu_options needs tests
     def jumpstart_menu_options
       lookup_existing_templates
       input = gets.chomp.strip
