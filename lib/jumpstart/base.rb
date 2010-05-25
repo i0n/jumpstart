@@ -110,7 +110,6 @@ module JumpStart
     
     private
     
-    # TODO check_project_name needs extra tests for the match elsif
     def check_project_name
       if @project_name.nil? || @project_name.empty?
         puts "\n  Enter a name for your project.".yellow
