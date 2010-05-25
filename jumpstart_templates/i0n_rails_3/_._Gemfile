@@ -1,5 +1,0 @@
-gem 'haml'
-
-group :development do
-  # gem "rails-footnotes"
-end

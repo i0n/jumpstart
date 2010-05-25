@@ -1,1 +1,0 @@
-  root :to => 'home#index'
