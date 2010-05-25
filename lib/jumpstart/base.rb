@@ -14,6 +14,8 @@ module JumpStart
       @output.puts(*args)    
     end
     
+    # TODO write a method to set :jumpstart_templates_path when the gem is run for the first time.
+    
     def initialize(args)
       # setup for testing input
       @input  = $stdin
