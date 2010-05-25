@@ -134,7 +134,6 @@ module JumpStart
       end
     end
     
-    # TODO check_template_path needs tests
     def check_template_path
       begin
         Dir.chdir(@template_path)
