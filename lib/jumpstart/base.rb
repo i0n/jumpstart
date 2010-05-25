@@ -152,7 +152,6 @@ module JumpStart
       true
     end
            
-    # TODO create_template needs tests
     def create_template
       if Dir.exists?(FileUtils.join_paths(@jumpstart_templates_path, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(@jumpstart_templates_path, @template_name).red} already exists. The template will not be created."
