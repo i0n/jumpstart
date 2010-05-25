@@ -128,7 +128,6 @@ module JumpStart
       end
     end
     
-    # TODO check_template_name needs tests.
     def check_template_name
       if @template_name.nil? || @template_name.empty?
         jumpstart_menu

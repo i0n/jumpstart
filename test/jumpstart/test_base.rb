@@ -314,8 +314,20 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     context "Tests for the JumpStart::Base#check_template_name instance method. \n" do
       
-      should "run check_template_name method" do
+      should "launch jumpstart menu if nil" do
+        @test_project.instance_variable_set(:@template_name, nil)
+        @test_project.instance_variable_set(:@default_template_name, nil)
+        @test_project.stubs(:jumpstart_menu).returns("jumpstart_menu")
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_eval {check_template_name}
+      end
       
+      should "launch jumpstart menu if empty" do
+        @test_project.instance_variable_set(:@template_name, "")
+        @test_project.instance_variable_set(:@default_template_name, "")
+        @test_project.stubs(:jumpstart_menu).returns("jumpstart_menu")
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_eval {check_template_name}        
       end
       
     end
