@@ -22,6 +22,8 @@ class TestJumpstartBase < Test::Unit::TestCase
         set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
+      @test_project.stubs(:exit_normal)
+      @test_project.stubs(:exit_with_success)
     end
     
     # A valid project but with an invalid template name passed in the argument with a valid project name. Project ends up valid as @default_template_name is valid and it falls back on this.
@@ -42,6 +44,8 @@ class TestJumpstartBase < Test::Unit::TestCase
         set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
+      @test_project_2.stubs(:exit_normal)
+      @test_project_2.stubs(:exit_with_success)
     end
     
     # An invalid project (@template_name), with the project name passed as the argument
@@ -52,6 +56,8 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project_3.instance_variable_set(:@default_template_name, "test_template_2")
       @test_project_3.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
       @test_project_3.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
+      @test_project_3.stubs(:exit_normal)
+      @test_project_3.stubs(:exit_with_success)
     end
     
     # A valid project with the project name passed as the argument 
@@ -61,7 +67,9 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project_4.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates")
       @test_project_4.instance_variable_set(:@default_template_name, "test_template_2")
       @test_project_4.instance_variable_set(:@template_name, "test_template_2")
-      @test_project_4.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")        
+      @test_project_4.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_2")
+      @test_project_4.stubs(:exit_normal)
+      @test_project_4.stubs(:exit_with_success)       
     end
     
     # An invalid project (@project_name is too short), then passed a valid @project_name through IO.
@@ -80,6 +88,8 @@ class TestJumpstartBase < Test::Unit::TestCase
         set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
+      @test_project_5.stubs(:exit_normal)
+      @test_project_5.stubs(:exit_with_success)
     end
     
     # An invalid project (@project_name is nil), then passed a valid @project_name through IO.
@@ -98,6 +108,8 @@ class TestJumpstartBase < Test::Unit::TestCase
         set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
+      @test_project_6.stubs(:exit_normal)
+      @test_project_6.stubs(:exit_with_success)
     end
         
     teardown do
@@ -198,7 +210,6 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.stubs(:run_scripts_from_yaml).with(:run_after_jumpstart).returns("run_after_jumpstart")
         @test_project.stubs(:check_for_strings_to_replace).returns("check_for_strings_to_replace")
         @test_project.stubs(:check_local_nginx_configuration).returns("check_local_nginx_configuration")
-        @test_project.stubs(:exit_with_success).returns("exit_with_success")
         @test_project.expects(:check_setup).once
         @test_project.expects(:execute_install_command).once
         @test_project.expects(:run_scripts_from_yaml).with(:run_after_install_command).once
