@@ -377,8 +377,21 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     context "Tests for the JumpStart::Base#create_template instance method. \n" do
       
-      should "run create_template method" do
+      setup do
+        @test_project.instance_variable_set(:@jumpstart_templates_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@template_name, "testing_create_template")
+      end
       
+      should "create a template direcotry named after @template_name in the @jumpstart_templates_path directory. Inside this dir it will create a /jumpstart_config directory, and inside that it will create a yaml config file called @template_name.yml and populated with JumpStart::ROOT_PATH/source_templates/template_config.yml " do
+        @test_project.instance_eval {create_template}
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/testing_create_template/jumpstart_config/testing_create_template.yml")
+      end
+      
+      should "give a message and exit if a directory with the same name as @template_name exists in the @jumpstart_templates_path dir" do
+        FileUtils.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/testing_create_template")
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {create_template}
+        assert_equal "\nThe directory \e[31m/Users/i0n/Sites/jumpstart/test/destination_dir/testing_create_template\e[0m already exists. The template will not be created.\n", @test_project.output.string
       end
       
     end
