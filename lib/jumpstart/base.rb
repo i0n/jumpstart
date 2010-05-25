@@ -122,6 +122,7 @@ module JumpStart
         check_project_name
       elsif @project_name.match(/^\W/)
         puts "\n  #{@project_name} begins with an invalid character. Please enter a name thats starts with a letter or a number.".red
+        @project_name = gets.chomp.strip
         check_project_name
       else
         @project_name
