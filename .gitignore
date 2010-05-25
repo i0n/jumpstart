@@ -19,8 +19,8 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
-test/destination_dir/*
-jumpstart_templates/*
+test/destination_dir/*/*
+jumpstart_templates/*/*
 
 ## Bundler
 vendor/gems/gems 
