@@ -139,7 +139,7 @@ module JumpStart
       begin
         Dir.chdir(@template_path)
       rescue
-        puts "\nThe directory #{x.red} could not be found, or you do not have the correct permissions to access it."
+        puts "\nThe directory #{@template_path.red} could not be found, or you do not have the correct permissions to access it."
         exit_normal
       end
     end

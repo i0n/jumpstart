@@ -343,6 +343,17 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
+    context "Test for the JumpStart::Base#check_template_path instance method." do
+      
+      should "exit the installation if the @template_path directory cannot be found or accessed." do
+        @test_project.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/not/a/valid/path")
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {check_template_path}
+        assert_equal "\nThe directory \e[31m/Users/i0n/Sites/jumpstart/not/a/valid/path\e[0m could not be found, or you do not have the correct permissions to access it.\n", @test_project.output.string
+      end
+      
+    end
+    
     context "Tests for the JumpStart::Base#create_template instance method. \n" do
       
       should "run create_template method" do

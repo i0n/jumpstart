@@ -17,7 +17,7 @@ module JumpStart
         
   end
   
-  class FileTools
+  module FileTools
     
   end
   
