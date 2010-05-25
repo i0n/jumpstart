@@ -201,16 +201,16 @@ module JumpStart
       end
     end
     
-    # TODO Check/finish methods for creating a new project through the menu
-    # TODO new_project_from_template_menu needs tests
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
       puts "  Type a number for the template that you want.\n\n"
       count = 0
-      @existing_templates.each do |t|
-        count += 1
-        puts "  #{count.to_s.yellow} #{t}"
+      unless @existing_templates.nil? || @existing_templates.empty?
+        @existing_templates.each do |t|
+          count += 1
+          puts "  #{count.to_s.yellow} #{t}"
+        end
       end
       puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"

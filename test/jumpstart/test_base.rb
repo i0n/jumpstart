@@ -114,6 +114,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         
     teardown do
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/.gitignore")
     end
     
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
@@ -457,6 +458,19 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_variable_set(:@input, StringIO.new("a\n"))
         @test_project.expects(:jumpstart_menu_options).once
         @test_project.instance_eval {jumpstart_menu_options}
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#new_project_from_template_menu instance method." do
+            
+      should "display options and run new_project_from_template_options" do
+        @test_project.stubs(:new_project_from_template_options)
+        @test_project.expects(:new_project_from_template_options).once
+        @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
+        @test_project.instance_eval {new_project_from_template_menu}
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n\e[0m\n  Type a number for the template that you want.\n\n  \e[1m\e[33m1\e[0m project1\n  \e[1m\e[33m2\e[0m project2\n  \e[1m\e[33m3\e[0m project3\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal ['project1', 'project2', 'project3'], @test_project.instance_variable_get(:@existing_templates)
       end
       
     end
