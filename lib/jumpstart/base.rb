@@ -142,8 +142,7 @@ module JumpStart
         exit_normal
       end
     end
-        
-    # TODO check_install_path needs tests
+
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil?
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
