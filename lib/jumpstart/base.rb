@@ -496,12 +496,14 @@ module JumpStart
       end
     end
         
+    # TODO dump_global_yaml needs tests
     def dump_global_yaml
       File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
         YAML.dump( {:jumpstart_templates_path => @jumpstart_templates_path, :default_template_name => @default_template_name}, out )
       end
     end
     
+    # TODO exit_with_success needs tests
     def exit_with_success
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Success! ".green + @project_name.green_bold + " has been created at: ".green + FileUtils.join_paths(@install_path, @project_name).green_bold + "\n\n".green
@@ -509,6 +511,7 @@ module JumpStart
       exit
     end
     
+    # TODO exit_normal needs tests
     def exit_normal
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Goodbye!\n\n"
