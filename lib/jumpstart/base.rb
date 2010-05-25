@@ -166,7 +166,6 @@ module JumpStart
       end
     end
         
-    # TODO jumpstart_menu needs tests
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART MENU\n".purple

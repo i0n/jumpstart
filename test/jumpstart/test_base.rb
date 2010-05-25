@@ -396,6 +396,17 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
       
+    context "Tests for the JumpStart::Base#jumpstart_menu instance method." do
+      
+      should "output the users options to the screen and call jumpstart_menu_options" do
+        @test_project.stubs(:jumpstart_menu_options)
+        @test_project.expects(:jumpstart_menu_options).once
+        @test_project.instance_eval {jumpstart_menu}
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART MENU\n\e[0m\n  Here are your options:\n\n\e[1m\e[33m  1\e[0m Create a new project from an existing template.\n\e[1m\e[33m  2\e[0m Create a new template.\n\e[1m\e[33m  3\e[0m Set the default template.\n\e[1m\e[33m  4\e[0m Set the templates directory.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+      end
+      
+    end
+      
     context "Tests for the JumpStart::Base#jumpstart_options instance method. \n" do
       
       should "run jumpstart_options method" do
