@@ -512,6 +512,21 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#new_template_menu instance method." do
+      
+      should "display output and call new_template_options" do
+        @test_project.stubs(:lookup_existing_templates)
+        @test_project.stubs(:new_template_options)
+        @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
+        @test_project.expects(:lookup_existing_templates).once
+        @test_project.expects(:new_template_options).once
+        @test_project.instance_eval {new_template_menu}
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n  \e[32mproject1\e[0m\n  \e[32mproject2\e[0m\n  \e[32mproject3\e[0m\n", @test_project.output.string
+        assert_equal %w[project1 project2 project3], @test_project.instance_variable_get(:@existing_templates)
+      end
+      
+    end
           
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       

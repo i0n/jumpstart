@@ -236,7 +236,6 @@ module JumpStart
       end
     end
     
-    # TODO write tests for new_template_menu
     def new_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
