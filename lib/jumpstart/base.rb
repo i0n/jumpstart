@@ -357,28 +357,38 @@ module JumpStart
       end
     end
     
-    # TODO reset_templates_dir_to_default needs tests
     # Resets the JumpStart template directory to the default location. (within the gem.)
-    def reset_templates_dir_to_default
+    def reset_templates_dir_to_default_check
       if JumpStart.templates_path == "#{ROOT_PATH}/jumpstart_templates"
         puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
+        templates_dir_menu
       else  
         puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
-        current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart.templates_path)
+        @current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart.templates_path)
         puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n".yellow
         puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
-        # TODO Look at refactoring this out into it's own method to make testing easier.
-        input = gets.chomp.strip
-        if input == "yes" || input == "y"
-          FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
-          current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
-          current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
-          JumpStart.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
-          dump_global_yaml
-          puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
-        end
+        reset_templates_dir_to_default_set
       end
-      templates_dir_menu
+    end
+    
+    def reset_templates_dir_to_default_set
+      input = gets.chomp.strip
+      if input == "yes" || input == "y"
+        FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
+        FileUtils.touch(FileUtils.join_paths(ROOT_PATH, '.gitignore'))
+        @current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
+        @current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
+        JumpStart.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
+        dump_global_yaml
+        puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
+        templates_dir_menu
+      elsif input == "no" || input == "n"
+        puts "\n You have chosen not to move the jumpstart templates directory, nothing has been changed."
+        templates_dir_menu
+      else
+        puts "\n The command you entered could not be understood, please enter yes '" + "y".yellow + "' or no '" + "n".yellow + "'"
+        reset_templates_dir_to_default_set
+      end
     end
             
     # TODO execute_install_command needs tests

@@ -691,21 +691,82 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
           
-    context "Tests for the JumpStart::Base#reset_templates_dir_to_default instance method." do
+    context "Tests for the JumpStart::Base#reset_templates_dir_to_default_check instance method." do
       
       setup do
         @test_project.stubs(:templates_dir_menu)
-        @test_project.stubs(:dump_global_yaml)
+        @test_project.stubs(:reset_templates_dir_to_default_set)
       end
       
       should "output a message and run templates_dir_menu if JumpStart.templates_path is set to it's standard starting position." do
         JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
         @test_project.expects(:templates_dir_menu).once
-        @test_project.instance_eval {reset_templates_dir_to_default}
+        @test_project.instance_eval {reset_templates_dir_to_default_check}
         assert_equal "\e[31m  You do not need to reset the jumpstart templates directory, it is already set to: /Users/i0n/Sites/jumpstart/jumpstart_templates\n\n\e[0m\n", @test_project.output.string
       end
       
-      # TODO write more tests for JumpStart::Base#reset_templates_dir_to_default when method has been refactored.
+      should "run reset_templates_dir_to_default_set if the current JumpStart.templates_path is not the default." do
+        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+        @test_project.expects(:reset_templates_dir_to_default_set).once
+        @test_project.instance_eval {reset_templates_dir_to_default_check}
+        assert_equal "  Resetting the jumpstart templates directory to the default: /Users/i0n/Sites/jumpstart/jumpstart_templates\n\n\e[1m\e[33m  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n\e[0m\n  Type yes (\e[1m\e[33my\e[0m) or no (\e[1m\e[33mn\e[0m)\n\n", @test_project.output.string
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#reset_templates_dir_to_default_set instance method." do
+      
+      setup do
+        @test_project.stubs(:dump_global_yaml)
+        @test_project.stubs(:templates_dir_menu)
+        FileUtils.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/jumpstart_templates")
+        @normal_root_path = JumpStart::ROOT_PATH.dup
+        JumpStart::ROOT_PATH = "#{@normal_root_path}/test/destination_dir"
+        JumpStart.templates_path = "#{@normal_root_path}/test/test_jumpstart_templates/test_base"
+        @test_project.instance_variable_set(:@current_files_and_dirs, {:files => ['current_files_and_dirs_test_file.txt'], :dirs => ['current_files_and_dirs_test_dir']})
+      end
+
+      teardown do
+        JumpStart::ROOT_PATH = @normal_root_path
+      end
+      
+      should "reset jumpstart templates directory to default if input is 'y'" do
+        @test_project.expects(:templates_dir_menu)
+        @test_project.instance_variable_set(:@input, StringIO.new("y\n"))
+        @test_project.instance_eval {reset_templates_dir_to_default_set}
+        assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
+        assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
+      end
+
+      should "reset jumpstart templates directory to default if input is 'yes'" do
+        @test_project.expects(:templates_dir_menu)
+        @test_project.instance_variable_set(:@input, StringIO.new("yes\n"))
+        @test_project.instance_eval {reset_templates_dir_to_default_set}
+        assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
+        assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
+      end
+      
+      should "run templates_dir_menu if input is 'n'" do
+        @test_project.expects(:templates_dir_menu)
+        @test_project.instance_variable_set(:@input, StringIO.new("n\n"))
+        @test_project.instance_eval {reset_templates_dir_to_default_set}
+        assert_equal "\n You have chosen not to move the jumpstart templates directory, nothing has been changed.\n", @test_project.output.string
+      end
+
+      should "run templates_dir_menu if input is 'no'" do
+        @test_project.expects(:templates_dir_menu)
+        @test_project.instance_variable_set(:@input, StringIO.new("no\n"))
+        @test_project.instance_eval {reset_templates_dir_to_default_set}
+        assert_equal "\n You have chosen not to move the jumpstart templates directory, nothing has been changed.\n", @test_project.output.string
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "restart the method if the input is not understood" do
+        @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
+        assert_raises(NoMethodError) {@test_project.instance_eval {reset_templates_dir_to_default_set}}
+      end
       
     end
 
