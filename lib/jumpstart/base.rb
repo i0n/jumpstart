@@ -313,7 +313,6 @@ module JumpStart
       templates_dir_options
     end
     
-    # TODO templates_dir_options needs tests
     def templates_dir_options
       input = gets.chomp.strip
       case

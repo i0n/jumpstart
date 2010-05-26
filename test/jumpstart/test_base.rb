@@ -627,10 +627,42 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
-    context "Tests for the JumpStart::Base#template_dir_options instance method." do
+    context "Tests for the JumpStart::Base#templates_dir_options instance method." do
       
-      should "template_dir_options" do
-        skip
+      setup do
+        @test_project.stubs(:set_templates_dir)
+        @test_project.stubs(:reset_templates_dir_to_default)
+        @test_project.stubs(:jumpstart_menu)
+      end
+      
+      should "run the set_templates_dir method when '1' is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
+        @test_project.expects(:set_templates_dir).once
+        @test_project.instance_eval {templates_dir_options}
+      end
+
+      should "run the reset_templates_dir_to_default method when '2' is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("2\n"))
+        @test_project.expects(:reset_templates_dir_to_default).once
+        @test_project.instance_eval {templates_dir_options}
+      end
+
+      should "run the jumpstart_menu method when 'b' is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_eval {templates_dir_options}
+      end
+
+      should "run the exit_normal when 'x' is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {templates_dir_options}
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "restart the method if the command entered is not understood" do
+        @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
+        assert_raises(NoMethodError) {@test_project.instance_eval {templates_dir_options}}
       end
       
     end
