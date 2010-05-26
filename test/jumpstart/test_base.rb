@@ -806,18 +806,58 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
 
-    context "Tests for the JumpStart::Base#execute_install_command instance method." do
-      
-      should "execute_install_command" do
-        skip
-      end
-      
-    end
-
     context "Tests for the JumpStart::Base#parse_template_dir instance method." do
       
-      should "parse_template_dir" do
-        skip
+      setup do
+        @test_project.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        FileUtils.mkdir_p("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.local.conf")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.remote.conf")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_._append_test_1.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_._append_test_2")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_l._append_test_3.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_L._append_test_4.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_._append_test_5.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_._append_test_6")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_l._append_test_7.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_L._append_test_8.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_1._line_test_1.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/_1._line_test_2")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_1._line_test_3.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/_10000._line_test_4.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/whole_test_1.txt")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/whole_test_2")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/whole_test_3")
+        FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/whole_test_4.txt")
+        @test_project.instance_eval {parse_template_dir}
+      end
+      
+      should "populate @dir_list with directories contained in @template_path" do
+        assert_equal ['', '/parse_template_dir'], @test_project.instance_variable_get(:@dir_list)
+      end
+      
+      should "populate @append_templates with files that are prefixed with _._ _l._ or _L._ and do not contain a directory called jumpstart_config." do
+        assert_equal ["/parse_template_dir/_._append_test_5.txt",
+                      "/parse_template_dir/_._append_test_6",
+                      "/parse_template_dir/_L._append_test_8.txt",
+                      "/parse_template_dir/_l._append_test_7.txt"], @test_project.instance_variable_get(:@append_templates)
+      end
+      
+      should "populate @line_templates with files that are prefixed with _(number)._ e.g. _1._ or _1000._. File paths that include a directory called jumpstart_config should be excluded." do
+        assert_equal ["/parse_template_dir/_1._line_test_3.txt",
+                      "/parse_template_dir/_10000._line_test_4.txt"], @test_project.instance_variable_get(:@line_templates)
+      end
+      
+      should "populate @whole_templates with a files that do not match append or line templates and do not contain a directory called jumpstart_config in their path." do
+        assert_equal ["/parse_template_dir/whole_test_3", "/parse_template_dir/whole_test_4.txt"], @test_project.instance_variable_get(:@whole_templates)
+      end
+      
+      should "populate @nginx_local_template if a file matching jumpstart_config/nginx.local.conf is found" do
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.local.conf", @test_project.instance_variable_get(:@nginx_local_template)
+      end
+
+      should "populate @nginx_remote_template if a file matching jumpstart_config/nginx.remote.conf is found" do
+        assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.remote.conf", @test_project.instance_variable_get(:@nginx_remote_template)
       end
       
     end

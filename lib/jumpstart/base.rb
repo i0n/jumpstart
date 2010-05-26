@@ -399,14 +399,13 @@ module JumpStart
         system "#{@install_command} #{@project_name} #{@install_command_args}"
       end
     end
-            
-    # TODO parse_template_dir needs tests
+
     def parse_template_dir
       @dir_list = []
       file_list = []
-      @whole_templates = []
       @append_templates = []
       @line_templates = []
+      @whole_templates = []
       Find.find(@template_path) do |x|
         case
         when File.file?(x) && x !~ /\/jumpstart_config/ then
