@@ -111,7 +111,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       @test_project_6.stubs(:exit_normal)
       @test_project_6.stubs(:exit_with_success)
     end
-        
+            
     teardown do
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/.gitignore")
@@ -478,23 +478,19 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#new_project_from_template_options instance method." do
       
       setup do
-        # @test_project.stubs(:check_project_name)
         @test_project.stubs(:jumpstart_menu)
-        # project.stubs(:check_setup)
-        # project.stubs(:start)
-        # @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
         @test_project.instance_eval {lookup_existing_templates}
       end
       
       should "create a new project with the specified template name, checking that the project name is valid when a valid number is entered" do
-        # @test_project.expects(:check_project_name).once
-        # @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
-        # @test_project.instance_eval {new_project_from_template_options}
-        
-        # Testing what has been set
-        # assert_equal "", @test_project.instance_variable_get(:@existing_templates)
-        # assert_equal "", @test_project.instance_variable_get(:JumpStart.templates_path)
-        # assert_equal "", @test_project.instance_variable_get(:@template_name)
+        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+        JumpStart.default_template_name = "test_template_1"
+        @test_project.expects(:check_project_name).once
+        @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
+        @test_project.instance_eval {new_project_from_template_options}
+        # project will be created from directory where command is run as @install_papth cannot currently be set for generated jumpstart project.
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
+        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
       end
       
       should "launch the jumpstart_menu method if 'b' is entered" do

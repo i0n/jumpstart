@@ -41,6 +41,7 @@ module JumpStart
     # TODO Document methods for RDOC
     # Finish README etc for github
     
+    # Look into moving @install_path or refactoring to make setting this variable easier.
     def set_config_file_options
       if File.exists?(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
@@ -143,8 +144,9 @@ module JumpStart
       end
     end
 
+    # TODO test check_install_path setting @install_path = FileUtils.pwd from prompt.
     def check_install_path
-      @install_path = FileUtils.pwd if @install_path.nil?
+      @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
       if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
         puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal
@@ -216,7 +218,6 @@ module JumpStart
       new_project_from_template_options
     end
     
-    # TODO new_project_from_template_options needs tests
     def new_project_from_template_options
       input = gets.chomp.strip
       case
