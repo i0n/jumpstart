@@ -269,7 +269,6 @@ module JumpStart
       end
     end
     
-    # TODO Write method(s) for setting the default template
     def set_default_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n".purple
@@ -284,6 +283,7 @@ module JumpStart
       set_default_template_options
     end
     
+    # TODO write tests
     # Sets the default template to be used by JumpStart.
     def set_default_template_options
       input = gets.chomp.strip

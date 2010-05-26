@@ -564,6 +564,18 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#set_default_template_menu instance method." do
+            
+      should "display menu containing contents of @existing_templates" do
+        @test_project.instance_variable_set(:@existing_templates, %w[one two three])
+        @test_project.stubs(:set_default_template_options)
+        @test_project.expects(:set_default_template_options).once
+        @test_project.instance_eval {set_default_template_menu}
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n\e[0m\n  \e[1m\e[33m1\e[0m one\n  \e[1m\e[33m2\e[0m two\n  \e[1m\e[33m3\e[0m three\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+      end
+      
+    end
           
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       
