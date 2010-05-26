@@ -527,6 +527,43 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#new_template_options instance method." do
+      
+      setup do
+        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+        @test_project.stubs(:jumpstart_menu).returns("jumpstart_menu")
+        @test_project.instance_variable_set(:@existing_templates, %w[one two three])
+      end
+      
+      should "ask for another template name if the name given is already taken " do
+        @test_project.instance_variable_set(:@input, StringIO.new("one\n"))
+        @test_project.instance_eval {new_template_options}
+        assert_equal "\e[1m\e[33m\n  Enter a unique name for the new template.\n\e[0m\n\e[31m  A template of the name \e[0m\e[1m\e[31mone\e[0m\e[31m already exists.\e[0m\n", @test_project.output.string
+      end
+      
+      should "ask for another template name if the name given is less than 3 characters long." do
+        @test_project.instance_variable_set(:@input, StringIO.new("on\n"))
+        @test_project.instance_eval {new_template_options}
+        assert_equal "\e[1m\e[33m\n  Enter a unique name for the new template.\n\e[0m\n\e[31m  The template name \e[0m\e[1m\e[31mon\e[0m\e[31m is too short. Please enter a name that is at least 3 characters long.\e[0m\n", @test_project.output.string
+      end
+      
+      should "ask for another template name if the name given begins with a character that is not a number or a letter." do
+        @test_project.instance_variable_set(:@input, StringIO.new("/one\n"))
+        @test_project.instance_eval {new_template_options}
+        assert_equal "\e[1m\e[33m\n  Enter a unique name for the new template.\n\e[0m\n\e[31m  The template name \e[0m\e[1m\e[31m/one\e[0m\e[31m begins with an invalid character. Please enter a name that begins with a letter or a number.\e[0m\n", @test_project.output.string
+      end
+      
+      should "create a new template in the jumpstart templates directory if the name given is valid." do
+        @test_project.instance_variable_set(:@input, StringIO.new("four\n"))
+        @test_project.instance_eval {new_template_options}
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/four/jumpstart_config/four.yml")
+        original_file_contents = IO.read("#{JumpStart::ROOT_PATH}/source_templates/template_config.yml")
+        created_file_contents = IO.read("#{JumpStart::ROOT_PATH}/test/destination_dir/four/jumpstart_config/four.yml")
+        assert_equal original_file_contents, created_file_contents
+      end
+      
+    end
           
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       
