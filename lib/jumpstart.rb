@@ -19,6 +19,19 @@ module JumpStart
   
   require 'jumpstart/base'
   require 'jumpstart/filetools'
+
+  # The path to the jumpstart templates directory. 
+  # Set as a module instance variable.
+  @templates_path = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:jumpstart_templates_path]
+  # sets the default template to use if it has not been passed as an argument.
+  # Set as a module instance variable.
+  @default_template_name = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:default_template_name]
+  
+  # Get and Set methods for module instance variables.
+  def self.templates_path; @templates_path; end
+  def self.templates_path=(value); @templates_path = value; end
+  def self.default_template_name; @default_template_name; end
+  def self.default_template_name=(value); @default_template_name = value; end
     
 end
 
