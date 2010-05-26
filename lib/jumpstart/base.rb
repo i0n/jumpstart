@@ -254,10 +254,13 @@ module JumpStart
       case
       when @existing_templates.include?(input)
         puts "  A template of the name ".red + input.red_bold + " already exists.".red
+        new_template_options
       when input.length < 3
         puts "  The template name ".red + input.red_bold + " is too short. Please enter a name that is at least 3 characters long.".red
+        new_template_options
       when input.match(/^\W/)
         puts "  The template name ".red + input.red_bold + " begins with an invalid character. Please enter a name that begins with a letter or a number.".red
+        new_template_options
       else
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config"))
         FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml"))
