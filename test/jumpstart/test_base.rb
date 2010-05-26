@@ -579,8 +579,39 @@ class TestJumpstartBase < Test::Unit::TestCase
           
     context "Tests for the JumpStart::Base#set_default_template_options instance method." do
       
-      should "set_default_template_options" do
-        skip
+      setup do
+        @test_project.stubs(:jumpstart_menu)
+        @test_project.stubs(:dump_global_yaml)
+        @test_project.instance_variable_set(:@existing_templates, %w[template1 template2 template3])
+        JumpStart.default_template_name = "temp_default"
+      end
+      
+      should "set the default template if a number corresponding to an existing template is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.expects(:dump_global_yaml).once
+        @test_project.instance_eval {set_default_template_options}
+        assert_equal "template1", JumpStart.default_template_name
+      end
+      
+      should "go back to the main jumpstart menu if 'b' is entered." do
+        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_eval {set_default_template_options}
+        assert_equal "temp_default", JumpStart.default_template_name
+      end
+      
+      should "exit jumpstart if 'x' is entered" do
+        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {set_default_template_options}
+        assert_equal "temp_default", JumpStart.default_template_name        
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "restart the set_default_template_options method if the command is not understood" do
+        @test_project.instance_variable_set(:@input, StringIO.new("super_blarg\n"))
+        assert_raises(NoMethodError) {@test_project.instance_eval {set_default_template_options}}
       end
       
     end

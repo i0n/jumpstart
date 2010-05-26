@@ -283,7 +283,6 @@ module JumpStart
       set_default_template_options
     end
     
-    # TODO write tests
     # Sets the default template to be used by JumpStart.
     def set_default_template_options
       input = gets.chomp.strip
