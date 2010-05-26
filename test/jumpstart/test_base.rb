@@ -631,7 +631,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       setup do
         @test_project.stubs(:set_templates_dir)
-        @test_project.stubs(:reset_templates_dir_to_default)
+        @test_project.stubs(:reset_templates_dir_to_default_check)
         @test_project.stubs(:jumpstart_menu)
       end
       
@@ -643,7 +643,7 @@ class TestJumpstartBase < Test::Unit::TestCase
 
       should "run the reset_templates_dir_to_default method when '2' is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("2\n"))
-        @test_project.expects(:reset_templates_dir_to_default).once
+        @test_project.expects(:reset_templates_dir_to_default_check).once
         @test_project.instance_eval {templates_dir_options}
       end
 

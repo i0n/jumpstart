@@ -319,7 +319,7 @@ module JumpStart
       when input == "1"
         set_templates_dir
       when input == "2"
-        reset_templates_dir_to_default
+        reset_templates_dir_to_default_check
       when input == "b"
         jumpstart_menu
       when input == "x"
