@@ -667,10 +667,26 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
 
-    context "Tests for the JumpStart::Base#set_template_dir instance method." do
+    context "Tests for the JumpStart::Base#set_templates_dir instance method." do
       
-      should "set_template_dir" do
-        skip
+      setup do
+        @test_project.stubs(:dump_global_yaml)
+        @test_project.stubs(:jumpstart_menu)
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "restart the method if the directory path provided already exists." do
+        @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"))
+        assert_raises(NoMethodError) {@test_project.instance_eval {set_templates_dir}}
+      end
+      
+      should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location." do
+        @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist"))
+        @test_project.expects(:dump_global_yaml)
+        @test_project.expects(:jumpstart_menu)
+        @test_project.instance_eval {set_templates_dir}
+        assert_equal "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist/test_template_1/jumpstart_config/test_template_1.yml")
       end
       
     end

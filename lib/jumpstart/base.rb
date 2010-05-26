@@ -330,7 +330,6 @@ module JumpStart
       end
     end
     
-    # TODO set_templates_dir needs tests
     # Sets the path for templates to be used by JumpStart.
     def set_templates_dir
       puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
@@ -339,7 +338,7 @@ module JumpStart
       case
       when Dir.exists?(input)
         puts "A directory of that name already exists, please choose a directory that does not exist."
-        set_template_dir
+        set_templates_dir
       when Dir.exists?(root_path)
         begin
           Dir.chdir(root_path)
