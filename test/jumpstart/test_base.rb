@@ -577,63 +577,94 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
           
-    context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
+    context "Tests for the JumpStart::Base#set_default_template_options instance method." do
       
-      should "run configure_jumpstart method" do
-      
+      should "set_default_template_options" do
+        skip
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#template_dir_menu instance method." do
       
-    context "Tests for the JumpStart::Base#check_install_paths instance method. \n" do
-      
-      should "run check_install_paths method" do
-      
-      end        
-      
-    end
-      
-    context "Tests for the JumpStart::Base#create_project method instance method. \n" do
-      
-      should "run create_project method" do
-      
+      should "template_dir_menu" do
+        skip
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#template_dir_options instance method." do
       
-    context "Tests for the JumpStart::Base#parse_template_dir instance method. \n" do
-      
-      should "run parse_template_dir method" do
-      
+      should "template_dir_options" do
+        skip
       end
       
     end
-            
-    context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method. \n" do
+
+    context "Tests for the JumpStart::Base#set_template_dir instance method." do
       
-      should "run populate_files_from_append_templates method" do
-      
+      should "set_template_dir" do
+        skip
       end
       
     end
+          
+    context "Tests for the JumpStart::Base#reset_templates_dir_to_default instance method." do
       
+      should "reset_templates_dir_to_default" do
+        skip
+      end
       
+    end
+
+    context "Tests for the JumpStart::Base#execute_install_command instance method." do
+      
+      should "execute_install_command" do
+        skip
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#execute_install_command instance method." do
+      
+      should "execute_install_command" do
+        skip
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#parse_template_dir instance method." do
+      
+      should "parse_template_dir" do
+        skip
+      end
+      
+    end
+
+    context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method." do
+      
+      should "populate_files_from_append_templates" do
+        skip
+      end
+      
+    end
+
     context "Tests for the JumpStart::Base#populate_files_from_line_templates instance method. \n" do
       
       should "run populate_files_from_line_templates method" do
-      
+        skip
       end
       
     end
-    
+
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
       should "run check_local_nginx_configuration method" do
-      
+        skip
       end
       
     end
-    
+          
     context "Tests for the JumpStart::Base#remove_unwanted_files instance method. \n" do
       
       setup do
@@ -710,6 +741,29 @@ class TestJumpstartBase < Test::Unit::TestCase
         refute(@test_project.instance_eval {check_for_strings_to_replace})
       end
       
+    end
+    
+    context "Tests for the JumpStart::Base#dump_global_yaml instance method." do
+      
+      should "dump_global_yaml" do
+        skip
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#exit_with_success instance method." do
+      
+      should "exit_with_success" do
+        skip
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#exit_normal instance method." do
+      
+      should "exit_normal" do
+        skip
+      end
     end
               
     context "Tests for the JumpStart::Base.get_line_number class method.\n" do
