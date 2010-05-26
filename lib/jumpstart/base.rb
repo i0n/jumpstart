@@ -357,7 +357,7 @@ module JumpStart
       end
     end
     
-    # Resets the JumpStart template directory to the default location. (within the gem.)
+    # Checks to see if the JumpStart template directory should be reset to the default location. (within the gem.)
     def reset_templates_dir_to_default_check
       if JumpStart.templates_path == "#{ROOT_PATH}/jumpstart_templates"
         puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
@@ -371,6 +371,7 @@ module JumpStart
       end
     end
     
+    # Resets the JumpStart template directory to the default location. (within the gem.)
     def reset_templates_dir_to_default_set
       input = gets.chomp.strip
       if input == "yes" || input == "y"
