@@ -495,7 +495,7 @@ module JumpStart
     # TODO dump_global_yaml needs tests
     def dump_global_yaml
       File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
-        YAML.dump( {:jumpstart_templates_path => JumpStart.templates_path, :default_template_name => JumpStart.default_template_name}, out )
+        YAML.dump( {:jumpstart_templates_path => JumpStart.templates_path, :jumpstart_default_template_name => JumpStart.default_template_name}, out )
       end
     end
     

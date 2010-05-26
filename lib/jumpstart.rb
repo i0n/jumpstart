@@ -25,7 +25,7 @@ module JumpStart
   @templates_path = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:jumpstart_templates_path]
   # sets the default template to use if it has not been passed as an argument.
   # Set as a module instance variable.
-  @default_template_name = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:default_template_name]
+  @default_template_name = YAML.load_file("#{CONFIG_PATH}/jumpstart_setup.yml")[:jumpstart_default_template_name]
   
   # Get and Set methods for module instance variables.
   def self.templates_path; @templates_path; end
