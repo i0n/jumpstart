@@ -512,26 +512,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-    
-    # def new_project_from_template_options
-    #   input = gets.chomp.strip
-    #   case
-    #   when input.to_i <= @existing_templates.count && input.to_i > 0
-    #     @template_name = @existing_templates[(input.to_i - 1)]
-    #     check_project_name
-    #     project = JumpStart::Base.new([@project_name, @template_name])
-    #     project.check_setup
-    #     project.start
-    #   when input == "b"
-    #     jumpstart_menu
-    #   when input == "x"
-    #     exit_normal
-    #   else
-    #     puts "That command hasn't been understood. Try again!".red
-    #   end
-    # end
-    
-      
+          
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       
       should "run configure_jumpstart method" do
