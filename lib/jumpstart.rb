@@ -41,6 +41,7 @@ module FileUtils
   end
 end
 
+# TODO Move String extension methods into their own module and then include in String class.
 class String
     
   def red;          colourise(self, "\e[31m"); end
