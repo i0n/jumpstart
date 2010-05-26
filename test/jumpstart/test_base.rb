@@ -475,6 +475,67 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
       
+    context "Tests for the JumpStart::Base#new_project_from_template_options instance method." do
+      
+      setup do
+        # @test_project.stubs(:check_project_name)
+        @test_project.stubs(:jumpstart_menu)
+        # project.stubs(:check_setup)
+        # project.stubs(:start)
+        # @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
+        @test_project.instance_eval {lookup_existing_templates}
+      end
+      
+      should "create a new project with the specified template name, checking that the project name is valid when a valid number is entered" do
+        # @test_project.expects(:check_project_name).once
+        # @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
+        # @test_project.instance_eval {new_project_from_template_options}
+        
+        # Testing what has been set
+        # assert_equal "", @test_project.instance_variable_get(:@existing_templates)
+        # assert_equal "", @test_project.instance_variable_get(:@jumpstart_templates_path)
+        # assert_equal "", @test_project.instance_variable_get(:@template_name)
+      end
+      
+      should "launch the jumpstart_menu method if 'b' is entered" do
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.instance_eval {new_project_from_template_options}
+      end
+      
+      should "exit JumpStart if 'x' is entered." do
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.instance_eval {new_project_from_template_options}        
+      end
+      
+      should "output a message saying that the input has not been understood for any other input" do
+        @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
+        @test_project.instance_eval {new_project_from_template_options}        
+        assert_equal "\e[31mThat command hasn't been understood. Try again!\e[0m\n", @test_project.output.string
+      end
+      
+    end
+    
+    # def new_project_from_template_options
+    #   input = gets.chomp.strip
+    #   case
+    #   when input.to_i <= @existing_templates.count && input.to_i > 0
+    #     @template_name = @existing_templates[(input.to_i - 1)]
+    #     check_project_name
+    #     project = JumpStart::Base.new([@project_name, @template_name])
+    #     project.check_setup
+    #     project.start
+    #   when input == "b"
+    #     jumpstart_menu
+    #   when input == "x"
+    #     exit_normal
+    #   else
+    #     puts "That command hasn't been understood. Try again!".red
+    #   end
+    # end
+    
+      
     context "Tests for the JumpStart::Base#configure_jumpstart instance method. \n" do
       
       should "run configure_jumpstart method" do

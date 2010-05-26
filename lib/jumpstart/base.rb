@@ -71,9 +71,11 @@ module JumpStart
       @existing_templates = []
       template_dirs = Dir.entries(@jumpstart_templates_path) - IGNORE_DIRS
       template_dirs.each do |x|
-        if Dir.entries(FileUtils.join_paths(@jumpstart_templates_path, x)).include? "jumpstart_config"
-          if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, x, '/jumpstart_config/', "#{x}.yml"))
-            @existing_templates << x
+        if File.directory?(FileUtils.join_paths(@jumpstart_templates_path, x))
+          if Dir.entries(FileUtils.join_paths(@jumpstart_templates_path, x)).include? "jumpstart_config"
+            if File.exists?(FileUtils.join_paths(@jumpstart_templates_path, x, '/jumpstart_config/', "#{x}.yml"))
+              @existing_templates << x
+            end
           end
         end
       end
