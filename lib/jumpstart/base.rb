@@ -391,11 +391,10 @@ module JumpStart
         reset_templates_dir_to_default_set
       end
     end
-            
-    # TODO execute_install_command needs tests
+
     def execute_install_command
       Dir.chdir(@install_path)
-      unless @install_command.nil?
+      unless @install_command.nil? || @install_command.empty?
         puts "Executing command: #{@install_command.green} #{@project_name.green} #{@install_command_args.green}"
         system "#{@install_command} #{@project_name} #{@install_command_args}"
       end

@@ -771,10 +771,38 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
 
     context "Tests for the JumpStart::Base#execute_install_command instance method." do
-      
-      should "execute_install_command" do
-        skip
+            
+      should "do nothing if @install_command is nil" do
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@install_command, nil)
+        @test_project.instance_variable_set(:@install_command_args, "test")
+        @test_project.instance_eval {execute_install_command}
+        assert_equal "", @test_project.output.string
       end
+      
+      should "do nothing if @install_command is empty" do
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@install_command, "")
+        @test_project.instance_variable_set(:@install_command_args, "test")
+        @test_project.instance_eval {execute_install_command}
+        assert_equal "", @test_project.output.string
+      end
+
+      should "execute @install_command if it contains a string" do
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@install_command, "echo")
+        @test_project.instance_variable_set(:@install_command_args, "install command args")
+        @test_project.expects(:system).once
+        @test_project.instance_eval {execute_install_command}
+        assert_equal "Executing command: \e[32mecho\e[0m \e[32mtest_jumpstart_project\e[0m \e[32minstall command args\e[0m\n", @test_project.output.string
+      end      
+
+      should "raise an error if the @install_path does not exist" do
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir/this/dir/does/not/exist")
+        @test_project.instance_variable_set(:@install_command, "echo")
+        @test_project.instance_variable_set(:@install_command_args, "install command args")
+        assert_raises(Errno::ENOENT) {@test_project.instance_eval {execute_install_command}}
+      end      
       
     end
 
