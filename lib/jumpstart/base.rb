@@ -302,7 +302,6 @@ module JumpStart
       end
     end
     
-    # TODO write tests for templates_dir_menu
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple

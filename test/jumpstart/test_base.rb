@@ -616,10 +616,13 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
-    context "Tests for the JumpStart::Base#template_dir_menu instance method." do
+    context "Tests for the JumpStart::Base#templates_dir_menu instance method." do
       
-      should "template_dir_menu" do
-        skip
+      should "display options and call templates_dir_options method." do
+        @test_project.stubs(:templates_dir_options)
+        @test_project.expects(:templates_dir_options).once
+        @test_project.instance_eval {templates_dir_menu}
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n\e[0m\n\e[1m\e[33m  1\e[0m Set templates directory.\n\e[1m\e[33m  2\e[0m Reset templates directory to default\n\n\e[1m\e[33m  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
       
     end
