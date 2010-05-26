@@ -682,8 +682,8 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location." do
         @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist"))
-        @test_project.expects(:dump_global_yaml)
-        @test_project.expects(:jumpstart_menu)
+        @test_project.expects(:dump_global_yaml).once
+        @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_templates_dir}
         assert_equal "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist/test_template_1/jumpstart_config/test_template_1.yml")
@@ -693,9 +693,19 @@ class TestJumpstartBase < Test::Unit::TestCase
           
     context "Tests for the JumpStart::Base#reset_templates_dir_to_default instance method." do
       
-      should "reset_templates_dir_to_default" do
-        skip
+      setup do
+        @test_project.stubs(:templates_dir_menu)
+        @test_project.stubs(:dump_global_yaml)
       end
+      
+      should "output a message and run templates_dir_menu if JumpStart.templates_path is set to it's standard starting position." do
+        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
+        @test_project.expects(:templates_dir_menu).once
+        @test_project.instance_eval {reset_templates_dir_to_default}
+        assert_equal "\e[31m  You do not need to reset the jumpstart templates directory, it is already set to: /Users/i0n/Sites/jumpstart/jumpstart_templates\n\n\e[0m\n", @test_project.output.string
+      end
+      
+      # TODO write more tests for JumpStart::Base#reset_templates_dir_to_default when method has been refactored.
       
     end
 

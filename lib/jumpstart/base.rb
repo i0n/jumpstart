@@ -367,6 +367,7 @@ module JumpStart
         current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart.templates_path)
         puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n".yellow
         puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
+        # TODO Look at refactoring this out into it's own method to make testing easier.
         input = gets.chomp.strip
         if input == "yes" || input == "y"
           FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
