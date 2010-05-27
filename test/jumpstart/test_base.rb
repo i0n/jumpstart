@@ -880,6 +880,15 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
 
     context "Tests for the JumpStart::Base#populate_files_from_whole_templates instance method." do
+            
+      should "create files from @whole_templates" do
+        @test_project.instance_eval {parse_template_dir}
+        @test_project.instance_eval {create_dirs}
+        @test_project.instance_eval {populate_files_from_whole_templates}
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_with_extension.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_without_extension")
+      end
       
     end
     

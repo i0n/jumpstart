@@ -432,7 +432,6 @@ module JumpStart
       @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) } unless @dir_list.nil?
     end
     
-    # TODO populate_files_from_whole_templates needs tests
     # create files from whole templates
     def populate_files_from_whole_templates
       @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
