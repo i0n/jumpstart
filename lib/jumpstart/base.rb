@@ -25,7 +25,7 @@ module JumpStart
       @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
         @template_name = args.shift.dup
-      elsif JumpStart.default_template_name != nil
+      elsif !JumpStart.default_template_name.nil? || !JumpStart.default_template_name.empty?
         @template_name = JumpStart.default_template_name
       end
       # set instance variable @template_path as the directory to read templates from.
