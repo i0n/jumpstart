@@ -891,24 +891,30 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-    
-    
+
     context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method." do
-      
-      setup do
-        @test_project.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1")
-        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
-        @test_project.instance_variable_set(:@project_name, "populate_files_from_append_templates_test")
+                  
+      should "append contents of append template to file." do
         @test_project.instance_eval {parse_template_dir}
         @test_project.instance_eval {create_dirs}
-      end
-      
-      should "create files in the install path" do
-        skip
-      end
-      
-      should "append contents of append template to file." do
-        skip
+        @test_project.instance_eval {populate_files_from_whole_templates}
+        @test_project.instance_eval {populate_files_from_append_templates}
+        file_1 = IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
+        file_2 = IO.readlines("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
+        assert_equal "THIS IS THE LAST LINE\n", file_1[9]
+        assert_equal "THIS IS THE LAST LINE\n", file_2[9]
+        assert_equal "9\n", file_1[8]
+        assert_equal "9\n", file_2[8]
+        refute file_1[10]
+        refute file_2[10]
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_with_extension.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_without_extension")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_with_extension.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_without_extension")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
+        refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
+        refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
       end
       
     end

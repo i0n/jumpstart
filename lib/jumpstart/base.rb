@@ -436,8 +436,7 @@ module JumpStart
     def populate_files_from_whole_templates
       @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
     end
-                              
-    #TODO populate_files_from_append_templates needs tests
+
     def populate_files_from_append_templates
       @append_templates.each do |x|
         new_name = x.sub(/_([lL]?)\._{1}/, '')
