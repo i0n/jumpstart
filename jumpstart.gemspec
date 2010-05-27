@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6" 
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
-  s.files        = Dir.glob("{bin,config,lib,source_templates,test}/**/*") + %w(jumpstart_templates LICENSE Rakefile README.md)
+  s.files        = Dir.glob("{bin,config,jumpstart_templates,lib,source_templates,test}/**/*") + %w(LICENSE Rakefile README.md)
   s.executables  = ['jumpstart']
   s.require_path = 'lib'
 end
