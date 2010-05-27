@@ -569,7 +569,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       setup do
         @test_project.stubs(:jumpstart_menu)
-        @test_project.stubs(:dump_global_yaml)
+        JumpStart::Base.stubs(:dump_global_yaml)
         @test_project.instance_variable_set(:@existing_templates, %w[template1 template2 template3])
         JumpStart.default_template_name = "temp_default"
       end
@@ -577,7 +577,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "set the default template if a number corresponding to an existing template is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
         @test_project.expects(:jumpstart_menu).once
-        @test_project.expects(:dump_global_yaml).once
+        JumpStart::Base.expects(:dump_global_yaml).once
         @test_project.instance_eval {set_default_template_options}
         assert_equal "template1", JumpStart.default_template_name
       end
@@ -658,7 +658,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#set_templates_dir instance method." do
       
       setup do
-        @test_project.stubs(:dump_global_yaml)
+        JumpStart::Base.stubs(:dump_global_yaml)
         @test_project.stubs(:jumpstart_menu)
       end
       
@@ -670,7 +670,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location." do
         @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist"))
-        @test_project.expects(:dump_global_yaml).once
+        JumpStart::Base.expects(:dump_global_yaml).once
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_templates_dir}
         assert_equal "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
@@ -705,7 +705,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#reset_templates_dir_to_default_set instance method." do
       
       setup do
-        @test_project.stubs(:dump_global_yaml)
+        JumpStart::Base.stubs(:dump_global_yaml)
         @test_project.stubs(:templates_dir_menu)
         FileUtils.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/jumpstart_templates")
         @normal_root_path = JumpStart::ROOT_PATH.dup
@@ -1034,18 +1034,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-    
-    context "Tests for the JumpStart::Base#dump_global_yaml instance method." do
-      
-      should "call File.open and Yaml.dump for jumpstart_setup.yml" do
-        YAML.stubs(:dump)
-        File.stubs(:open)
-        File.expects(:open).once
-        @test_project.instance_eval {dump_global_yaml}
-      end
-      
-    end
-    
+        
     context "Tests for the JumpStart::Base#exit_with_success instance method." do
       # As these methods are very simple exit (end script) methods, and are already patched for testing, seems pointless to write tests for them.
     end
@@ -1097,8 +1086,17 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert JumpStart::Base.remove_last_line?("_l._file.txt")
       end
       
-    end 
-     
+    end
+    
+    context "Tests for the JumpStart::Base#dump_global_yaml class method." do      
+      should "call File.open and Yaml.dump for jumpstart_setup.yml" do
+        YAML.stubs(:dump)
+        File.stubs(:open)
+        File.expects(:open).once
+        JumpStart::Base.dump_global_yaml
+      end
+    end
+ 
     context "Tests for initializing and running JumpStart instances\n" do
      
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do

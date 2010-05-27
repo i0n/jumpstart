@@ -77,7 +77,7 @@ module JumpStart
     
     def start
       puts "\n******************************************************************************************************************************************\n\n"
-      puts "JumpStarting....\n".purple
+      puts "  JumpStarting....\n".purple
       check_setup
       execute_install_command
       run_scripts_from_yaml(:run_after_install_command)
@@ -284,7 +284,7 @@ module JumpStart
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
         JumpStart.default_template_name = @existing_templates[(input.to_i - 1)]
-        dump_global_yaml
+        JumpStart::Base.dump_global_yaml
         puts "  The default jumpstart template has been set to: #{JumpStart.default_template_name.green}"
         jumpstart_menu
       when input == "b"
@@ -343,7 +343,7 @@ module JumpStart
           files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
           files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(input, x)) }
           JumpStart.templates_path = input.to_s
-          dump_global_yaml
+          JumpStart::Base.dump_global_yaml
           puts "\nTransfer complete!".green
           jumpstart_menu
         rescue
@@ -375,7 +375,7 @@ module JumpStart
         @current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
         @current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
         JumpStart.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
-        dump_global_yaml
+        JumpStart::Base.dump_global_yaml
         puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
         templates_dir_menu
       elsif input == "no" || input == "n"
@@ -501,12 +501,6 @@ module JumpStart
         end
       end
     end
-
-    def dump_global_yaml
-      File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
-        YAML.dump( {:jumpstart_templates_path => JumpStart.templates_path, :jumpstart_default_template_name => JumpStart.default_template_name}, out )
-      end
-    end
     
     def exit_with_success
       puts "\n\n  Exiting JumpStart...".purple
@@ -541,6 +535,12 @@ module JumpStart
         end
       end
       
+      def dump_global_yaml
+        File.open( "#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
+          YAML.dump( {:jumpstart_templates_path => @templates_path, :jumpstart_default_template_name => @default_template_name}, out )
+        end
+      end
+
     end
       
   end
