@@ -1059,18 +1059,11 @@ class TestJumpstartBase < Test::Unit::TestCase
     end
     
     context "Tests for the JumpStart::Base#exit_with_success instance method." do
-      
-      should "exit_with_success" do
-        skip
-      end
-      
+      # As these methods are very simple exit (end script) methods, and are already patched for testing, seems pointless to write tests for them.
     end
     
     context "Tests for the JumpStart::Base#exit_normal instance method." do
-      
-      should "exit_normal" do
-        skip
-      end
+      # As these methods are very simple exit (end script) methods, and are already patched for testing, seems pointless to write tests for them.
     end
               
     context "Tests for the JumpStart::Base.get_line_number class method.\n" do
