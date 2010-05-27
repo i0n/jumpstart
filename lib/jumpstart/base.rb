@@ -142,7 +142,7 @@ module JumpStart
     # TODO test check_install_path setting @install_path = FileUtils.pwd from prompt.
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
-      if Dir.exists?(FileUtils.join_paths(@install_path, @project_name))
+      if File.directory?(FileUtils.join_paths(@install_path, @project_name))
         puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal
       end
@@ -150,7 +150,7 @@ module JumpStart
     end
            
     def create_template
-      if Dir.exists?(FileUtils.join_paths(JumpStart.templates_path, @template_name))
+      if File.directory?(FileUtils.join_paths(JumpStart.templates_path, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(JumpStart.templates_path, @template_name).red} already exists. The template will not be created."
         exit_normal
       else
@@ -331,10 +331,10 @@ module JumpStart
       input = gets.chomp.strip
       root_path = input.sub(/\/\w*\/*$/, '')
       case
-      when Dir.exists?(input)
+      when File.directory?(input)
         puts "A directory of that name already exists, please choose a directory that does not exist."
         set_templates_dir
-      when Dir.exists?(root_path)
+      when File.directory?(root_path)
         begin
           Dir.chdir(root_path)
           Dir.mkdir(input)

@@ -46,7 +46,7 @@ module JumpStart::FileTools
     files_and_dirs.each do |x|
       if File.file?(x)
         FileUtils.rm(x)
-      elsif File.directory?(x) && x != target_dir && Dir.exists?(x)
+      elsif File.directory?(x) && x != target_dir && File.directory?(x)
         FileUtils.remove_dir(x)
       end
     end
@@ -256,7 +256,7 @@ module JumpStart::FileTools
   
   def sort_contained_files_and_dirs(path)
     dirs, files = [], []
-    if path != nil && Dir.exists?(path)
+    if path != nil && File.directory?(path)
       Find.find(path) do |x|
         case
         when File.directory?(x)

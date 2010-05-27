@@ -479,7 +479,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
         @test_project.instance_eval {new_project_from_template_options}
         # project will be created from directory where command is run as @install_papth cannot currently be set for generated jumpstart project.
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
         FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
       end
       
@@ -726,7 +726,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
       end
 
       should "reset jumpstart templates directory to default if input is 'yes'" do
@@ -735,7 +735,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
       end
       
       should "run templates_dir_menu if input is 'n'" do
@@ -859,12 +859,12 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_variable_set(:@project_name, 'create_dirs_test' )
         @test_project.instance_variable_set(:@dir_list, %w[1 //2// /3 ///4 5/// /6/] )
         @test_project.instance_eval {create_dirs}
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/1")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/2")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/3")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/4")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/5")
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/6")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/1")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/2")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/3")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/4")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/5")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/6")
       end
       
     end
@@ -875,7 +875,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {parse_template_dir}
         @test_project.instance_eval {create_dirs}
         @test_project.instance_eval {populate_files_from_whole_templates}
-        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_with_extension.txt")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_whole_file_without_extension")
       end
@@ -1123,7 +1123,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     
         should "generate a test project in ROOT_PATH/test/destination_dir/test_jumpstart_project with the test_template_1 template" do
           @test_project.start
-          assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
+          assert File.directory?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_with_extension.txt")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_without_extension")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_with_extension.txt")
