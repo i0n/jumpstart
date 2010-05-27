@@ -2,12 +2,15 @@ require 'rubygems'
 require 'find'
 require 'fileutils'
 require 'yaml'
+require 'rbconfig'
 
-# TODO Test this under Windows, and look into conditionally including this dependency with bundler.
-begin
-  require 'Win32/Console/ANSI' if RUBY_PLATFORM =~ /win32/
-rescue LoadError
-  raise 'You must gem install win32console to use colored output on Windows'
+# Sets up coloured terminal output in windows
+if RbConfig::CONFIG['host_os'] =~ /mswin|windows|cygwin|mingw32/
+  begin
+    require 'Win32/Console/ANSI'
+  rescue LoadError
+    raise 'You must gem install win32console to use colored output on Windows'
+  end
 end
 
 module JumpStart
