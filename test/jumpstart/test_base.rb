@@ -861,10 +861,44 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
+    
+    context "Tests for the JumpStart::Base#create_dirs instance method." do
+      
+      should "create dirs even if paths have too many or too few forward slashes" do
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@project_name, 'create_dirs_test' )
+        @test_project.instance_variable_set(:@dir_list, %w[1 //2// /3 ///4 5/// /6/] )
+        @test_project.instance_eval {create_dirs}
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/1")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/2")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/3")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/4")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/5")
+        assert Dir.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/create_dirs_test/6")
+      end
+      
+    end
 
+    context "Tests for the JumpStart::Base#populate_files_from_whole_templates instance method." do
+      
+    end
+    
+    
     context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method." do
       
-      should "populate_files_from_append_templates" do
+      setup do
+        @test_project.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1")
+        @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
+        @test_project.instance_variable_set(:@project_name, "populate_files_from_append_templates_test")
+        @test_project.instance_eval {parse_template_dir}
+        @test_project.instance_eval {create_dirs}
+      end
+      
+      should "create files in the install path" do
+        skip
+      end
+      
+      should "append contents of append template to file." do
         skip
       end
       

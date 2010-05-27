@@ -85,10 +85,8 @@ module JumpStart
       execute_install_command
       run_scripts_from_yaml(:run_after_install_command)
       parse_template_dir
-      # makes folders for the project
-      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) } unless @dir_list.nil?
-      # create files from whole templates
-      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
+      create_dirs
+      populate_files_from_whole_templates
       populate_files_from_append_templates
       populate_files_from_line_templates
       remove_unwanted_files
@@ -428,6 +426,17 @@ module JumpStart
         end
       end
     end
+    
+    # makes folders for the project
+    def create_dirs
+      @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) } unless @dir_list.nil?
+    end
+    
+    # TODO populate_files_from_whole_templates needs tests
+    # create files from whole templates
+    def populate_files_from_whole_templates
+      @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
+    end
                               
     #TODO populate_files_from_append_templates needs tests
     def populate_files_from_append_templates
@@ -446,7 +455,7 @@ module JumpStart
         FileUtils.insert_text_at_line_number(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, new_name), JumpStart::Base.get_line_number(x))
       end
     end
-    
+        
     # TODO check_local_nginx_configuration needs tests
     def check_local_nginx_configuration
       unless @nginx_local_template.nil? && @config_file[:local_nginx_conf].nil?
