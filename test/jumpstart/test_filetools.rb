@@ -360,11 +360,11 @@ class TestJumpstartFileTools < Test::Unit::TestCase
                     "/folder_1/file_3.txt",
                     "/folder_1/folder_2/file_4.txt",
                     "/folder_1/folder_2/folder_3/file_5.txt",
-                    "/folder_1/folder_2/folder_4/file_6.txt"], results[:files]
+                    "/folder_1/folder_2/folder_4/file_6.txt"], results[:files].sort
       assert_equal ["/folder_1",
                     "/folder_1/folder_2",
                     "/folder_1/folder_2/folder_3",
-                    "/folder_1/folder_2/folder_4"], results[:dirs]
+                    "/folder_1/folder_2/folder_4"], results[:dirs].sort
     end
     
     should "return an empty hash when passed nil" do
