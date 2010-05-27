@@ -895,16 +895,16 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert_equal "THIS IS THE LAST LINE\n", file_2[9]
         assert_equal "9\n", file_1[8]
         assert_equal "9\n", file_2[8]
-        refute file_1[10]
-        refute file_2[10]
+        assert !file_1[10]
+        assert !file_2[10]
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_with_extension.txt")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_file_without_extension")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_with_extension.txt")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_append_file_without_extension")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
-        refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
+        assert !File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
-        refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
+        assert !File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
       end
       
     end
@@ -1032,7 +1032,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "return false if @replace_strings is empty." do
         @test_project.instance_eval {@replace_strings = []}
-        refute(@test_project.instance_eval {check_for_strings_to_replace})
+        assert !@test_project.instance_eval {check_for_strings_to_replace}
       end
       
     end
@@ -1083,13 +1083,13 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base.remove_last_line? class method.\n" do
             
       should "return false" do
-        refute JumpStart::Base.remove_last_line?("/path/to/file.txt")
-        refute JumpStart::Base.remove_last_line?("/path/to/_._file.txt")
-        refute JumpStart::Base.remove_last_line?("_.__file.txt")
-        refute JumpStart::Base.remove_last_line?("/path/to/_R._file.txt")
-        refute JumpStart::Base.remove_last_line?("/path/to/_.1_file.txt")
-        refute JumpStart::Base.remove_last_line?("/path/to/_1._file.txt")
-        refute JumpStart::Base.remove_last_line?("/path/to/_111._file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/_._file.txt")
+        assert !JumpStart::Base.remove_last_line?("_.__file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/_R._file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/_.1_file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/_1._file.txt")
+        assert !JumpStart::Base.remove_last_line?("/path/to/_111._file.txt")
       end
       
       should "return true" do
@@ -1139,9 +1139,9 @@ class TestJumpstartBase < Test::Unit::TestCase
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_1.rb")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_replace_strings/replace_strings_2.txt")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_1.txt")
-          refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
+          assert !File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_L._test_append_to_end_of_file_remove_last_line_1.txt")
           assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_append_to_end_of_file_remove_last_line_2.txt")
-          refute File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
+          assert !File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/_l._test_append_to_end_of_file_remove_last_line_2.txt")
         end
             
         should "remove last lines from files and append template info" do
@@ -1152,8 +1152,8 @@ class TestJumpstartBase < Test::Unit::TestCase
           assert_equal "THIS IS THE LAST LINE\n", file_2[9]
           assert_equal "9\n", file_1[8]
           assert_equal "9\n", file_2[8]
-          refute file_1[10]
-          refute file_2[10]
+          assert !file_1[10]
+          assert !file_2[10]
         end
       
       end
