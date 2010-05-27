@@ -1049,8 +1049,11 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     context "Tests for the JumpStart::Base#dump_global_yaml instance method." do
       
-      should "dump_global_yaml" do
-        skip
+      should "call File.open and Yaml.dump for jumpstart_setup.yml" do
+        YAML.stubs(:dump)
+        File.stubs(:open)
+        File.expects(:open).once
+        @test_project.instance_eval {dump_global_yaml}
       end
       
     end
