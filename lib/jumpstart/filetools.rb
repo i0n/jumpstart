@@ -122,7 +122,7 @@ module JumpStart::FileTools
   def replace_strings(target_file, args)
     txt = IO.read(target_file)
     args.each do |x, y|
-      txt.gsub!(/#{x.upcase}/, y)
+      txt.gsub!(/#{x.to_s.upcase}/, y)
     end
     File.open(target_file, "w") do |file|
       file.puts txt

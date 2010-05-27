@@ -119,16 +119,16 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       file = FileUtils.join_paths(@file_path, "/remove_files_test_1.txt")
       @file_array << file
       FileUtils.remove_files(@file_array)
-      refute File.exists?("#{@file_path}/remove_files_test_1.txt")
+      assert !File.exists?("#{@file_path}/remove_files_test_1.txt")
     end
     
     should "delete all three test files" do
       @file_array  << "/remove_files_test_1.txt" << "/remove_files_test_2.txt" << "/remove_files_test_3.txt"
       @file_array.map!{|x| FileUtils.join_paths(@file_path, x)}
       FileUtils.remove_files(@file_array)
-      refute File.exists?("#{@file_path}/remove_files_test_1.txt")
-      refute File.exists?("#{@file_path}/remove_files_test_2.txt")
-      refute File.exists?("#{@file_path}/remove_files_test_3.txt")
+      assert !File.exists?("#{@file_path}/remove_files_test_1.txt")
+      assert !File.exists?("#{@file_path}/remove_files_test_2.txt")
+      assert !File.exists?("#{@file_path}/remove_files_test_3.txt")
     end
       
   end

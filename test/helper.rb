@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'minitest/unit'
+require 'test/unit'
 require 'shoulda'
 require 'mocha'
 
