@@ -921,8 +921,19 @@ class TestJumpstartBase < Test::Unit::TestCase
 
     context "Tests for the JumpStart::Base#populate_files_from_line_templates instance method. \n" do
       
-      should "run populate_files_from_line_templates method" do
-        skip
+      should "append contents of line templates to the relevant file." do
+        @test_project.instance_eval {parse_template_dir}
+        @test_project.instance_eval {create_dirs}
+        @test_project.instance_eval {populate_files_from_whole_templates}
+        @test_project.instance_eval {populate_files_from_append_templates}
+        @test_project.instance_eval {populate_files_from_line_templates}
+        file = "#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_without_extension"
+        assert File.exists?(file)
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/test_line_file_with_extension.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_with_extension.txt")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/test_jumpstart_project/normal_folder_name/test_line_file_without_extension")
+        file_lines = IO.readlines(file)
+        assert_equal( "Lorem\n", file_lines[19])
       end
       
     end

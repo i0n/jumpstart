@@ -445,7 +445,6 @@ module JumpStart
       end
     end
     
-    # TODO populate_files_from_line_templates needs tests
     def populate_files_from_line_templates
       @line_templates.each do |x|
         new_name = x.sub(/_(\d+)\._{1}/, '')
