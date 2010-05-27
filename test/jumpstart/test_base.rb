@@ -14,14 +14,12 @@ class TestJumpstartBase < Test::Unit::TestCase
       output = StringIO.new
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project = JumpStart::Base.new(["test_jumpstart_project"])
-      @test_project.instance_eval do
-        @input = input
-        @output = output
-        @template_name = "test_template_1"
-        @template_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"
-        set_config_file_options
-        @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
-      end
+      @test_project.instance_variable_set(:@input, input)
+      @test_project.instance_variable_set(:@output, output)
+      @test_project.instance_variable_set(:@template_name, "test_template_1")
+      @test_project.instance_variable_set(:@template_path, "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1")
+      @test_project.instance_eval {set_config_file_options}
+      @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project.stubs(:exit_normal)
       @test_project.stubs(:exit_with_success)
     end
@@ -152,7 +150,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "set @replace_strings" do
         assert_equal [{:target_path=>"/config/deploy.rb", :symbols=>{:project_name=>"name_of_my_app", :remote_server=>"thoughtplant"}}], @test_project_2.instance_variable_get(:@replace_strings)
       end
-
+    
       should "load the jumpstart menu if the specified yaml config file does not exist" do
         @test_project_3.stubs(:jumpstart_menu).returns("jumpstart_menu")
         assert_equal "jumpstart_menu", @test_project_3.set_config_file_options
@@ -443,7 +441,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
         assert_raises(NoMethodError) {@test_project.instance_eval {jumpstart_menu_options}}
       end
-
+    
       # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
       should "ask for another input if the value entered is not '1,2,3,4 or x'. Test with 'a'" do
         @test_project.instance_variable_set(:@input, StringIO.new("a\n"))
@@ -630,19 +628,19 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.expects(:set_templates_dir).once
         @test_project.instance_eval {templates_dir_options}
       end
-
+    
       should "run the reset_templates_dir_to_default method when '2' is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("2\n"))
         @test_project.expects(:reset_templates_dir_to_default_check).once
         @test_project.instance_eval {templates_dir_options}
       end
-
+    
       should "run the jumpstart_menu method when 'b' is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {templates_dir_options}
       end
-
+    
       should "run the exit_normal when 'x' is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
         @test_project.expects(:exit_normal).once
@@ -656,7 +654,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#set_templates_dir instance method." do
       
       setup do
@@ -715,7 +713,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         JumpStart.templates_path = "#{@normal_root_path}/test/test_jumpstart_templates/test_base"
         @test_project.instance_variable_set(:@current_files_and_dirs, {:files => ['current_files_and_dirs_test_file.txt'], :dirs => ['current_files_and_dirs_test_dir']})
       end
-
+    
       teardown do
         JumpStart::ROOT_PATH = @normal_root_path
       end
@@ -728,7 +726,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
         assert File.directory?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_dir")
       end
-
+    
       should "reset jumpstart templates directory to default if input is 'yes'" do
         @test_project.expects(:templates_dir_menu)
         @test_project.instance_variable_set(:@input, StringIO.new("yes\n"))
@@ -744,7 +742,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\n You have chosen not to move the jumpstart templates directory, nothing has been changed.\n", @test_project.output.string
       end
-
+    
       should "run templates_dir_menu if input is 'no'" do
         @test_project.expects(:templates_dir_menu)
         @test_project.instance_variable_set(:@input, StringIO.new("no\n"))
@@ -759,7 +757,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#execute_install_command instance method." do
             
       should "do nothing if @install_command is nil" do
@@ -777,7 +775,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {execute_install_command}
         assert_equal "", @test_project.output.string
       end
-
+    
       should "execute @install_command if it contains a string" do
         @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir")
         @test_project.instance_variable_set(:@install_command, "echo")
@@ -786,7 +784,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {execute_install_command}
         assert_equal "Executing command: \e[32mecho\e[0m \e[32mtest_jumpstart_project\e[0m \e[32minstall command args\e[0m\n", @test_project.output.string
       end      
-
+    
       should "raise an error if the @install_path does not exist" do
         @test_project.instance_variable_set(:@install_path, "#{JumpStart::ROOT_PATH}/test/destination_dir/this/dir/does/not/exist")
         @test_project.instance_variable_set(:@install_command, "echo")
@@ -795,7 +793,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end      
       
     end
-
+    
     context "Tests for the JumpStart::Base#parse_template_dir instance method." do
       
       setup do
@@ -823,29 +821,29 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       should "populate @dir_list with directories contained in @template_path" do
-        assert_equal ['', '/parse_template_dir'], @test_project.instance_variable_get(:@dir_list)
+        assert_equal ['', '/parse_template_dir'], @test_project.instance_variable_get(:@dir_list).sort
       end
       
       should "populate @append_templates with files that are prefixed with _._ _l._ or _L._ and do not contain a directory called jumpstart_config." do
         assert_equal ["/parse_template_dir/_._append_test_5.txt",
                       "/parse_template_dir/_._append_test_6",
                       "/parse_template_dir/_L._append_test_8.txt",
-                      "/parse_template_dir/_l._append_test_7.txt"], @test_project.instance_variable_get(:@append_templates)
+                      "/parse_template_dir/_l._append_test_7.txt"], @test_project.instance_variable_get(:@append_templates).sort
       end
       
       should "populate @line_templates with files that are prefixed with _(number)._ e.g. _1._ or _1000._. File paths that include a directory called jumpstart_config should be excluded." do
         assert_equal ["/parse_template_dir/_1._line_test_3.txt",
-                      "/parse_template_dir/_10000._line_test_4.txt"], @test_project.instance_variable_get(:@line_templates)
+                      "/parse_template_dir/_10000._line_test_4.txt"], @test_project.instance_variable_get(:@line_templates).sort
       end
       
       should "populate @whole_templates with a files that do not match append or line templates and do not contain a directory called jumpstart_config in their path." do
-        assert_equal ["/parse_template_dir/whole_test_3", "/parse_template_dir/whole_test_4.txt"], @test_project.instance_variable_get(:@whole_templates)
+        assert_equal ["/parse_template_dir/whole_test_3", "/parse_template_dir/whole_test_4.txt"], @test_project.instance_variable_get(:@whole_templates).sort
       end
       
       should "populate @nginx_local_template if a file matching jumpstart_config/nginx.local.conf is found" do
         assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.local.conf", @test_project.instance_variable_get(:@nginx_local_template)
       end
-
+    
       should "populate @nginx_remote_template if a file matching jumpstart_config/nginx.remote.conf is found" do
         assert_equal "#{JumpStart::ROOT_PATH}/test/destination_dir/parse_template_dir/jumpstart_config/nginx.remote.conf", @test_project.instance_variable_get(:@nginx_remote_template)
       end
@@ -868,7 +866,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#populate_files_from_whole_templates instance method." do
             
       should "create files from @whole_templates" do
@@ -881,7 +879,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#populate_files_from_append_templates instance method." do
                   
       should "append contents of append template to file." do
@@ -908,7 +906,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#populate_files_from_line_templates instance method. \n" do
       
       should "append contents of line templates to the relevant file." do
@@ -927,7 +925,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-
+    
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
       setup do
@@ -1106,7 +1104,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do
         
         should "be able to create a new jumpstart with the project name as the first argument" do
-          refute_nil @test_project
+          assert @test_project
         end
             
         should "have set @project_name variable to 'test_jumpstart_project'" do
@@ -1159,6 +1157,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-                 
+                     
   end
 end
