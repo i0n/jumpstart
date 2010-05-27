@@ -32,16 +32,19 @@ module JumpStart
   # Set as a module instance variable.
   @default_template_name = jumpstart_setup_yaml[:jumpstart_default_template_name]
   
-  if @templates_path.nil? || @templates_path.empty?
-    @templates_path = "#{ROOT_PATH}/jumpstart_templates"
-    JumpStart::Base.dump_global_yaml
-  end
-
   # Get and Set methods for module instance variables.
   def self.templates_path; @templates_path; end
   def self.templates_path=(value); @templates_path = value; end
   def self.default_template_name; @default_template_name; end
   def self.default_template_name=(value); @default_template_name = value; end
+    
+  class Setup 
+    def self.dump_global_yaml
+      File.open( "#{CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
+        YAML.dump( {:jumpstart_templates_path => JumpStart.templates_path, :jumpstart_default_template_name => JumpStart.default_template_name}, out )
+      end
+    end
+  end
     
 end
 
@@ -53,4 +56,10 @@ end
 
 class String
   include JumpStart::StringTools
+end
+
+# Set the jumpstart templates path back to default if it has not been set
+if JumpStart.templates_path.nil? || JumpStart.templates_path.empty?
+  JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
+  JumpStart::Setup.dump_global_yaml
 end

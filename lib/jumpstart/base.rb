@@ -31,7 +31,7 @@ module JumpStart
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(JumpStart.templates_path, @template_name)
     end
-        
+
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if JumpStart.default_template_name exists then the command is launched without any menu display.
     # TODO Write integration tests.
@@ -284,7 +284,7 @@ module JumpStart
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
         JumpStart.default_template_name = @existing_templates[(input.to_i - 1)]
-        JumpStart::Base.dump_global_yaml
+        JumpStart::Setup.dump_global_yaml
         puts "  The default jumpstart template has been set to: #{JumpStart.default_template_name.green}"
         jumpstart_menu
       when input == "b"
@@ -343,7 +343,7 @@ module JumpStart
           files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
           files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(input, x)) }
           JumpStart.templates_path = input.to_s
-          JumpStart::Base.dump_global_yaml
+          JumpStart::Setup.dump_global_yaml
           puts "\nTransfer complete!".green
           jumpstart_menu
         rescue
@@ -375,7 +375,7 @@ module JumpStart
         @current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
         @current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
         JumpStart.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
-        JumpStart::Base.dump_global_yaml
+        JumpStart::Setup.dump_global_yaml
         puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
         templates_dir_menu
       elsif input == "no" || input == "n"
@@ -535,12 +535,6 @@ module JumpStart
         end
       end
       
-      def dump_global_yaml
-        File.open( "#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
-          YAML.dump( {:jumpstart_templates_path => @templates_path, :jumpstart_default_template_name => @default_template_name}, out )
-        end
-      end
-
     end
       
   end
