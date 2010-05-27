@@ -452,10 +452,11 @@ module JumpStart
         FileUtils.insert_text_at_line_number(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, new_name), JumpStart::Base.get_line_number(x))
       end
     end
-        
-    # TODO check_local_nginx_configuration needs tests
+
     def check_local_nginx_configuration
-      unless @nginx_local_template.nil? && @config_file[:local_nginx_conf].nil?
+      if @nginx_local_template.nil? || @config_file[:local_nginx_conf].nil?
+        puts "  \nNginx will not be configured as options have not been set for this."
+      else
         FileUtils.config_nginx(@nginx_local_template, @config_file[:local_nginx_conf], @project_name)
         FileUtils.config_hosts("/etc/hosts", @project_name)
       end

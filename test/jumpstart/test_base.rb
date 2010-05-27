@@ -940,8 +940,31 @@ class TestJumpstartBase < Test::Unit::TestCase
 
     context "Tests for the JumpStart::Base#check_local_nginx_configuration instance method. \n" do
       
-      should "run check_local_nginx_configuration method" do
-        skip
+      setup do
+        FileUtils.stubs(:config_nginx)
+        FileUtils.stubs(:config_hosts)
+      end
+      
+      should "produce an error and not try to configure Nginx if @nginx_local_template is nil" do
+        @test_project.instance_variable_set(:@config_file, {:local_nginx_conf => "something"})
+        @test_project.instance_variable_set(:@nginx_local_template, nil)
+        @test_project.instance_eval {check_local_nginx_configuration}
+        assert_equal "  \nNginx will not be configured as options have not been set for this.\n", @test_project.output.string        
+      end
+      
+      should "produce an error and not try to configure Nginx if @config_file[:local_nginx_conf] is nil" do
+        @test_project.instance_variable_set(:@config_file, {:local_nginx_conf => nil})
+        @test_project.instance_variable_set(:@nginx_local_template, "something")
+        @test_project.instance_eval {check_local_nginx_configuration}
+        assert_equal "  \nNginx will not be configured as options have not been set for this.\n", @test_project.output.string
+      end
+      
+      should "try and run FileUtils.config_nginx and FileUtils.config_hosts if both @nginx_local_template and @config_file[:local_nginx_conf] are set." do
+        @test_project.instance_variable_set(:@config_file, {:local_nginx_conf => "something"})
+        @test_project.instance_variable_set(:@nginx_local_template, "something")
+        FileUtils.expects(:config_nginx).once
+        FileUtils.expects(:config_hosts).once
+        @test_project.instance_eval {check_local_nginx_configuration}        
       end
       
     end
