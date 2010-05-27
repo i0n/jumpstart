@@ -25,7 +25,7 @@ module JumpStart
       @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
         @template_name = args.shift.dup
-      elsif !JumpStart.default_template_name.nil? || !JumpStart.default_template_name.empty?
+      elsif JumpStart.default_template_name.nil? != nil
         @template_name = JumpStart.default_template_name
       end
       # set instance variable @template_path as the directory to read templates from.
@@ -40,7 +40,9 @@ module JumpStart
     
     # Look into moving @install_path or refactoring to make setting this variable easier.
     def set_config_file_options
-      if File.exists?(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+      if @template_name.nil?
+        jumpstart_menu
+      elsif File.exists?(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command ||= @config_file[:install_command]
         @install_command_args ||= @config_file[:install_command_args]
