@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jumpstart}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["i0n"]
@@ -44,7 +44,6 @@ Gem::Specification.new do |s|
      "lib/jumpstart/filetools.rb",
      "lib/jumpstart/stringtools.rb",
      "source_templates/template_config.yml",
-     "test/destination_dir/.gitignore",
      "test/fake_nginx_path/local_nginx_1.conf",
      "test/fake_nginx_path/remote_nginx_1.conf",
      "test/helper.rb",
