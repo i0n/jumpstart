@@ -34,8 +34,4 @@ module JumpStart
     
   end
   
-  module FileTools
-    
-  end
-  
 end

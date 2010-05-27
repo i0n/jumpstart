@@ -2,7 +2,7 @@ require 'helper'
 
 class TestJumpstartBase < Test::Unit::TestCase
         
-  context "Testing JumpStart::Base with a JumpStart.default_template_name and JumpStart.templates_path specified.\n" do
+  context "Testing JumpStart::Base\n" do
     
     # A valid project with the project name passed in the argument.
     # IO has been setup for testing
@@ -30,8 +30,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     # IO has been setup for testing
     # runs set_config_file_options to set all instance variables
     setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      JumpStart.default_template_name = "test_template_2"
       input = StringIO.new
       output = StringIO.new
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
@@ -50,8 +48,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     # An invalid project (@template_name), with the project name passed as the argument
     setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      JumpStart.default_template_name = "test_template_2"
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project_3 = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project_3.instance_variable_set(:@template_name, "a_name_that_does_not_exist")
@@ -62,8 +58,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     
     # A valid project with the project name passed as the argument 
     setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      JumpStart.default_template_name = "test_template_2"
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
       @test_project_4 = JumpStart::Base.new(["test_jumpstart_project"])
       @test_project_4.instance_variable_set(:@template_name, "test_template_2")
@@ -76,8 +70,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     # IO has been setup for testing
     # runs set_config_file_options to set all instance variables
     setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      JumpStart.default_template_name = "test_template_1"
       input = StringIO.new("testo\n")
       output = StringIO.new
       @test_project_5 = JumpStart::Base.new(["tr"])
@@ -96,8 +88,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     # IO has been setup for testing
     # runs set_config_file_options to set all instance variables
     setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      JumpStart.default_template_name = "test_template_1"
       input = StringIO.new("testorama\n")
       output = StringIO.new
       @test_project_6 = JumpStart::Base.new([nil])
