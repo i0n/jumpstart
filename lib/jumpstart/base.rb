@@ -14,8 +14,6 @@ module JumpStart
       @output.puts(*args)    
     end
     
-    # TODO write a method to set :jumpstart_templates_path when the gem is run for the first time.
-    
     def initialize(args)
       # setup for testing input
       @input  = $stdin
@@ -37,6 +35,7 @@ module JumpStart
     # TODO Write integration tests.
     # TODO Document methods for RDOC
     # Finish README etc for github
+    # TODO try and find a way to automatically reset jumpstart_setup.yml while in development.
     
     # Look into moving @install_path or refactoring to make setting this variable easier.
     def set_config_file_options
