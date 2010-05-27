@@ -31,13 +31,10 @@ module JumpStart
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(JumpStart.templates_path, @template_name)
     end
-    
-    # TODO Refactor startup so that if one argument is passed to the jumpstart command it will assume that it is the projects name.
-    # If a default template has been set, jumpstart should create the project.
-    # If a default template has not been set then the user should be asked to select an existing template. This could be the same menu as displayed for option 1 above.
-    
+        
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
     # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if JumpStart.default_template_name exists then the command is launched without any menu display.
+    # TODO Write integration tests.
     # TODO Document methods for RDOC
     # Finish README etc for github
     
