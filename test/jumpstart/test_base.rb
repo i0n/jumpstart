@@ -568,7 +568,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       setup do
         @test_project.stubs(:jumpstart_menu)
-        JumpStart::Setup.stubs(:dump_global_yaml)
+        JumpStart::Setup.stubs(:dump_jumpstart_setup_yaml)
         @test_project.instance_variable_set(:@existing_templates, %w[template1 template2 template3])
         JumpStart.default_template_name = "temp_default"
       end
@@ -576,7 +576,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "set the default template if a number corresponding to an existing template is entered." do
         @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
         @test_project.expects(:jumpstart_menu).once
-        JumpStart::Setup.expects(:dump_global_yaml).once
+        JumpStart::Setup.expects(:dump_jumpstart_setup_yaml).once
         @test_project.instance_eval {set_default_template_options}
         assert_equal "template1", JumpStart.default_template_name
       end
@@ -657,7 +657,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#set_templates_dir instance method." do
       
       setup do
-        JumpStart::Setup.stubs(:dump_global_yaml)
+        JumpStart::Setup.stubs(:dump_jumpstart_setup_yaml)
         @test_project.stubs(:jumpstart_menu)
       end
       
@@ -669,7 +669,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location." do
         @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist"))
-        JumpStart::Setup.expects(:dump_global_yaml).once
+        JumpStart::Setup.expects(:dump_jumpstart_setup_yaml).once
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_templates_dir}
         assert_equal "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
@@ -704,7 +704,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#reset_templates_dir_to_default_set instance method." do
       
       setup do
-        JumpStart::Setup.stubs(:dump_global_yaml)
+        JumpStart::Setup.stubs(:dump_jumpstart_setup_yaml)
         @test_project.stubs(:templates_dir_menu)
         FileUtils.mkdir("#{JumpStart::ROOT_PATH}/test/destination_dir/jumpstart_templates")
         @normal_root_path = JumpStart::ROOT_PATH.dup
@@ -1087,12 +1087,12 @@ class TestJumpstartBase < Test::Unit::TestCase
       
     end
     
-    context "Tests for the JumpStart::Setup#dump_global_yaml class method." do      
+    context "Tests for the JumpStart::Setup#dump_jumpstart_setup_yaml class method." do      
       should "call File.open and Yaml.dump for jumpstart_setup.yml" do
         YAML.stubs(:dump)
         File.stubs(:open)
         File.expects(:open).once
-        JumpStart::Setup.dump_global_yaml
+        JumpStart::Setup.dump_jumpstart_setup_yaml
       end
     end
      
