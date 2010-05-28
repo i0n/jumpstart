@@ -51,7 +51,8 @@ module JumpStart
     # Resets @version_minor and @version_patch to 0 if bumping @version_major.
     # Resets @version_pacth to 0 if bumping @version_minor
     def self.bump(version_type)
-      eval( "@#{version_type} += 1")
+      value = instance_variable_get("@#{version_type}")
+      instance_variable_set("@#{version_type}", (value + 1))
       if version_type == "version_major"
         @version_minor, @version_patch = 0, 0
       elsif version_type == "version_minor"
@@ -62,7 +63,7 @@ module JumpStart
         
     # Handles calls to JumpStart::Setup.bump_version_major, JumpStart::Setup.bump_version_minor and JumpStart::Setup.bump_version_patch class methods.
     def self.method_missing(method, *args)
-      if method.match(/bump_version_(major|minor|patch)/)
+      if method.to_s.match(/bump_version_(major|minor|patch)/)
         version_type = method.to_s.sub('bump_', '')
         self.send(:bump, "#{version_type}")
       else
