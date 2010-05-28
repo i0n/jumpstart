@@ -51,6 +51,7 @@ module JumpStart::FileTools
     end
   end
 
+  # Removes files provided as an array.
   def remove_files(file_array)
     file_array.each do |x|
       begin
@@ -217,6 +218,7 @@ module JumpStart::FileTools
     puts
   end
   
+  # Checks to see if the source type is a file or a string. If it's a file it reads the lines of the file and returns them as an array. If it's a string it returns unaltered.
   def check_source_type(source)
     if File.file?(source)
       source_file = IO.readlines(source)
@@ -262,6 +264,7 @@ module JumpStart::FileTools
     full_path_string
   end
   
+  # Sorts files and dirs in a path and then returns the result as a hash of two arrays, :files and :dirs
   def sort_contained_files_and_dirs(path)
     dirs, files = [], []
     if path != nil && File.directory?(path)
