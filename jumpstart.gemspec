@@ -2,11 +2,11 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require 'jumpstart/version'
+require 'jumpstart'
  
 Gem::Specification.new do |s|
   s.name        = "jumpstart"
-  s.version     = JumpStart::VERSION
+  s.version     = JumpStart.version
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Ian Alexander Wood (i0n)"]
   s.email       = ["ianalexanderwood@gmail.com"]
@@ -17,6 +17,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
   s.files        = Dir.glob("{bin,config,jumpstart_templates,lib,source_templates,test}/**/*") + %w(LICENSE Rakefile README.md)
+  s.files.each do |x|
+    if x.match(/jumpstart_templates\/i0n/)
+      s.files.delete(x)
+    end
+  end
+  puts s.files
   s.executables  = ['jumpstart']
   s.require_path = 'lib'
 end

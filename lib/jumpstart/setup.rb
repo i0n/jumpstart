@@ -57,5 +57,3 @@ module JumpStart
     
   end  
 end
-
-JumpStart::Setup.dump_jumpstart_setup_yaml

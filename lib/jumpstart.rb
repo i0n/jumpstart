@@ -25,8 +25,11 @@ module JumpStart
   require 'jumpstart/filetools'
   require 'jumpstart/stringtools'
   
-  VERSION = "#{JumpStart::Setup.version_major}.#{JumpStart::Setup.version_minor}.#{JumpStart::Setup.version_patch}"
-            
+  # Looks up the current version of JumpStart
+  def self.version 
+    "#{JumpStart::Setup.version_major}.#{JumpStart::Setup.version_minor}.#{JumpStart::Setup.version_patch}"
+  end
+  
 end
 
 module FileUtils

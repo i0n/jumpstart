@@ -4,9 +4,6 @@ require 'rubygems'
 require 'rake'
 require 'jumpstart'
 
-# Get JumpStart version
-jumpstart_version = JumpStart::VERSION.match(/^(\d+)\.(\d+)\.(\d+)/)
-
 # Runs all tests
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
@@ -27,16 +24,33 @@ namespace :version do
     desc "Bumps major version number by 1"
     task :major do
       JumpStart::Setup.bump_version_major
+      git_actions
     end
 
     desc "Bumps minor version number by 1"
     task :minor do
       JumpStart::Setup.bump_version_minor
+      git_actions
     end
 
     desc "Bumps patch version number by 1"
     task :patch do
       JumpStart::Setup.bump_version_patch
+      git_actions
+    end
+    
+    def git_actions
+      Dir.chdir("#{JumpStart::ROOT_PATH}")
+      system "git add ."
+      system "git commit -v -a -m 'commit for version: #{JumpStart.version}'"
+      system "git tag #{JumpStart.version}"
+      system "git push --tags"
+    end
+    
+    def rubygems_actions
+      Dir.chdir("#{JumpStart::ROOT_PATH}")
+      system "gem build jumpstart.gemspec"
+      system "gem push jumpstart-#{JumpStart.version}.gem"      
     end
 
   end
