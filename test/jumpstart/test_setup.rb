@@ -47,25 +47,33 @@ class TestJumpstartSetup < Test::Unit::TestCase
         JumpStart::Setup.stubs(:dump_jumpstart_version_yaml)
       end
       
-      should "add 1 to @version_major class instance variable and call dump_jumpstart_version_yaml" do
-        JumpStart::Setup.class_eval {@version_major = 0 }
+      should "add 1 to @version_major class instance variable, set @version_minor and @version_patch to 0 and call dump_jumpstart_version_yaml" do
+        JumpStart::Setup.class_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
         JumpStart::Setup.expects(:dump_jumpstart_version_yaml).once
         JumpStart::Setup.bump("version_major")
-        assert_equal 1, JumpStart::Setup.version_major
+        assert_equal 2, JumpStart::Setup.version_major
+        assert_equal 0, JumpStart::Setup.version_minor
+        assert_equal 0, JumpStart::Setup.version_patch
       end
       
-      should "add 1 to @version_minor class instance variable and call dump_jumpstart_version_yaml" do
-        JumpStart::Setup.class_eval {@version_minor = 0 }
+      should "add 1 to @version_minor class instance variable, set @version_patch to 0 and call dump_jumpstart_version_yaml" do
+        JumpStart::Setup.class_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
         JumpStart::Setup.expects(:dump_jumpstart_version_yaml).once
         JumpStart::Setup.bump("version_minor")
-        assert_equal 1, JumpStart::Setup.version_minor
+        assert_equal 1, JumpStart::Setup.version_major
+        assert_equal 2, JumpStart::Setup.version_minor
+        assert_equal 0, JumpStart::Setup.version_patch
+
       end
       
       should "add 1 to @version_patch class instance variable and call dump_jumpstart_version_yaml" do
-        JumpStart::Setup.class_eval {@version_patch = 0 }
+        JumpStart::Setup.class_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
         JumpStart::Setup.expects(:dump_jumpstart_version_yaml).once
         JumpStart::Setup.bump("version_patch")
-        assert_equal 1, JumpStart::Setup.version_patch
+        assert_equal 1, JumpStart::Setup.version_major
+        assert_equal 1, JumpStart::Setup.version_minor
+        assert_equal 2, JumpStart::Setup.version_patch
+
       end
       
     end

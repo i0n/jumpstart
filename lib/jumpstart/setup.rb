@@ -48,8 +48,15 @@ module JumpStart
     end
     
     # Method for bumping version number types.
+    # Resets @version_minor and @version_patch to 0 if bumping @version_major.
+    # Resets @version_pacth to 0 if bumping @version_minor
     def self.bump(version_type)
       eval( "@#{version_type} += 1")
+      if version_type == "version_major"
+        @version_minor, @version_patch = 0, 0
+      elsif version_type == "version_minor"
+        @version_patch = 0
+      end
       dump_jumpstart_version_yaml
     end
         
