@@ -19,19 +19,19 @@ module JumpStart
       @input  = $stdin
       # setup for testing output
       @output = $stdout
-      # set the name of the project from the first argument passed, or from the module instance variable JumpStart.default_template_name if no argument passed.
+      # set the name of the project from the first argument passed, or from the module instance variable JumpStart::Setup.default_template_name if no argument passed.
       @project_name = args.shift.dup if args[0] != nil
       if args[0] != nil
         @template_name = args.shift.dup
-      elsif JumpStart.default_template_name.nil? != nil
-        @template_name = JumpStart.default_template_name
+      elsif JumpStart::Setup.default_template_name.nil? != nil
+        @template_name = JumpStart::Setup.default_template_name
       end
       # set instance variable @template_path as the directory to read templates from.
-      @template_path = FileUtils.join_paths(JumpStart.templates_path, @template_name)
+      @template_path = FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name)
     end
 
     # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
-    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if JumpStart.default_template_name exists then the command is launched without any menu display.
+    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if JumpStart::Setup.default_template_name exists then the command is launched without any menu display.
     # TODO Write integration tests.
     # TODO Document methods for RDOC
     # Finish README etc for github
@@ -41,8 +41,8 @@ module JumpStart
     def set_config_file_options
       if @template_name.nil?
         jumpstart_menu
-      elsif File.exists?(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-        @config_file = YAML.load_file(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+      elsif File.exists?(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command ||= @config_file[:install_command]
         @install_command_args ||= @config_file[:install_command_args]
         @replace_strings ||= @config_file[:replace_strings].each {|x| x}
@@ -64,11 +64,11 @@ module JumpStart
     # set up instance variable containing an array that will be populated with existing jumpstart templates
     def lookup_existing_templates
       @existing_templates = []
-      template_dirs = Dir.entries(JumpStart.templates_path) - IGNORE_DIRS
+      template_dirs = Dir.entries(JumpStart::Setup.templates_path) - IGNORE_DIRS
       template_dirs.each do |x|
-        if File.directory?(FileUtils.join_paths(JumpStart.templates_path, x))
-          if Dir.entries(FileUtils.join_paths(JumpStart.templates_path, x)).include? "jumpstart_config"
-            if File.exists?(FileUtils.join_paths(JumpStart.templates_path, x, '/jumpstart_config/', "#{x}.yml"))
+        if File.directory?(FileUtils.join_paths(JumpStart::Setup.templates_path, x))
+          if Dir.entries(FileUtils.join_paths(JumpStart::Setup.templates_path, x)).include? "jumpstart_config"
+            if File.exists?(FileUtils.join_paths(JumpStart::Setup.templates_path, x, '/jumpstart_config/', "#{x}.yml"))
               @existing_templates << x
             end
           end
@@ -151,13 +151,13 @@ module JumpStart
     end
            
     def create_template
-      if File.directory?(FileUtils.join_paths(JumpStart.templates_path, @template_name))
-        puts "\nThe directory #{FileUtils.join_paths(JumpStart.templates_path, @template_name).red} already exists. The template will not be created."
+      if File.directory?(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name))
+        puts "\nThe directory #{FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name).red} already exists. The template will not be created."
         exit_normal
       else
-        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config"))
+        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config"))
         yaml = IO.read(FileUtils.join_paths(ROOT_PATH, "/source_templates/template_config.yml"))
-        File.open(FileUtils.join_paths(JumpStart.templates_path, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
+        File.open(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config", "#{@template_name}.yml"), 'w') do |file|
           file.puts yaml
         end
         puts "The template #{@template_name.green} has been generated.\n"
@@ -258,9 +258,9 @@ module JumpStart
         puts "  The template name ".red + input.red_bold + " begins with an invalid character. Please enter a name that begins with a letter or a number.".red
         new_template_options
       else
-        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config"))
-        FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml"))
-        puts "  The template ".green + input.green_bold + " has been created in your default jumpstart template directory ".green + JumpStart.templates_path.green_bold + " ready for editing.".green
+        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart::Setup.templates_path, input, "jumpstart_config"))
+        FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(JumpStart::Setup.templates_path, input, "jumpstart_config", "#{input}.yml"))
+        puts "  The template ".green + input.green_bold + " has been created in your default jumpstart template directory ".green + JumpStart::Setup.templates_path.green_bold + " ready for editing.".green
         jumpstart_menu
       end
     end
@@ -284,9 +284,9 @@ module JumpStart
       input = gets.chomp.strip
       case
       when input.to_i <= @existing_templates.count && input.to_i > 0
-        JumpStart.default_template_name = @existing_templates[(input.to_i - 1)]
+        JumpStart::Setup.default_template_name = @existing_templates[(input.to_i - 1)]
         JumpStart::Setup.dump_jumpstart_setup_yaml
-        puts "  The default jumpstart template has been set to: #{JumpStart.default_template_name.green}"
+        puts "  The default jumpstart template has been set to: #{JumpStart::Setup.default_template_name.green}"
         jumpstart_menu
       when input == "b"
         jumpstart_menu
@@ -339,11 +339,11 @@ module JumpStart
         begin
           Dir.chdir(root_path)
           Dir.mkdir(input)
-          files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart.templates_path)
+          files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart::Setup.templates_path)
           puts "\nCopying existing templates to #{input}"
           files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(input, x))}
-          files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(input, x)) }
-          JumpStart.templates_path = input.to_s
+          files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart::Setup.templates_path, x), FileUtils.join_paths(input, x)) }
+          JumpStart::Setup.templates_path = input.to_s
           JumpStart::Setup.dump_jumpstart_setup_yaml
           puts "\nTransfer complete!".green
           jumpstart_menu
@@ -355,12 +355,12 @@ module JumpStart
     
     # Checks to see if the JumpStart template directory should be reset to the default location. (within the gem.)
     def reset_templates_dir_to_default_check
-      if JumpStart.templates_path == "#{ROOT_PATH}/jumpstart_templates"
+      if JumpStart::Setup.templates_path == "#{ROOT_PATH}/jumpstart_templates"
         puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
         templates_dir_menu
       else  
         puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"
-        @current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart.templates_path)
+        @current_files_and_dirs = FileUtils.sort_contained_files_and_dirs(JumpStart::Setup.templates_path)
         puts "  Moving your jumpstart templates back to the default directory will delete any templates that are currently there. Proceed?\n".yellow
         puts "  Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")\n\n"
         reset_templates_dir_to_default_set
@@ -374,8 +374,8 @@ module JumpStart
         FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
         FileUtils.touch(FileUtils.join_paths(ROOT_PATH, '.gitignore'))
         @current_files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x))}
-        @current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
-        JumpStart.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
+        @current_files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart::Setup.templates_path, x), FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates', x)) }
+        JumpStart::Setup.templates_path = FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates')
         JumpStart::Setup.dump_jumpstart_setup_yaml
         puts "\n  SUCCESS! the jumpstart templates directory has been set to the default: #{ROOT_PATH}/jumpstart_templates".green
         templates_dir_menu
