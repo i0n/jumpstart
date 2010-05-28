@@ -14,6 +14,15 @@ end
 
 namespace :deploy do
     
+  desc "Commits changes to local git repo and then pushes to remote"
+  task :git do
+    git_actions
+  end
+    
+  desc "Builds gemspec and deploys gem to RubyGems.org"
+  task :gem do
+    ruby_gems_actions
+  end
   
 end
 
@@ -39,20 +48,24 @@ namespace :version do
       git_actions
     end
     
-    def git_actions
-      Dir.chdir("#{JumpStart::ROOT_PATH}")
-      system "git add ."
-      system "git commit -v -a -m 'commit for version: #{JumpStart.version}'"
-      system "git tag #{JumpStart.version}"
-      system "git push --tags"
-    end
-    
-    def rubygems_actions
-      Dir.chdir("#{JumpStart::ROOT_PATH}")
-      system "gem build jumpstart.gemspec"
-      system "gem push jumpstart-#{JumpStart.version}.gem"      
-    end
-
   end
   
+end
+
+def git_actions
+  Dir.chdir("#{JumpStart::ROOT_PATH}")
+  system "git add ."
+  system "git commit -v -a -m 'commit for version: #{JumpStart.version}'"
+  system "git tag #{JumpStart.version}"
+  system "git push --tags"
+end
+
+def rubygems_actions
+  Dir.chdir("#{JumpStart::ROOT_PATH}")
+  system "gem build jumpstart.gemspec"
+  system "gem push jumpstart-#{JumpStart.version}.gem"      
+end
+
+def test
+  puts "YO YO YO"
 end
