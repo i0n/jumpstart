@@ -4,7 +4,7 @@ jumpstart is a gem for quickly creating projects.
 It does this by running options from a YAML file that you can create, or you can let the gem do it for you.
 It's dead easy to do.
 
-**Note on Patches/Pull Requests**
+###Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
