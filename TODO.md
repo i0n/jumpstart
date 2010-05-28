@@ -1,6 +1,0 @@
-- JumpStart::Setup.dump_jumpstart_version_yaml needs tests
-- JumpStart::Setup.templates_path needs tests
-- JumpStart::Setup.templates_path= needs tests
-- JumpStart::Setup.bump_version_major needs tests
-- JumpStart::Setup.bump_version_minor needs tests
-- JumpStart::Setup.bump_version_patch needs tests

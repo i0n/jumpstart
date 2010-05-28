@@ -1086,16 +1086,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-    
-    context "Tests for the JumpStart::Setup#dump_jumpstart_setup_yaml class method." do      
-      should "call File.open and Yaml.dump for jumpstart_setup.yml" do
-        YAML.stubs(:dump)
-        File.stubs(:open)
-        File.expects(:open).once
-        JumpStart::Setup.dump_jumpstart_setup_yaml
-      end
-    end
-     
+         
     context "Tests for initializing and running JumpStart instances\n" do
      
       context "Create jumpstart with the project name argument passed to it but do not start.\n" do
