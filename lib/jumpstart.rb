@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'bundler'
 require 'find'
 require 'fileutils'
 require 'yaml'
@@ -6,6 +7,7 @@ require 'rbconfig'
 
 # Sets up coloured terminal output in windows
 if RbConfig::CONFIG['host_os'] =~ /mswin|windows|cygwin|mingw32/
+  Bundler.setup(:windows)
   begin
     require 'Win32/Console/ANSI'
   rescue LoadError
