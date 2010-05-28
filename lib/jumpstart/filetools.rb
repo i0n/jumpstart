@@ -230,27 +230,35 @@ module JumpStart::FileTools
   # If too many or not enough forward slashes are provided at the start/end of the paths, this will be corrected.
   # Accidentally passing nil values mixed with strings/arrays will be corrected.
   # Whitespace and line breaks mixed with the path will be corrected.
-  # If too many files (paths containing one or more '.' fullstops) are specified in the supplied paths, the first one that creates a path will be returned.
   # If the path is an absolute path (starting with /) this will be preserved.
   def join_paths(*args)
-    paths = args.dup
-    paths.flatten!
+    paths = []
     full_path = []
-    file_detected = false
-    absolute_path = true if paths[0].to_s.start_with?('/')
+    temp_paths = args.dup
+    temp_paths.flatten!
+    temp_paths.each do |x|
+      unless x.nil?
+        paths << x.to_s
+      end
+    end
+    if paths[0].start_with?('/')
+      absolute_path = true
+    else
+      absolute_path = false
+    end
     paths.each do |path|
       unless path.nil?
         path.strip!
         path.slice!(0) while path.start_with?('/')
         path.chop! while path.end_with?('/')
-        if file_detected == false
-          file_detected = true if path =~ /\w*\.\w*/
-          full_path << path
-        end
+        full_path << path
       end
     end
     full_path[0].insert(0, '/') if absolute_path
-    full_path.join('/')
+    full_path_string = full_path.join('/')
+    full_path_string.slice!(0) while full_path_string[1] == '/'
+    full_path_string.chop! while full_path_string.end_with?('/')
+    full_path_string
   end
   
   def sort_contained_files_and_dirs(path)

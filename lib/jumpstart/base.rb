@@ -39,14 +39,14 @@ module JumpStart
     
     # Look into moving @install_path or refactoring to make setting this variable easier.
     def set_config_file_options
-      if @template_name.nil?
+      if @template_name.nil? || @template_path.nil?
         jumpstart_menu
-      elsif File.exists?(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
-        @config_file = YAML.load_file(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name, "/jumpstart_config/", "#{@template_name}.yml"))
+      elsif File.exists?(FileUtils.join_paths(@template_path, "/jumpstart_config/", "#{@template_name}.yml"))
+        @config_file = YAML.load_file(FileUtils.join_paths(@template_path, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command ||= @config_file[:install_command]
         @install_command_args ||= @config_file[:install_command_args]
         @replace_strings ||= @config_file[:replace_strings].each {|x| x}
-        @install_path ||= FileUtils.join_paths(@config_file[:install_path])
+        @install_path ||= @config_file[:install_path]
       else
         jumpstart_menu
       end
