@@ -26,10 +26,19 @@ namespace :version do
     
     desc "Bumps major version number by 1"
     task :major do
-      puts JumpStart::VERSION
+      JumpStart::Setup.bump_version_major
     end
 
-    
+    desc "Bumps minor version number by 1"
+    task :minor do
+      JumpStart::Setup.bump_version_minor
+    end
+
+    desc "Bumps patch version number by 1"
+    task :patch do
+      JumpStart::Setup.bump_version_patch
+    end
+
   end
   
 end

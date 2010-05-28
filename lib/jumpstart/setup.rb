@@ -11,20 +11,26 @@ module JumpStart
     # Method for writing to config/jumpstart_version.yml
     def self.dump_jumpstart_version_yaml
       File.open( "#{CONFIG_PATH}/jumpstart_version.yml", 'w' ) do |out|
-        YAML.dump( {:jumpstart_version_major => @version_major, :jumpstart_version_minor => @version_minor, :jumpstart_version_patch => @version_patch}, out )
+        YAML.dump( {:jumpstart_version_major => JumpStart.version_major, :jumpstart_version_minor => JumpStart.version_minor, :jumpstart_version_patch => JumpStart.version_patch}, out )
       end
     end
     
     def self.bump_version_major
-      
+      JumpStart.version_major += 1
+      dump_jumpstart_version_yaml
+      puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
     end
     
-    def self.bump_version_major
-      
+    def self.bump_version_minor
+      JumpStart.version_minor += 1
+      dump_jumpstart_version_yaml
+      puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
     end
     
-    def self.bump_version_major
-      
+    def self.bump_version_patch
+      JumpStart.version_patch += 1
+      dump_jumpstart_version_yaml
+      puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
     end
     
   end  
