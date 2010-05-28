@@ -17,6 +17,15 @@ With jumpstart you can:
 * Automatically configure local Nginx and hosts entries for a new project. (I'm using OS X so this is tailored for the Mac.)
 * Remove unwanted files that may have been created by a terminal command (e.g. rails)
 
+# Installation
+`gem install jumpstart` should do it.
+
+## Getting Started
+There are a couple of ways to use jumpstart.
+If you have already created a template, you can create a new project with a single command from the terminal.
+e.g. `jumpstart my_new_project_name`
+If you haven't created any templates yet, or you want to change one of the configuration options (which I'll get to), just call `jumpstart` without any arguments.
+
 ###Note on Patches/Pull Requests
  
 * Fork the project.
