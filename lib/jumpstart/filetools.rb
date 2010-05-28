@@ -234,11 +234,12 @@ module JumpStart::FileTools
   def join_paths(*args)
     paths = []
     full_path = []
-    temp_paths = args.dup
+    temp_paths = []
+    args.each {|x| temp_paths << x }
     temp_paths.flatten!
     temp_paths.each do |x|
       unless x.nil?
-        paths << x.to_s
+        paths << x.to_s.dup
       end
     end
     if paths[0].start_with?('/')
@@ -254,10 +255,10 @@ module JumpStart::FileTools
         full_path << path
       end
     end
-    full_path[0].insert(0, '/') if absolute_path
     full_path_string = full_path.join('/')
-    full_path_string.slice!(0) while full_path_string[1] == '/'
+    full_path_string.slice!(0) while full_path_string.start_with?('/')
     full_path_string.chop! while full_path_string.end_with?('/')
+    full_path_string.insert(0, '/') if absolute_path == true
     full_path_string
   end
   

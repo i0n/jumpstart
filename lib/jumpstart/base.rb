@@ -41,7 +41,7 @@ module JumpStart
     def set_config_file_options
       if @template_name.nil? || @template_path.nil?
         jumpstart_menu
-      elsif File.exists?(FileUtils.join_paths(@template_path, "/jumpstart_config/", "#{@template_name}.yml"))
+      elsif File.exists?(FileUtils.join_paths(@template_path, '/jumpstart_config/',"#{@template_name}.yml"))
         @config_file = YAML.load_file(FileUtils.join_paths(@template_path, "/jumpstart_config/", "#{@template_name}.yml"))
         @install_command ||= @config_file[:install_command]
         @install_command_args ||= @config_file[:install_command_args]
