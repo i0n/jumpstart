@@ -1,4 +1,4 @@
-**JumpStart**
+##JumpStart
 
 jumpstart is a gem for quickly creating projects.
 It does this by running options from a YAML file that you can create, or you can let the gem do it for you.
