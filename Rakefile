@@ -21,7 +21,7 @@ namespace :deploy do
     
   desc "Builds gemspec and deploys gem to RubyGems.org"
   task :gem do
-    ruby_gems_actions
+    rubygems_actions
   end
   
 end
