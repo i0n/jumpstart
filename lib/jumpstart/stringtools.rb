@@ -1,5 +1,6 @@
 module JumpStart::StringTools
 
+  # Self explanatory methods to be called on strings that changes output colour.
   def red;          colourise(self, "\e[31m"); end
   def red_bold;     colourise(self, "\e[1m\e[31m"); end
   def green;        colourise(self, "\e[32m"); end

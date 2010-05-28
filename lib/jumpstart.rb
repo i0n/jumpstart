@@ -32,12 +32,14 @@ module JumpStart
   
 end
 
+# Included as a module so that extension methods will be better defined in class/module chain.
 module FileUtils
   class << self
     include JumpStart::FileTools
   end
 end
 
+# Included as a module so that extension methods will be better defined in class/module chain.
 class String
   include JumpStart::StringTools
 end

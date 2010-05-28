@@ -68,7 +68,3 @@ def rubygems_actions
   system "gem build jumpstart.gemspec"
   system "gem push jumpstart-#{JumpStart.version}.gem"      
 end
-
-def test
-  puts "YO YO YO"
-end

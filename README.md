@@ -1,10 +1,10 @@
-= jumpstart
+**JumpStart**
 
 jumpstart is a gem for quickly creating projects.
 It does this by running options from a YAML file that you can create, or you can let the gem do it for you.
 It's dead easy to do.
 
-== Note on Patches/Pull Requests
+**Note on Patches/Pull Requests**
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -14,6 +14,6 @@ It's dead easy to do.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+**Copyright**
 
 Copyright (c) 2010 i0n. See LICENSE for details.
