@@ -39,32 +39,19 @@ module JumpStart
       end
     end
     
-    # def self.bump_version_major
-    #   JumpStart.version_major += 1
-    #   dump_jumpstart_version_yaml
-    #   puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
-    # end
-    # 
-    # def self.bump_version_minor
-    #   JumpStart.version_minor += 1
-    #   dump_jumpstart_version_yaml
-    #   puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
-    # end
-    # 
-    # def self.bump_version_patch
-    #   JumpStart.version_patch += 1
-    #   dump_jumpstart_version_yaml
-    #   puts "Version is now: #{JumpStart.version_major}.#{JumpStart.version_minor}.#{JumpStart.version_patch}"
-    # end
-    
+    # Method for bumping version number types.
+    def self.bump(version_type)
+      eval( "@#{version_type} += 1")
+      dump_jumpstart_version_yaml
+    end
+        
+    # Handles calls to JumpStart::Setup.bump_version_major, JumpStart::Setup.bump_version_minor and JumpStart::Setup.bump_version_patch class methods.
     def self.method_missing(method, *args)
       if method.match(/bump_version_(major|minor|patch)/)
-        method_name = method.to_s.sub('bump_', '').to_sym
-        puts "bump method #{method_name} detected"
-
+        version_type = method.to_s.sub('bump_', '')
+        self.send(:bump, "#{version_type}")
       else
-        puts "NOT FOUND: #{method}"
-        # super
+        super
       end
     end
     
@@ -72,6 +59,3 @@ module JumpStart
 end
 
 JumpStart::Setup.dump_jumpstart_setup_yaml
-
-# JumpStart::Setup.bump_version_major
-# JumpStart::Setup.bump_version_blarg
