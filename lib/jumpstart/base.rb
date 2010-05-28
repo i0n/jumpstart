@@ -14,6 +14,7 @@ module JumpStart
       @output.puts(*args)    
     end
     
+    # Sets up JumpStart::Base object with preliminary instance variables.
     def initialize(args)
       # setup for testing input
       @input  = $stdin
@@ -29,13 +30,8 @@ module JumpStart
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name)
     end
-
-    # TODO Ensure that if jumpstart is launched with two arguments they are parsed as @project_name and @template_name, and the command is launched without any menu display.
-    # TODO Ensure that if jumpstart is launched with one argument it is parsed as @project_name, and if JumpStart::Setup.default_template_name exists then the command is launched without any menu display.
-    # TODO Write integration tests.
-    # TODO Document methods for RDOC
-    # Finish README etc for github
     
+    # Sets up instance variables from YAML file
     def set_config_file_options
       if @template_name.nil? || @template_path.nil?
         jumpstart_menu
@@ -50,6 +46,7 @@ module JumpStart
       end
     end
     
+    # Pre-install project configuration checking.
     def check_setup
       set_config_file_options
       lookup_existing_templates
@@ -74,6 +71,7 @@ module JumpStart
       end
     end
     
+    # Runs the configuration, generating the new project from the chosen template.
     def start
       puts "\n******************************************************************************************************************************************\n\n"
       puts "  JumpStarting....\n".purple
@@ -92,6 +90,7 @@ module JumpStart
       exit_with_success
     end
     
+    # Checks replace string values for :project_name and replaces these with the value of @project_name if found. This enables PROJECT_NAME entries in projects to be dynamically populated with the current project name.
     def check_replace_string_pairs_for_project_name_sub(hash)
       unless @project_name.nil?
         hash.each do |key, value|
@@ -105,6 +104,8 @@ module JumpStart
     
     private
     
+    # Makes sure that the chosen project name is suitable. (Not nil or empty, at least 3 characters long, and starts with a letter or a number.) 
+    # Returns with the value of @project_name
     def check_project_name
       if @project_name.nil? || @project_name.empty?
         puts "\n  Enter a name for your project.".yellow
@@ -123,12 +124,14 @@ module JumpStart
       end
     end
     
+    # Launches the JumpStart menu system if a template has not been specified.
     def check_template_name
       if @template_name.nil? || @template_name.empty?
         jumpstart_menu
       end
     end
     
+    # Ensures that the template path specified exists and can be accessed. Exits if an error occurs.
     def check_template_path
       begin
         Dir.chdir(@template_path)
@@ -138,6 +141,9 @@ module JumpStart
       end
     end
 
+    # Sets the install path to executing directory if @install_path varibale is nil or empty. This should result in projects being created in directory from which the jumpstart command was called, if the template specified does not set this option.
+    # Checks the install path set in @install_path.
+    # Checks that a directory with the same name as the project does not already exist in the install path.
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
       if File.directory?(FileUtils.join_paths(@install_path, @project_name))
@@ -146,7 +152,8 @@ module JumpStart
       end
       true
     end
-           
+    
+    # Creates a new blank template in whichever directory the default templates directory has been set to.
     def create_template
       if File.directory?(FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name))
         puts "\nThe directory #{FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name).red} already exists. The template will not be created."
@@ -161,6 +168,7 @@ module JumpStart
       end
     end
         
+    # Displays options for the main jumpstart menu.
     def jumpstart_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART MENU\n".purple
@@ -174,6 +182,7 @@ module JumpStart
       jumpstart_menu_options
     end
     
+    # Captures user input for the main jumpstart menu and calls the appropriate method
     def jumpstart_menu_options
       lookup_existing_templates
       input = gets.chomp.strip
@@ -194,6 +203,7 @@ module JumpStart
       end
     end
     
+    # Displays options for the "create a new jumpstart project from an existing template" menu
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
@@ -211,6 +221,8 @@ module JumpStart
       new_project_from_template_options
     end
     
+    # Captures user input for the "create a new jumpstart project from an existing template" menu and calls the appropriate method.
+    # When the input matches a template number a project will be created from that template
     def new_project_from_template_options
       input = gets.chomp.strip
       case
@@ -229,6 +241,7 @@ module JumpStart
       end
     end
     
+    # Displays output for the "create a new jumpstart template" menu
     def new_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
@@ -239,8 +252,9 @@ module JumpStart
       end
       new_template_options
     end
-    
-    # TODO add functionality for duplicating an existing template
+
+    # Captures user input for "create a new jumpstart template" menu and calls the appropriate action.
+    # If the template name provided meets the methods requirements then a directory of that name containing a jumpstart_config dir and matching yaml file are created.
     def new_template_options
       puts "\n  Enter a unique name for the new template.\n".yellow
       input = gets.chomp.strip
@@ -262,6 +276,7 @@ module JumpStart
       end
     end
     
+    # Displays output for the "jumpstart default template options menu"
     def set_default_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n".purple
@@ -276,7 +291,7 @@ module JumpStart
       set_default_template_options
     end
     
-    # Sets the default template to be used by JumpStart.
+    # Sets the default template to be used by JumpStart and writes it to a YAML file.
     def set_default_template_options
       input = gets.chomp.strip
       case
@@ -295,6 +310,7 @@ module JumpStart
       end
     end
     
+    # Displays output for the "jumpstart templates directory options" menu.
     def templates_dir_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
@@ -306,6 +322,7 @@ module JumpStart
       templates_dir_options
     end
     
+    # Captures user input for the "jumpstart templates directory options" menu and calls the appropriate method.
     def templates_dir_options
       input = gets.chomp.strip
       case
@@ -324,6 +341,8 @@ module JumpStart
     end
     
     # Sets the path for templates to be used by JumpStart.
+    # Copies templates in the existing template dir to the new location.
+    # The folder specified must not exist yet, but it's parent should.
     def set_templates_dir
       puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
       input = gets.chomp.strip
@@ -385,6 +404,7 @@ module JumpStart
       end
     end
 
+    # Runs the main install command specified in the selected templates YAML file.
     def execute_install_command
       Dir.chdir(@install_path)
       unless @install_command.nil? || @install_command.empty?
@@ -393,6 +413,7 @@ module JumpStart
       end
     end
 
+    # Parses the contents of the @template_path and sorts ready for template creation.
     def parse_template_dir
       @dir_list = []
       file_list = []
@@ -422,16 +443,17 @@ module JumpStart
       end
     end
     
-    # makes folders for the project
+    # Makes folders for the project
     def create_dirs
       @dir_list.each {|dir| FileUtils.mkdir_p(FileUtils.join_paths(@install_path, @project_name, dir)) } unless @dir_list.nil?
     end
     
-    # create files from whole templates
+    # Create files from whole templates
     def populate_files_from_whole_templates
       @whole_templates.each {|x| FileUtils.cp(FileUtils.join_paths(@template_path, x), FileUtils.join_paths(@install_path, @project_name, x)) } unless @whole_templates.nil?
     end
 
+    # Create files from append (_._ _l._ or _L._) templates
     def populate_files_from_append_templates
       @append_templates.each do |x|
         new_name = x.sub(/_([lL]?)\._{1}/, '')
@@ -440,6 +462,7 @@ module JumpStart
       end
     end
     
+    # Create files from line number templates (e.g. _12._ or _1._)
     def populate_files_from_line_templates
       @line_templates.each do |x|
         new_name = x.sub(/_(\d+)\._{1}/, '')
@@ -448,6 +471,7 @@ module JumpStart
       end
     end
 
+    # Checks to see if options for configuring a local Nginx environment have been specified in the template. If they have, runs the relevant JumpStart::FileTools class methods (included in FileUtils module.)
     def check_local_nginx_configuration
       if @nginx_local_template.nil? || @config_file[:local_nginx_conf].nil?
         puts "  \nNginx will not be configured as options have not been set for this."
@@ -457,6 +481,7 @@ module JumpStart
       end
     end
     
+    # Removes files specified in templates YAML
     def remove_unwanted_files
       file_array = []
       root_path = FileUtils.join_paths(@install_path, @project_name)
@@ -466,6 +491,7 @@ module JumpStart
       FileUtils.remove_files(file_array)
     end
     
+    # Runs additional scripts specified in YAML. Runs one set after the install command has executed, and another after the templates have been generated.
     def run_scripts_from_yaml(script_name)
       unless @config_file[script_name].nil? || @config_file[script_name].empty?
         begin
@@ -480,6 +506,7 @@ module JumpStart
       end
     end
     
+    # Looks for strings IN_CAPS that are specified for replacement in the templates YAML
     def check_for_strings_to_replace
       if @replace_strings.nil? || @replace_strings.empty?
         false
@@ -500,6 +527,7 @@ module JumpStart
       end
     end
     
+    # Exit after creating a project, dumping current setup information to YAML
     def exit_with_success
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Success! ".green + @project_name.green_bold + " has been created at: ".green + FileUtils.join_paths(@install_path, @project_name).green_bold + "\n\n".green
@@ -508,6 +536,7 @@ module JumpStart
       exit
     end
 
+    # Exit normally, dumping current setup information to YAML
     def exit_normal
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Goodbye!\n\n"
@@ -518,6 +547,7 @@ module JumpStart
       
     class << self
 
+      # Class instance method that returns an integer to be used as the line number for line templates. Returns false if no match is found.
       def get_line_number(file_name)
         if file_name.match(/_(\d+)\._\w*/)
           number = file_name.match(/_(\d+)\._\w*/)[1]
@@ -527,6 +557,8 @@ module JumpStart
         end
       end
 
+      # Class instance method that returns true or false for removing the last line of a file.
+      # Append templates with the _l._ or _L._ prefix will return true.
       def remove_last_line?(file_name)
         if file_name.match(/_([lL]{1})\._{1}\w*/)
           true
