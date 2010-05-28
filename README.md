@@ -22,9 +22,12 @@ With jumpstart you can:
 
 ## Getting Started
 There are a couple of ways to use jumpstart.
+
 If you have already created a template, you can create a new project with a single command from the terminal.
-e.g. `jumpstart my_new_project_name`
-If you haven't created any templates yet, or you want to change one of the configuration options (which I'll get to), just call `jumpstart` without any arguments.
+
+e.g. **`jumpstart my_new_project_name`**
+
+If you haven't created any templates yet, or you want to change one of the configuration options (which I'll get to), just call **`jumpstart`** without any arguments.
 
 ###Note on Patches/Pull Requests
  
