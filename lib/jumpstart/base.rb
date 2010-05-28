@@ -35,9 +35,7 @@ module JumpStart
     # TODO Write integration tests.
     # TODO Document methods for RDOC
     # Finish README etc for github
-    # TODO try and find a way to automatically reset jumpstart_setup.yml while in development.
     
-    # Look into moving @install_path or refactoring to make setting this variable easier.
     def set_config_file_options
       if @template_name.nil? || @template_path.nil?
         jumpstart_menu
@@ -140,7 +138,6 @@ module JumpStart
       end
     end
 
-    # TODO test check_install_path setting @install_path = FileUtils.pwd from prompt.
     def check_install_path
       @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
       if File.directory?(FileUtils.join_paths(@install_path, @project_name))
