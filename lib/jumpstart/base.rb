@@ -515,6 +515,7 @@ module JumpStart
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Goodbye!\n\n"
       puts "******************************************************************************************************************************************\n"
+      JumpStart::Setup.dump_jumpstart_setup_yaml
       exit
     end
       

@@ -2,28 +2,36 @@ module JumpStart
   class Setup
     
     class << self
-      attr_accessor :templates_path, :default_template_name, :version_major, :version_minor, :version_patch
+      attr_accessor :default_template_name, :version_major, :version_minor, :version_patch
     end
     
-    jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
-    jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
+    @jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
+    @jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
 
-    @version_major = jumpstart_version_yaml[:jumpstart_version_major]
-    @version_minor = jumpstart_version_yaml[:jumpstart_version_minor]
-    @version_patch = jumpstart_version_yaml[:jumpstart_version_patch]
+    @version_major = @jumpstart_version_yaml[:jumpstart_version_major]
+    @version_minor = @jumpstart_version_yaml[:jumpstart_version_minor]
+    @version_patch = @jumpstart_version_yaml[:jumpstart_version_patch]
     
-    
+    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path]
     # The path to the jumpstart templates directory. 
     # Set as a module instance variable.
-    @templates_path = jumpstart_setup_yaml[:jumpstart_templates_path]
+    def self.templates_path
+      if @templates_path.nil? || @templates_path.empty?
+        @templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
+      else
+        @templates_path
+      end
+    end
+    
+    def self.templates_path=(value)
+      @templates_path = value
+    end
+    
     # sets the default template to use if it has not been passed as an argument.
     # Set as a module instance variable.
-    @default_template_name = jumpstart_setup_yaml[:jumpstart_default_template_name]
+    @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name]
 
     # Set the jumpstart templates path back to default if it has not been set
-    if @templates_path.nil? || @templates_path.empty?
-      @templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
-    end
         
     # Method for writing to config/jumpstart_setup.yml
     def self.dump_jumpstart_setup_yaml
