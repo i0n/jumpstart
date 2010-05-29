@@ -90,7 +90,7 @@ class TestJumpstart < Test::Unit::TestCase
         @project.check_setup
       end
 
-      should "launch menu when passed one argument under 3 characters and an invalid second argument. JumpStart::Setup.templates_path should be set to default." do
+      should "loop on check_project_name method when passed one argument under 3 characters and an invalid second argument. JumpStart::Setup.templates_path should be set to default." do
         # From the prompt this method would repeat until a valid project name was entered.
         @project = JumpStart::Base.new(["no", "this_template_does_not_exist"])
         @project.stubs(:jumpstart_menu)
@@ -99,34 +99,38 @@ class TestJumpstart < Test::Unit::TestCase
         @project.check_setup
       end
 
-      should "launch menu when passed an ivalid first argument and a valid second argument (that starts with a character that is not a letter or number.). JumpStart::Setup.templates_path should be set to default." do
-        skip
+      should "loop on check_project_name method when passed an ivalid first argument and a valid second argument (that starts with a character that is not a letter or number.). JumpStart::Setup.templates_path should be set to default." do
+        # From the prompt this method would repeat until a valid project name was entered.
         @project = JumpStart::Base.new(["$hello", "test_template_1"])
-        @project.expects(:jumpstart_menu).once
-        @project.set_config_file_options
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_eval {@template_path}
-        assert_equal nil, @project.instance_eval {@template_name}
+        @project.stubs(:jumpstart_menu)
+        @project.expects(:check_template_name)
+        @project.expects(:check_project_name)
+        @project.check_setup
       end
 
-      should "launch menu when passed an ivalid first argument and an invalid second argument (that starts with a character that is not a letter or number.). JumpStart::Setup.templates_path should be set to default." do
-        skip
+      should "loop on check_project_name method when passed an ivalid first argument and an invalid second argument (that starts with a character that is not a letter or number.). JumpStart::Setup.templates_path should be set to default." do
+        # From the prompt this method would repeat until a valid project name was entered.
         @project = JumpStart::Base.new(["$hello", "this_template_does_not_exist"])
-        @project.expects(:jumpstart_menu).once
-        @project.set_config_file_options
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_eval {@template_path}
-        assert_equal nil, @project.instance_eval {@template_name}
+        @project.stubs(:jumpstart_menu)
+        @project.expects(:check_template_name)
+        @project.expects(:check_project_name)
+        @project.check_setup
       end
 
-      should "... when passed a valid first and second argument. JumpStart::Setup.templates_path should be set to default." do
-        skip
+      should "set @install_path to executing directory when it is not set in the template and when passed a valid first and second argument. JumpStart::Setup.templates_path should be set to default." do
         @project = JumpStart::Base.new(["hello", "test_template_1"])
-        @project.expects(:jumpstart_menu).once
-        @project.set_config_file_options
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
-        assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_eval {@template_path}
-        assert_equal nil, @project.instance_eval {@template_name}
+        # FileUtils.stubs(:pwd)
+        @project.stubs(:jumpstart_menu)
+        @project.expects(:set_config_file_options)
+        @project.expects(:lookup_existing_templates)
+        @project.expects(:check_project_name)
+        @project.expects(:check_template_name)
+        @project.expects(:check_template_path)
+        @project.expects(:check_install_path)
+        @project.expects(:jumpstart_menu).never
+        # FileUtils.expects(:pwd)
+        @project.check_setup
+        # assert_equal "hello", @project.instance_variable_get(:@install_path)
       end      
       
     end
