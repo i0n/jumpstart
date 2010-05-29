@@ -21,11 +21,14 @@ module JumpStart
       # setup for testing output
       @output = $stdout
       # set the name of the project from the first argument passed, or from the module instance variable JumpStart::Setup.default_template_name if no argument passed.
-      @project_name = args.shift.dup if args[0] != nil
-      if args[0] != nil
-        @template_name = args.shift.dup
-      elsif JumpStart::Setup.default_template_name != nil
-        @template_name = JumpStart::Setup.default_template_name
+      @project_name = args[0].dup unless args[0].nil?
+      @template_name = args[1].dup unless args[1].nil?
+      case
+      when args.nil?
+        @template_name = JumpStart::Setup.default_template_name unless JumpStart::Setup.default_template_name.nil?
+        jumpstart_menu
+      when args[0] != nil && args[1].nil?
+        @template_name = JumpStart::Setup.default_template_name unless JumpStart::Setup.default_template_name.nil?
       end
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(JumpStart::Setup.templates_path, @template_name)
