@@ -145,7 +145,7 @@ module JumpStart
     # Checks the install path set in @install_path.
     # Checks that a directory with the same name as the project does not already exist in the install path.
     def check_install_path
-      @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
+      @install_path = system "pwd" if @install_path.nil? || @install_path.empty?
       if File.directory?(FileUtils.join_paths(@install_path, @project_name))
         puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal
