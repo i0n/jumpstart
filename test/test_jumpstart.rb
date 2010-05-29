@@ -19,6 +19,7 @@ class TestJumpstart < Test::Unit::TestCase
     end
   end
   
+  # TODO not sure why but shoulda/test-unit/mocha is loading things in a strange order which is messing up class_eval. Look to split tests for this area into seperate files to try and solve this problem.
   context "Tests for launching JumpStart with various configurations set" do
     
     context "JumpStart::Setup.templates_path and JumpStart::Setup.default_template_name are both set to nil as @jumpstart_setup_yaml is not loaded" do
@@ -131,7 +132,6 @@ class TestJumpstart < Test::Unit::TestCase
       end      
       
     end
-    
+        
   end 
-  
 end
