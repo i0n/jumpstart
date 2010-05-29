@@ -1036,6 +1036,11 @@ class TestJumpstartBase < Test::Unit::TestCase
         assert !@test_project.instance_eval {check_for_strings_to_replace}
       end
       
+      should "return false if @replace_strings is populated with an empty entry." do
+        @test_project.instance_eval {@replace_strings = [{:target_path => nil, :symbols => nil}]}
+        assert !@test_project.instance_eval {check_for_strings_to_replace}
+      end
+      
     end
         
     context "Tests for the JumpStart::Base#exit_with_success instance method." do

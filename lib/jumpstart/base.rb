@@ -507,17 +507,16 @@ module JumpStart
         end
       end
     end
-    
-    # TODO Needs more tests as nil values slipped through before refactoring.
+
     # Looks for strings IN_CAPS that are specified for replacement in the templates YAML
     def check_for_strings_to_replace
       if @replace_strings.nil? || @replace_strings.empty?
-        false
+        return false
       else
         puts "\nChecking for strings to replace inside files...\n\n"
         @replace_strings.each do |file|
           if file[:target_path].nil? || file[:symbols].nil?
-            false
+            return false
           else
             puts "Target file: #{file[:target_path].green}\n"
             puts "Strings to replace:\n\n"
