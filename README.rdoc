@@ -111,6 +111,7 @@ Example 2: A blank YAML with commenting to make it easy to see your options when
   ---
   # The commands in a jumpstart config file are executed in the order displayed in this file.
   
+  ## Can be omitted or left blank. If :install_path: is omitted, the new project will be created in whatever directory you are in when you run the command.
   # The path to where the project directory will be created
   # e.g. :install_path: /Users/i0n/Sites
   :install_path:
