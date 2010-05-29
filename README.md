@@ -19,12 +19,10 @@ With jumpstart you can:
 
 # Installation
 `gem install jumpstart` should do it.
----
+- - - - -
 Or you can clone this git repo:               `git://github.com/i0n/jumpstart.git`  
-
 Build jumpstart from the git repo's gemspec:  `gem build jumpstart.gemspec`  
-
-Install the newly created gem:                `gem install jumpstart-WHATEVER_THE_CURRENT_VERSION_IS.gem`
+Install the newly created gem:                `gem install jumpstart-WHATEVER_THE_CURRENT_VERSION_IS.gem`  
 
 ## Getting Started
 There are a couple of ways to use jumpstart.
