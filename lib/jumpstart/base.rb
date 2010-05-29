@@ -481,14 +481,17 @@ module JumpStart
       end
     end
     
+    # TODO needs more tests as nil values were slipping through
     # Removes files specified in templates YAML
     def remove_unwanted_files
       file_array = []
       root_path = FileUtils.join_paths(@install_path, @project_name)
-      @config_file[:remove_files].each do |file|
-        file_array << FileUtils.join_paths(root_path, file)
+      unless @config_file[:remove_files].nil?
+        @config_file[:remove_files].each do |file|
+          file_array << FileUtils.join_paths(root_path, file)
+        end
+        FileUtils.remove_files(file_array)
       end
-      FileUtils.remove_files(file_array)
     end
     
     # Runs additional scripts specified in YAML. Runs one set after the install command has executed, and another after the templates have been generated.
