@@ -60,6 +60,7 @@ def git_actions
   system "git add ."
   system "git commit -v -a -m 'commit for version: #{JumpStart.version}'"
   system "git tag #{JumpStart.version}"
+  system "git push"
   system "git push --tags"
 end
 
