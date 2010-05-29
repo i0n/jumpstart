@@ -506,6 +506,7 @@ module JumpStart
       end
     end
     
+    # TODO Needs more tests as nil values slipped through before refactoring.
     # Looks for strings IN_CAPS that are specified for replacement in the templates YAML
     def check_for_strings_to_replace
       if @replace_strings.nil? || @replace_strings.empty?
@@ -513,16 +514,20 @@ module JumpStart
       else
         puts "\nChecking for strings to replace inside files...\n\n"
         @replace_strings.each do |file|
-          puts "Target file: #{file[:target_path].green}\n"
-          puts "Strings to replace:\n\n"
-          check_replace_string_pairs_for_project_name_sub(file[:symbols])
-          file[:symbols].each do |x,y|
-            puts "Key:    #{x.to_s.green}"
-            puts "Value:  #{y.to_s.green}\n\n"
+          if file[:target_path].nil? || file[:symbols].nil?
+            false
+          else
+            puts "Target file: #{file[:target_path].green}\n"
+            puts "Strings to replace:\n\n"
+            check_replace_string_pairs_for_project_name_sub(file[:symbols])
+            file[:symbols].each do |x,y|
+              puts "Key:    #{x.to_s.green}"
+              puts "Value:  #{y.to_s.green}\n\n"
+            end
+            puts "\n"
+            path = FileUtils.join_paths(@install_path, @project_name, file[:target_path])
+            FileUtils.replace_strings(path, file[:symbols]) 
           end
-          puts "\n"
-          path = FileUtils.join_paths(@install_path, @project_name, file[:target_path])
-          FileUtils.replace_strings(path, file[:symbols])
         end
       end
     end
