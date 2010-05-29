@@ -30,10 +30,13 @@ Install the newly created gem:
 NOTE! If you install jumpstart using sudo then you will probably need to run jumpstart with it as well to grant writes to the YAML files in the gem.
 
 == Getting Started
-There are a couple of ways to use jumpstart.
+There are a few ways to use jumpstart.
 
-If you have already created a template and set it as your default, you can create a new project with a single command from the terminal. e.g. 
-  jumpstart my_new_project_name
+If you have a template and you would like to create a new project with it, pass the jumpstart command two arguments, the first being the new projects name, the second being the existing jumpstart template name. e.g.
+  jumpstart my_new_project my_existing_template
+
+If you have already created a template and set it as the default jumpstart template (you can do this in the jumpstart menu), you can create a new project using it by passing just the new projects name to jumpstart. e.g. 
+  jumpstart my_new_project
 
 If you haven't created any templates yet, or you want to change one of the configuration options (which I'll get to), just call:
   jumpstart 
