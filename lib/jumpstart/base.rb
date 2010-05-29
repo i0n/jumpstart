@@ -141,7 +141,6 @@ module JumpStart
       end
     end
 
-    # TODO FileUtils.pwd is not behaving as expected. find a way to set this.
     # Sets the install path to executing directory if @install_path varibale is nil or empty. This should result in projects being created in directory from which the jumpstart command was called, if the template specified does not set this option.
     # Checks the install path set in @install_path.
     # Checks that a directory with the same name as the project does not already exist in the install path.
