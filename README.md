@@ -37,28 +37,22 @@ If you haven't created any templates yet, or you want to change one of the confi
 ## Example YAML files.
 1.
     ---
-
     :install_path: /Users/i0n/Sites
-
     :install_command: rails 
     :install_command_args: -d mysql -J -T
-
     :run_after_install_command:
       - rails g controller home
-
     :remove_files:
       - /app/views/layouts/application.html.erb
       - /public/index.html
       - /public/favicon.ico
       - /public/images/rails.png
-
     :run_after_jumpstart:
       - rake db:create
       - capify .
       - git init
       - git add .
       - git commit -q -v -a -m "Initial commit"
-
     :replace_strings:
       - :target_path: /config/deploy.rb
         :symbols:
@@ -73,7 +67,6 @@ If you haven't created any templates yet, or you want to change one of the confi
       - :target_path: /config/environments/production.rb
         :symbols:
           :project_name: name_of_my_app
-
     :local_nginx_conf: /usr/local/nginx/conf/nginx.conf
   
 ###Note on Patches/Pull Requests
