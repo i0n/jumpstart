@@ -24,6 +24,8 @@ Or you can clone this git repo:               `git://github.com/i0n/jumpstart.gi
 Build jumpstart from the git repo's gemspec:  `gem build jumpstart.gemspec`  
 Install the newly created gem:                `gem install jumpstart-WHATEVER_THE_CURRENT_VERSION_IS.gem`  
 
+**NOTE!** If you install jumpstart using `sudo` then you will probably need to run jumpstart with it as well to grant writes to the YAML files in the gem.
+
 ## Getting Started
 There are a couple of ways to use jumpstart.
 
