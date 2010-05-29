@@ -150,7 +150,7 @@ module JumpStart
         puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal
       end
-      true
+      return true
     end
     
     # Creates a new blank template in whichever directory the default templates directory has been set to.
@@ -559,7 +559,7 @@ module JumpStart
           number = file_name.match(/_(\d+)\._\w*/)[1]
           number.to_i
         else
-          false
+          return false
         end
       end
 
@@ -567,9 +567,9 @@ module JumpStart
       # Append templates with the _l._ or _L._ prefix will return true.
       def remove_last_line?(file_name)
         if file_name.match(/_([lL]{1})\._{1}\w*/)
-          true
+          return true
         else
-          false
+          return false
         end
       end
       
