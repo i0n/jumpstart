@@ -69,7 +69,7 @@ If you haven't created any templates yet, or you want to change one of the confi
       :symbols:  
         :project_name: name_of_my_app  
   :local_nginx_conf: /usr/local/nginx/conf/nginx.conf  
-
+</code>
 ###Note on Patches/Pull Requests
  
 * Fork the project.
