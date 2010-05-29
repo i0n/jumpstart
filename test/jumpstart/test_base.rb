@@ -93,11 +93,11 @@ class TestJumpstartBase < Test::Unit::TestCase
         @input = input
         @output = output
         @template_name = "test_template_1"
-        set_config_file_options
         @install_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
       end
       @test_project_6.stubs(:exit_normal)
       @test_project_6.stubs(:exit_with_success)
+      @test_project_6.stubs(:jumpstart_menu)
     end
             
     teardown do
@@ -107,7 +107,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
             
       should "set @jumpstart_template_path" do
-        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates", @test_project.instance_eval {JumpStart::Setup.templates_path}
+        assert_equal "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates", JumpStart::Setup.templates_path
       end
       
       should "set JumpStart::Setup.default_template_name" do
@@ -1154,6 +1154,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-                         
+                             
   end
 end
