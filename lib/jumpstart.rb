@@ -21,6 +21,7 @@ module JumpStart
   LIB_PATH = File.expand_path(File.dirname(__FILE__))
   CONFIG_PATH = File.expand_path(File.join(File.dirname(__FILE__), '../config'))
   IGNORE_DIRS = ['.','..']
+  LAUNCH_PATH = FileUtils.pwd
   
   require 'jumpstart/setup'
   require 'jumpstart/base'

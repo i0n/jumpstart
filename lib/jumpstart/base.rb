@@ -141,11 +141,12 @@ module JumpStart
       end
     end
 
+    # TODO FileUtils.pwd is not behaving as expected. find a way to set this.
     # Sets the install path to executing directory if @install_path varibale is nil or empty. This should result in projects being created in directory from which the jumpstart command was called, if the template specified does not set this option.
     # Checks the install path set in @install_path.
     # Checks that a directory with the same name as the project does not already exist in the install path.
     def check_install_path
-      @install_path = FileUtils.pwd if @install_path.nil? || @install_path.empty?
+      @install_path = JumpStart::LAUNCH_PATH if @install_path.nil? || @install_path.empty?
       if File.directory?(FileUtils.join_paths(@install_path, @project_name))
         puts "\nThe directory #{FileUtils.join_paths(@install_path, @project_name).red} already exists.\nAs this is the location you have specified for creating your new project jumpstart will now exit to avoid overwriting anything."
         exit_normal

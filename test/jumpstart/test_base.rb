@@ -358,7 +358,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "set the install path to the current directory if @install_path is nil and then run the method again, checking the path of @install_path + @project_name" do
         @test_project.instance_variable_set(:@install_path, nil)
         assert(@test_project.instance_eval {check_install_path})
-        assert_equal FileUtils.pwd , @test_project.instance_variable_get(:@install_path)
+        assert_equal JumpStart::ROOT_PATH , @test_project.instance_variable_get(:@install_path)
       end
       
     end
@@ -469,15 +469,15 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {lookup_existing_templates}
       end
       
+      # TODO Look into testing this method in a different way. The fact that a new class object is instantiated makes it difficult to test with mocha.
       should "create a new project with the specified template name, checking that the project name is valid when a valid number is entered" do
         JumpStart::Setup.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
         JumpStart::Setup.default_template_name = "test_template_1"
         @test_project.expects(:check_project_name).once
         @test_project.instance_variable_set(:@input, StringIO.new("1\n"))
         @test_project.instance_eval {new_project_from_template_options}
-        # project will be created from directory where command is run as @install_papth cannot currently be set for generated jumpstart project.
-        assert File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
-        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1/test_jumpstart_project")
+        assert File.directory?("#{JumpStart::ROOT_PATH}/test_jumpstart_project")
+        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test_jumpstart_project")
       end
       
       should "launch the jumpstart_menu method if 'b' is entered" do
