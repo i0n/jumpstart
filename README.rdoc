@@ -41,12 +41,15 @@ This will launch the jumpstart menu.
 
 == File Syntax
 One of the core ideas behind jumpstart is the notion of generating files in a new project automatically from template files. The idea being that you specify a generator of some kind in the jumpstart YAML (the install command), which sets up a generic project (for example rails). Once this has happened the jumpstart template will be parsed for template files to apply to the new project. Anything inside the jumpstart_config directory will not be copied to the project, this is where the templates configuration YAML lives. Everything else is evaluated from the root of the template directory and applied to the new project, again with the projects containing folder treated as the beginning of file paths. So as an example, a jumpstart template called "my_template" containing the path /folder1/folder2/file.txt when parsed would generate the same path in the new project. e.g. my_project/folder1/folder2/file.txt The template files contained in a jumpstart template come in three flavours:
+
 * Whole templates.    
-  Whole templates are copied to the new project verbatim. Any file that is not recognised as an append or line template is treated as a whole template.
+Whole templates are copied to the new project verbatim. Any file that is not recognised as an append or line template is treated as a whole template.
+
 * Append templates: _._ _L._
 Append templates append their contents to an existing file. You can get jumpstart to parse a file as an append template by prefixing the file name with _._ So for example say you have a jumpstart template that runs the rails command. After the new rails project has been generated you want jumpstart to append some information to the newly created Gemfile. You could use a whole template and overwrite everything, but this is a bit cumbersome. If things change in Rails (as they do all the time) then you will need to make constant changes to keep the template current. Better to just append what you need to the created file, just like you would do if handling th task manually. To create an append template for the Gemfile, you would create a file called: _._Gemfile
 There is one more option to bare in mind with append templates. If you specify an L as well, like this: _L._
 The last line of the source file (ignoring whitespace) will be removed, and then the append template will be added as normal. Honestly, it's handy.
+
 * Line templates.
 Line templates insert their contents into a file at a specified line, pushing existing contents down the page. This is very handy. Say for example that you want to insert some extra configuration information into your new rails projects config/environments/development.rb at line 18. In your jumpstart template you would create a file called config/environments/_18._development.rb
 If the file you specify doesn't have as many lines as you said it would, whitespace will be added until the specified number is reached.
