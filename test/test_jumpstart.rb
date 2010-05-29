@@ -119,7 +119,6 @@ class TestJumpstart < Test::Unit::TestCase
 
       should "set @install_path to executing directory when it is not set in the template and when passed a valid first and second argument. JumpStart::Setup.templates_path should be set to default." do
         @project = JumpStart::Base.new(["hello", "test_template_1"])
-        # FileUtils.stubs(:pwd)
         @project.stubs(:jumpstart_menu)
         @project.expects(:set_config_file_options)
         @project.expects(:lookup_existing_templates)
@@ -128,9 +127,7 @@ class TestJumpstart < Test::Unit::TestCase
         @project.expects(:check_template_path)
         @project.expects(:check_install_path)
         @project.expects(:jumpstart_menu).never
-        # FileUtils.expects(:pwd)
         @project.check_setup
-        # assert_equal "hello", @project.instance_variable_get(:@install_path)
       end      
       
     end
