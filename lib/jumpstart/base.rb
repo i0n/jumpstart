@@ -481,7 +481,6 @@ module JumpStart
       end
     end
     
-    # TODO needs more tests as nil values were slipping through
     # Removes files specified in templates YAML
     def remove_unwanted_files
       file_array = []

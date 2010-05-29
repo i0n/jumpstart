@@ -965,13 +965,17 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       should "run remove_unwanted_files method, remove files and return true." do
-        
         ["/file_with_extension.txt", "/file_without_extension"].each do |x| 
           FileUtils.touch("#{JumpStart::ROOT_PATH}/test/destination_dir/test_remove/test_remove_files#{x}")
         end
         assert @test_project.instance_eval {remove_unwanted_files}
       end
-            
+      
+      should "do nothing if passed nil" do
+        @test_project.instance_eval {@config_files = {:remove_files => nil}}
+        assert @test_project.instance_eval {remove_unwanted_files}
+      end
+      
     end
             
     context "Tests for the JumpStart::Base#run_scripts_from_yaml instance method.\n" do
