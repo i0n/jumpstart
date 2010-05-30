@@ -27,7 +27,7 @@ module JumpStart
       when args.nil?
         @template_name = JumpStart::Setup.default_template_name unless JumpStart::Setup.default_template_name.nil?
         jumpstart_menu
-      when args[0] != nil && args[1].nil?
+      when !args[0].nil? && args[1].nil?
         @template_name = JumpStart::Setup.default_template_name unless JumpStart::Setup.default_template_name.nil?
       end
       # set instance variable @template_path as the directory to read templates from.
