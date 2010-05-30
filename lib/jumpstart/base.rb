@@ -281,7 +281,6 @@ module JumpStart
     end
     
     # TODO Write tests for duplicate_template
-    # TODO Look at refactoring this.
     def duplicate_template(template)
       input = gets.chomp.strip
       case
@@ -299,29 +298,17 @@ module JumpStart
         puts "  The template name ".red + input.red_bold + " begins or ends with an invalid character. Please enter a name that begins with a letter or a number.".red
         duplicate_template(template)
       else
+        files_and_dirs = FileUtils.sort_contained_files_and_dirs(FileUtils.join_paths(JumpStart.templates_path, template))
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config"))
         FileUtils.touch(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml"))
-        dirs, files = [], []
-        Find.find(FileUtils.join_paths(JumpStart.templates_path, template)) do |x|
-          case
-          when File.file?(x) && !x.match(/\/jumpstart_config\/*/)
-            files << x.sub(FileUtils.join_paths(JumpStart.templates_path, template), '')
-          when File.file?(x) && x.match(/\/jumpstart_config\/*/)
-            FileUtils.copy_file(x, FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml") )
-          when File.directory?(x)
-            dirs << x.sub(FileUtils.join_paths(JumpStart.templates_path, template), '')
-          end
-        end
-        dirs.each do |x|
-          unless x.length < 1
-            FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, x))
-          end
-        end
-        files.each do |x|
-          unless x.length < 0
+        files_and_dirs[:dirs].each {|x| FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, x))}
+        files_and_dirs[:files].each do |x|
+          if x.match(/\/jumpstart_config\/#{template}\.yml/)
+            FileUtils.copy_file(FileUtils.join_paths(JumpStart.templates_path, template, x), FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml") )
+          else
             FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, template, x), FileUtils.join_paths(JumpStart.templates_path, input, x))
           end
-        end
+        end        
         puts "\n  Duplication complete!".green_bold
         puts "  Template " + template.green + " has been duplicated to " + input.green
         jumpstart_menu
