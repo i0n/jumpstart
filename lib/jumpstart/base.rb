@@ -33,7 +33,7 @@ module JumpStart
       # set instance variable @template_path as the directory to read templates from.
       @template_path = FileUtils.join_paths(JumpStart.templates_path, @template_name)
     end
-    
+        
     # Sets up instance variables from YAML file
     def set_config_file_options
       if @template_name.nil? || @template_path.nil?
@@ -195,18 +195,22 @@ module JumpStart
       end
     end
     
+    def display_existing_templates 
+      unless JumpStart.existing_templates.empty?
+        count = 0
+        JumpStart.existing_templates.each do |x|
+          count += 1
+          puts "  #{count.to_s.yellow} #{x.green}\n"
+        end
+      end
+    end
+    
     # Displays options for the "create a new jumpstart project from an existing template" menu
     def new_project_from_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
       puts "  Type a number for the template that you want.\n\n"
-      unless JumpStart.existing_templates.empty?
-        count = 0
-        JumpStart.existing_templates.each do |t|
-          count += 1
-          puts "  #{count.to_s.yellow} #{t.green}"
-        end
-      end
+      display_existing_templates
       puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"
@@ -239,13 +243,7 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
       puts "  Existing templates:\n"
-      unless JumpStart.existing_templates.nil?
-        count = 0
-        JumpStart.existing_templates.each do |x|
-          count += 1
-          puts "  #{count.to_s.yellow} #{x.green}\n"
-        end
-      end
+      display_existing_templates
       puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n"
       new_template_options
@@ -334,13 +332,7 @@ module JumpStart
     def set_default_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n".purple
-      count = 0
-      unless JumpStart.existing_templates.nil?
-        JumpStart.existing_templates.each do |t|
-          count += 1
-          puts "  #{count.to_s.yellow} #{t.green}"
-        end
-      end
+      display_existing_templates
       puts "\n  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
       puts "******************************************************************************************************************************************\n\n"

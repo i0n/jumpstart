@@ -490,7 +490,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "display output and call new_template_options" do
         @test_project.stubs(:new_template_options)
-        JumpStart.expects(:existing_templates).once
+        @test_project.expects(:display_existing_templates).once
         @test_project.expects(:new_template_options).once
         @test_project.instance_eval {new_template_menu}
         assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n", @test_project.output.string
