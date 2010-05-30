@@ -5,7 +5,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
   context "JumpStart::Setup.templates_path and JumpStart::Setup.default_template_name are both set to nil as @jumpstart_setup_yaml is not loaded" do
   
     setup do
-      JumpStart::Setup.class_eval {@jumpstart_setup_yaml = nil}
+      JumpStart.module_eval {@jumpstart_setup_yaml = nil}
       @project.stubs(:jumpstart_menu)
     end
   
@@ -17,7 +17,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
       @project = JumpStart::Base.new([nil])
       @project.expects(:jumpstart_menu).once
       @project.set_config_file_options
-      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
+      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.module_eval {@templates_path}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_variable_get(:@template_path)
       assert_equal nil, @project.instance_eval {@template_name}
     end
@@ -26,7 +26,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
       @project = JumpStart::Base.new([""])
       @project.expects(:jumpstart_menu).once
       @project.set_config_file_options
-      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
+      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.module_eval {@templates_path}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_variable_get(:@template_path)
       assert_equal nil, @project.instance_eval {@template_name}
     end
@@ -35,7 +35,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
       @project = JumpStart::Base.new(["no"])
       @project.expects(:jumpstart_menu).once
       @project.set_config_file_options
-      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
+      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.module_eval {@templates_path}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_variable_get(:@template_path)
       assert_equal nil, @project.instance_eval {@template_name}
     end
@@ -44,7 +44,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
       @project = JumpStart::Base.new(["$hello"])
       @project.expects(:jumpstart_menu).once
       @project.set_config_file_options
-      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
+      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.module_eval {@templates_path}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_variable_get(:@template_path)
       assert_equal nil, @project.instance_eval {@template_name}
     end
@@ -53,7 +53,7 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
       @project = JumpStart::Base.new(["hello"])
       @project.expects(:jumpstart_menu).once
       @project.set_config_file_options
-      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart::Setup.class_eval {@templates_path}
+      assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.module_eval {@templates_path}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", @project.instance_variable_get(:@template_path)
       assert_equal nil, @project.instance_eval {@template_name}
     end

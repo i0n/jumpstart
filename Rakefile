@@ -32,21 +32,21 @@ namespace :version do
     
     desc "Bumps major version number by 1"
     task :major do
-      JumpStart::Setup.bump_version_major
+      JumpStart.bump_version_major
       git_actions
       rubygems_actions
     end
 
     desc "Bumps minor version number by 1"
     task :minor do
-      JumpStart::Setup.bump_version_minor
+      JumpStart.bump_version_minor
       git_actions
       rubygems_actions
     end
 
     desc "Bumps patch version number by 1"
     task :patch do
-      JumpStart::Setup.bump_version_patch
+      JumpStart.bump_version_patch
       git_actions
       rubygems_actions
     end

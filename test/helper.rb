@@ -10,7 +10,7 @@ require 'jumpstart'
 class Test::Unit::TestCase
 
   def reset_global_defaults
-    JumpStart::Setup.class_eval do 
+    JumpStart.module_eval do 
       @jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
       @jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
       @templates_path = nil

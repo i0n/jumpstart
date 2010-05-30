@@ -5,7 +5,7 @@ class TestJumpStartWithDefaultTemplateSet < Test::Unit::TestCase
   context "JumpStart::Setup.templates_path is set to and JumpStart::Setup.default_template_name is nil as @jumpstart_setup_yaml is not loaded" do
 
     setup do
-      JumpStart::Setup.class_eval do 
+      JumpStart.module_eval do 
         @jumpstart_setup_yaml = nil 
         @templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
       end

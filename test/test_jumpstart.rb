@@ -12,9 +12,9 @@ class TestJumpstart < Test::Unit::TestCase
   
   context "Test for JumpStart.version class instance method" do
     should "return 1.1.1" do
-      JumpStart::Setup.version_major = 1
-      JumpStart::Setup.version_minor = 1
-      JumpStart::Setup.version_patch = 1
+      JumpStart.version_major = 1
+      JumpStart.version_minor = 1
+      JumpStart.version_patch = 1
       assert_equal "1.1.1", JumpStart.version
     end
   end
