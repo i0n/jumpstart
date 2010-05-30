@@ -51,6 +51,10 @@ namespace :bump do
   
 end
 
+task :version do
+  puts "\nJumpStart Version: #{JumpStart::VERSION}"
+end
+
 def git_actions
   Dir.chdir("#{JumpStart::ROOT_PATH}")
   system "git add ."

@@ -73,6 +73,11 @@ module JumpStart
       end
     end
   
+    # Looks up the current version of JumpStart
+    def version 
+      "#{version_major}.#{version_minor}.#{version_patch}"
+    end
+
     # Method for bumping version number types.
     # Resets @version_minor and @version_patch to 0 if bumping @version_major.
     # Resets @version_pacth to 0 if bumping @version_minor
@@ -97,11 +102,15 @@ module JumpStart
       end
     end
   
-    # Looks up the current version of JumpStart
-    def version 
-      "#{version_major}.#{version_minor}.#{version_patch}"
+    # Handles calls to missing constants in the JumpStart module. Calls JumpStart.version if JumpStart::VERSION is recognised.
+    def const_missing(name)
+      if name.to_s.match(/VERSION/)
+        version
+      else
+        super
+      end
     end
-  
+    
   end
   
 end
