@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email       = ["ianalexanderwood@gmail.com"]
   s.homepage    = "http://github.com/i0n/jumpstart"
   s.summary     = "Quickly start Ruby projects just the way you want them using a single YAML file and reusable templates."
-  s.description = "JumpStart is a script runner and template parser written in Ruby with Ruby projects in mind.\nThat said it should function equally well for any project in any language where many actions need to be performed to setup a new project."
+  s.description = "JumpStart is a script runner and template parser written in Ruby with Ruby projects in mind.\nIt should function equally well for any project where there are many configuration steps to get up and running."
   s.required_rubygems_version = ">= 1.3.6" 
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
