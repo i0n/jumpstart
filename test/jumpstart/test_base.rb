@@ -161,13 +161,11 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "run contained methods" do
         @test_project_4.stubs(:set_config_file_options).returns("set_config_file_options")
-        @test_project_4.stubs(:lookup_existing_templates).returns("lookup_existing_templates")
         @test_project_4.stubs(:check_project_name).returns("check_project_name")
         @test_project_4.stubs(:check_template_name).returns("check_template_name")
         @test_project_4.stubs(:check_template_path).returns("check_template_path")
         @test_project_4.stubs(:check_install_path).returns("check_install_path")
         @test_project_4.expects(:set_config_file_options).once
-        @test_project_4.expects(:lookup_existing_templates).once
         @test_project_4.expects(:check_project_name).once
         @test_project_4.expects(:check_template_name).once
         @test_project_4.expects(:check_template_path).once
@@ -176,16 +174,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
     end
-    
-    context "Tests for the JumpStart::Base#lookup_existing_projects instance method. \n" do
-      
-      should "run lookup_existing_projects method and return an array of existing templates" do
-        @test_project.lookup_existing_templates
-        assert_equal %w[test_template_1 test_template_2 test_template_3], @test_project.instance_eval {@existing_templates}
-      end
-            
-    end
-    
+        
     context "Tests for the JumpStart::Base#start instance method. \n" do
             
       should "run the contained methods" do
@@ -398,7 +387,6 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#jumpstart_menu_options instance method. \n" do
       
       setup do
-        @test_project.stubs(:lookup_existing_templates)
         @test_project.stubs(:new_project_from_template_menu)
         @test_project.stubs(:new_template_menu)
         @test_project.stubs(:set_default_template_menu)
@@ -454,10 +442,8 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "display options and run new_project_from_template_options" do
         @test_project.stubs(:new_project_from_template_options)
         @test_project.expects(:new_project_from_template_options).once
-        @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
         @test_project.instance_eval {new_project_from_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n\e[0m\n  Type a number for the template that you want.\n\n  \e[1m\e[33m1\e[0m \e[32mproject1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mproject2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mproject3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
-        assert_equal ['project1', 'project2', 'project3'], @test_project.instance_variable_get(:@existing_templates)
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n\e[0m\n  Type a number for the template that you want.\n\n  \e[1m\e[33m1\e[0m \e[32mtest_template_1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtest_template_2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mtest_template_3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
       
     end
@@ -466,7 +452,6 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       setup do
         @test_project.stubs(:jumpstart_menu)
-        @test_project.instance_eval {lookup_existing_templates}
       end
       
       # TODO Look into testing this method in a different way. The fact that a new class object is instantiated makes it difficult to test with mocha.
@@ -504,14 +489,11 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#new_template_menu instance method." do
       
       should "display output and call new_template_options" do
-        @test_project.stubs(:lookup_existing_templates)
         @test_project.stubs(:new_template_options)
-        @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
-        @test_project.expects(:lookup_existing_templates).once
+        JumpStart.expects(:existing_templates).once
         @test_project.expects(:new_template_options).once
         @test_project.instance_eval {new_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n  \e[32mproject1\e[0m\n  \e[32mproject2\e[0m\n  \e[32mproject3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n", @test_project.output.string
-        assert_equal %w[project1 project2 project3], @test_project.instance_variable_get(:@existing_templates)
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n", @test_project.output.string
       end
       
     end
@@ -519,14 +501,13 @@ class TestJumpstartBase < Test::Unit::TestCase
     context "Tests for the JumpStart::Base#new_template_options instance method." do
       
       setup do
-        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
+        # JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/destination_dir"
         @test_project.stubs(:jumpstart_menu).returns("jumpstart_menu")
-        @test_project.instance_variable_set(:@existing_templates, %w[one two three])
       end
       
       # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
       should "ask for another template name if the name given is already taken " do
-        @test_project.instance_variable_set(:@input, StringIO.new("one\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("test_template_1\n"))
         assert_raises(NoMethodError) {@test_project.instance_eval {new_template_options}}
       end
       
@@ -545,22 +526,22 @@ class TestJumpstartBase < Test::Unit::TestCase
       should "create a new template in the jumpstart templates directory if the name given is valid." do
         @test_project.instance_variable_set(:@input, StringIO.new("four\n"))
         @test_project.instance_eval {new_template_options}
-        assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/four/jumpstart_config/four.yml")
+        assert File.exists?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/four/jumpstart_config/four.yml")
         original_file_contents = IO.read("#{JumpStart::ROOT_PATH}/source_templates/template_config.yml")
-        created_file_contents = IO.read("#{JumpStart::ROOT_PATH}/test/destination_dir/four/jumpstart_config/four.yml")
+        created_file_contents = IO.read("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/four/jumpstart_config/four.yml")
         assert_equal original_file_contents, created_file_contents
+        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/four")
       end
       
     end
     
     context "Tests for the JumpStart::Base#set_default_template_menu instance method." do
             
-      should "display menu containing contents of @existing_templates" do
-        @test_project.instance_variable_set(:@existing_templates, %w[one two three])
+      should "display menu containing contents of JumpStart.existing_templates" do
         @test_project.stubs(:set_default_template_options)
         @test_project.expects(:set_default_template_options).once
         @test_project.instance_eval {set_default_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n\e[0m\n  \e[1m\e[33m1\e[0m \e[32mone\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtwo\e[0m\n  \e[1m\e[33m3\e[0m \e[32mthree\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n\e[0m\n  \e[1m\e[33m1\e[0m \e[32mtest_template_1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtest_template_2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mtest_template_3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
       
     end
@@ -570,7 +551,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       setup do
         @test_project.stubs(:jumpstart_menu)
         JumpStart.stubs(:dump_jumpstart_setup_yaml)
-        @test_project.instance_variable_set(:@existing_templates, %w[template1 template2 template3])
+        JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
         JumpStart.default_template_name = "temp_default"
       end
       
@@ -579,7 +560,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.expects(:jumpstart_menu).once
         JumpStart.expects(:dump_jumpstart_setup_yaml).once
         @test_project.instance_eval {set_default_template_options}
-        assert_equal "template1", JumpStart.default_template_name
+        assert_equal "test_template_1", JumpStart.default_template_name
       end
       
       should "go back to the main jumpstart menu if 'b' is entered." do

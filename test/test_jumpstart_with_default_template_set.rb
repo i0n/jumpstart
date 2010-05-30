@@ -55,7 +55,6 @@ class TestJumpStartWithDefaultTemplateSet < Test::Unit::TestCase
       @project = JumpStart::Base.new(["hello", "test_template_1"])
       @project.stubs(:jumpstart_menu)
       @project.expects(:set_config_file_options)
-      @project.expects(:lookup_existing_templates)
       @project.expects(:check_project_name)
       @project.expects(:check_template_name)
       @project.expects(:check_template_path)

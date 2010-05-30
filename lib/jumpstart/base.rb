@@ -52,26 +52,10 @@ module JumpStart
     # Pre-install project configuration checking.
     def check_setup
       set_config_file_options
-      lookup_existing_templates
       check_project_name
       check_template_name
       check_template_path
       check_install_path
-    end
-    
-    # set up instance variable containing an array that will be populated with existing jumpstart templates
-    def lookup_existing_templates
-      @existing_templates = []
-      template_dirs = Dir.entries(JumpStart.templates_path) - IGNORE_DIRS
-      template_dirs.each do |x|
-        if File.directory?(FileUtils.join_paths(JumpStart.templates_path, x))
-          if Dir.entries(FileUtils.join_paths(JumpStart.templates_path, x)).include? "jumpstart_config"
-            if File.exists?(FileUtils.join_paths(JumpStart.templates_path, x, '/jumpstart_config/', "#{x}.yml"))
-              @existing_templates << x
-            end
-          end
-        end
-      end
     end
     
     # Runs the configuration, generating the new project from the chosen template.
@@ -193,7 +177,6 @@ module JumpStart
     
     # Captures user input for the main jumpstart menu and calls the appropriate method
     def jumpstart_menu_options
-      lookup_existing_templates
       input = gets.chomp.strip
       case
       when input == "1"
@@ -218,8 +201,8 @@ module JumpStart
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
       puts "  Type a number for the template that you want.\n\n"
       count = 0
-      unless @existing_templates.nil? || @existing_templates.empty?
-        @existing_templates.each do |t|
+      unless JumpStart.existing_templates.empty?
+        JumpStart.existing_templates.each do |t|
           count += 1
           puts "  #{count.to_s.yellow} #{t.green}"
         end
@@ -235,8 +218,8 @@ module JumpStart
     def new_project_from_template_options
       input = gets.chomp.strip
       case
-      when input.to_i <= @existing_templates.count && input.to_i > 0
-        @template_name = @existing_templates[(input.to_i - 1)]
+      when input.to_i <= JumpStart.existing_templates.count && input.to_i > 0
+        @template_name = JumpStart.existing_templates[(input.to_i - 1)]
         check_project_name
         project = JumpStart::Base.new([@project_name, @template_name])
         project.check_setup
@@ -256,9 +239,10 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
       puts "  Existing templates:\n"
-      lookup_existing_templates
-      @existing_templates.each do |x|
-        puts "  #{x.green}\n"
+      unless JumpStart.existing_templates.nil?
+        JumpStart.existing_templates.each do |x|
+          puts "  #{x.green}\n"
+        end
       end
       puts "\n  b".yellow + " Back to main menu."
       puts "\n  x".yellow + " Exit jumpstart\n\n"
@@ -275,7 +259,7 @@ module JumpStart
         jumpstart_menu
       when input == "x"
         exit_normal        
-      when @existing_templates.include?(input)
+      when JumpStart.existing_templates.include?(input)
         puts "  A template of the name ".red + input.red_bold + " already exists.".red
         new_template_options
       when input.length < 3
@@ -297,9 +281,11 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n".purple
       count = 0
-      @existing_templates.each do |t|
-        count += 1
-        puts "  #{count.to_s.yellow} #{t.green}"
+      unless JumpStart.existing_templates.nil?
+        JumpStart.existing_templates.each do |t|
+          count += 1
+          puts "  #{count.to_s.yellow} #{t.green}"
+        end
       end
       puts "\n  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
@@ -311,8 +297,8 @@ module JumpStart
     def set_default_template_options
       input = gets.chomp.strip
       case
-      when input.to_i <= @existing_templates.count && input.to_i > 0
-        JumpStart.default_template_name = @existing_templates[(input.to_i - 1)]
+      when input.to_i <= JumpStart.existing_templates.count && input.to_i > 0
+        JumpStart.default_template_name = JumpStart.existing_templates[(input.to_i - 1)]
         JumpStart.dump_jumpstart_setup_yaml
         puts "  The default jumpstart template has been set to: ".green + JumpStart.default_template_name.green_bold
         jumpstart_menu

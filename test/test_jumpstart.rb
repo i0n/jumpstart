@@ -38,6 +38,22 @@ class TestJumpstart < Test::Unit::TestCase
     
   end
   
+  context "Tests for the JumpStart#existing_projects class method. \n" do
+    
+    setup do
+      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+    end
+    
+    teardown do
+      JumpStart.templates_path = nil
+    end
+    
+    should "run existing_projects method and return an array of existing templates" do
+      assert_equal %w[test_template_1 test_template_2 test_template_3], JumpStart.existing_templates
+    end
+          
+  end
+  
   context "Tests for the JumpStart#dump_jumpstart_setup_yaml class method." do      
     should "call File.open and Yaml.dump for jumpstart_setup.yml" do
       YAML.stubs(:dump)
