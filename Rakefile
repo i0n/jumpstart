@@ -55,6 +55,11 @@ task :version do
   puts "\nJumpStart Version: #{JumpStart::VERSION}"
 end
 
+task :existing_templates do
+  puts "\n Existing JumpStart templates:"
+  puts JumpStart.existing_templates
+end
+
 def git_actions
   Dir.chdir("#{JumpStart::ROOT_PATH}")
   system "git add ."

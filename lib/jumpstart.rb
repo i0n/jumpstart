@@ -4,6 +4,17 @@ require 'find'
 require 'fileutils'
 require 'yaml'
 require 'rbconfig'
+require 'jumpstart/base'
+require 'jumpstart/filetools'
+require 'jumpstart/stringtools'
+
+# Included as a module so that extension methods will be better defined in class/module chain.
+FileUtils.extend JumpStart::FileTools
+
+# Included as a module so that extension methods will be better defined in class/module chain.
+class String
+  include JumpStart::StringTools
+end
 
 # Sets up coloured terminal output in windows
 if RbConfig::CONFIG['host_os'] =~ /mswin|windows|cygwin|mingw32/
@@ -23,10 +34,6 @@ module JumpStart
   IGNORE_DIRS = ['.','..']
   LAUNCH_PATH = FileUtils.pwd
   
-  require 'jumpstart/base'
-  require 'jumpstart/filetools'
-  require 'jumpstart/stringtools'
-  
   @jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
   @jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
 
@@ -34,18 +41,10 @@ module JumpStart
   @version_minor = @jumpstart_version_yaml[:jumpstart_version_minor]
   @version_patch = @jumpstart_version_yaml[:jumpstart_version_patch]
 
-  # sets the default template to use if it has not been passed as an argument.
-  # Set as a module instance variable.
-  @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name]
-
-  # The path to the jumpstart templates directory. 
-  # Set as a module instance variable.  
-  @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path]
-  
   class << self
   
     attr_accessor :default_template_name, :version_major, :version_minor, :version_patch
-  
+    
     # Set the jumpstart templates path back to default if it has not been set
     def templates_path
       if @templates_path.nil? || @templates_path.empty?
@@ -57,6 +56,22 @@ module JumpStart
   
     def templates_path=(value)
       @templates_path = value
+    end
+      
+    # TODO JumpStart#lookup_existing_templates class instance method needs tests
+    def existing_templates
+      templates = []
+      template_dirs = Dir.entries(templates_path) - IGNORE_DIRS
+      template_dirs.each do |x|
+        if File.directory?(FileUtils.join_paths(templates_path, x))
+          if Dir.entries(FileUtils.join_paths(templates_path, x)).include? "jumpstart_config"
+            if File.exists?(FileUtils.join_paths(templates_path, x, '/jumpstart_config/', "#{x}.yml"))
+              templates << x
+            end
+          end
+        end
+      end
+      templates
     end
       
     # Method for writing to config/jumpstart_setup.yml
@@ -113,13 +128,17 @@ module JumpStart
     
   end
   
-end
-
-# Included as a module so that extension methods will be better defined in class/module chain.
-FileUtils.extend JumpStart::FileTools
-
-# Included as a module so that extension methods will be better defined in class/module chain.
-class String
-  include JumpStart::StringTools
+  # sets the default template to use if it has not been passed as an argument.
+  # Set as a module instance variable.
+  if !@jumpstart_setup_yaml[:jumpstart_default_template_name].nil?
+    @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name] if existing_templates.include?(@jumpstart_setup_yaml[:jumpstart_default_template_name])
+  end
+  
+  # The path to the jumpstart templates directory. 
+  # Set as a module instance variable.  
+  if !@jumpstart_setup_yaml[:jumpstart_templates_path].nil?
+    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if Dir.exists?(@jumpstart_setup_yaml[:jumpstart_templates_path]) 
+  end
+  
 end
 
