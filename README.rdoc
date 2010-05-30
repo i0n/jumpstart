@@ -65,24 +65,24 @@ If the file you specify doesn't have as many lines as you said it would, whitesp
 Jumpstart tasks are executed in the order that the YAML options below are displayed.
 
 == YAML Options
-  ==:install_path:
+===:install_path:
 Can be omitted or left blank. 
 If :install_path: is omitted, the new project will be created in whatever directory you are in when you run the command. It is the path where the project directory will be created
 e.g. 
   :install_path: /Users/i0n/Sites
   
-  ==:install_command: 
+===:install_command: 
 ## Can be omitted or left blank.
 The command that this template will run. The main shell command to create the project.
 e.g. 
   :install_command: rails
   
-  ==:install_command_args:
+===:install_command_args:
 Can be omitted or left blank.
 The arguments for :install_command. Broken into it's own value to allow the project name to be inserted between the two values.
 e.g. :install_command_args: -d mysql -J -T
 
-  ==:run_after_install_command:
+===:run_after_install_command:
 Can be omitted or left blank.
 Add extra commands that you want to run after the main install command, but before template generation has started.
 e.g. 
@@ -90,7 +90,7 @@ e.g.
     - rails g controller home
     - rails g model home
 
-  ==:remove_files:
+===:remove_files:
 Can be omitted or left blank.
 List files that you would like removed from the newly generated project.
 Paths use the newly created project folder as root.
@@ -100,7 +100,7 @@ e.g.
     - /public/favicon.ico
     - /public/images/rails.png
 
-  ==:run_after_jumpstart:
+===:run_after_jumpstart:
 Can be omitted or left blank.
 Add extra commands that you want to run after template generation has completed.
 e.g.
@@ -111,7 +111,7 @@ e.g.
     - git add .
     - git commit -q -v -a -m "Initial commit"
 
-    ==:replace_strings:
+===:replace_strings:
 Can be omitted or left blank.
 List files that you would like to perform string substitution on. This can be useful for populating files such as a capistrano deploy.rb file.
 Paths use the newly created project folder as root.
@@ -129,7 +129,7 @@ e.g.
         :project_name: name_of_my_app
         :womble: uncle_bulgaria
   
-  ==:local_nginx_conf:
+===:local_nginx_conf:
 Can be omitted or left blank.
 If you would like jumpstart to configure your local nginx setup specify a path. Handy for rails.
 e.g.
