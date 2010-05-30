@@ -27,7 +27,7 @@ Build jumpstart from the git repo's gemspec:
 Install the newly created gem:                
   gem install jumpstart-WHATEVER_THE_CURRENT_VERSION_IS.gem
 
-NOTE! If you install jumpstart using sudo then you will probably need to run jumpstart with it as well to grant writes to the YAML files in the gem.
+====NOTE! If you install jumpstart using sudo then you will probably need to run jumpstart with it as well to grant writes to the YAML files in the gem.
 
 == Getting Started
 There are a few ways to use jumpstart.
@@ -72,7 +72,7 @@ e.g.
   :install_path: /Users/i0n/Sites
   
 ===:install_command: 
-## Can be omitted or left blank.
+Can be omitted or left blank.
 The command that this template will run. The main shell command to create the project.
 e.g. 
   :install_command: rails
