@@ -200,8 +200,8 @@ module JumpStart
       puts "\n\n******************************************************************************************************************************************\n\n"
       puts "  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n".purple
       puts "  Type a number for the template that you want.\n\n"
-      count = 0
       unless JumpStart.existing_templates.empty?
+        count = 0
         JumpStart.existing_templates.each do |t|
           count += 1
           puts "  #{count.to_s.yellow} #{t.green}"
@@ -240,19 +240,22 @@ module JumpStart
       puts "  CREATE A NEW JUMPSTART TEMPLATE\n".purple
       puts "  Existing templates:\n"
       unless JumpStart.existing_templates.nil?
+        count = 0
         JumpStart.existing_templates.each do |x|
-          puts "  #{x.green}\n"
+          count += 1
+          puts "  #{count.to_s.yellow} #{x.green}\n"
         end
       end
       puts "\n  b".yellow + " Back to main menu."
-      puts "\n  x".yellow + " Exit jumpstart\n\n"
+      puts "\n  x".yellow + " Exit jumpstart\n"
       new_template_options
     end
 
+    # TODO Write additional tests for new_template_options to test duplication feature.
     # Captures user input for "create a new jumpstart template" menu and calls the appropriate action.
     # If the template name provided meets the methods requirements then a directory of that name containing a jumpstart_config dir and matching yaml file are created.
     def new_template_options
-      puts "\n  Enter a unique name for the new template.\n".yellow
+      puts "\n  Enter a unique name to create a new template, or enter an existing templates name (or number) to duplicate it.".yellow
       input = gets.chomp.strip
       case
       when input == "b"
@@ -260,20 +263,71 @@ module JumpStart
       when input == "x"
         exit_normal        
       when JumpStart.existing_templates.include?(input)
-        puts "  A template of the name ".red + input.red_bold + " already exists.".red
-        new_template_options
+        puts "\n  You have chosen to duplicate the " + input.green + " template." + "\n  Please enter a name for the duplicate.".yellow
+        duplicate_template(input)
+      when input.to_i != 0 && input.to_i <= JumpStart.existing_templates.count
+        puts "\n  You have chosen to duplicate the " + JumpStart.existing_templates[(input.to_i - 1)].green + " template." + "\n  Please enter a name for the duplicate.".yellow
+        duplicate_template(JumpStart.existing_templates[(input.to_i - 1)])
       when input.length < 3
-        puts "  The template name ".red + input.red_bold + " is too short. Please enter a name that is at least 3 characters long.".red
+        puts "\n  The template name ".red + input.red_bold + " is too short. Please enter a name that is at least 3 characters long.".red
         new_template_options
-      when input.match(/^\W/)
-        puts "  The template name ".red + input.red_bold + " begins with an invalid character. Please enter a name that begins with a letter or a number.".red
+      when input.match(/^\W|\W$/)
+        puts "\n  The template name ".red + input.red_bold + " begins or ends with an invalid character. Please enter a name that begins with a letter or a number.".red
         new_template_options
       else
         FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config"))
         FileUtils.cp(FileUtils.join_paths(ROOT_PATH, "source_templates/template_config.yml"), FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml"))
-        puts "  The template ".green + input.green_bold + " has been created in your default jumpstart template directory ".green + JumpStart.templates_path.green_bold + " ready for editing.".green
+        puts "\n  The template ".green + input.green_bold + " has been created in your default jumpstart template directory ".green + JumpStart.templates_path.green_bold + " ready for editing.".green
         jumpstart_menu
       end
+    end
+    
+    # TODO Write tests for duplicate_template
+    # TODO Look at refactoring this.
+    def duplicate_template(template)
+      input = gets.chomp.strip
+      case
+      when input == "b"
+        jumpstart_menu
+      when input == "x"
+        exit_normal
+      when JumpStart.existing_templates.include?(input)
+        puts "  The template ".red + input.red_bold + " already exists. Please enter a unique name for the duplicate.".red
+        duplicate_template(template)
+      when input.length < 3
+        puts "  The template name ".red + input.red_bold + " is too short. Please enter a name that is at least 3 characters long.".red
+        duplicate_template(template)
+      when input.match(/^\W|\W$/)
+        puts "  The template name ".red + input.red_bold + " begins or ends with an invalid character. Please enter a name that begins with a letter or a number.".red
+        duplicate_template(template)
+      else
+        FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config"))
+        FileUtils.touch(FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml"))
+        dirs, files = [], []
+        Find.find(FileUtils.join_paths(JumpStart.templates_path, template)) do |x|
+          case
+          when File.file?(x) && !x.match(/\/jumpstart_config\/*/)
+            files << x.sub(FileUtils.join_paths(JumpStart.templates_path, template), '')
+          when File.file?(x) && x.match(/\/jumpstart_config\/*/)
+            FileUtils.copy_file(x, FileUtils.join_paths(JumpStart.templates_path, input, "jumpstart_config", "#{input}.yml") )
+          when File.directory?(x)
+            dirs << x.sub(FileUtils.join_paths(JumpStart.templates_path, template), '')
+          end
+        end
+        dirs.each do |x|
+          unless x.length < 1
+            FileUtils.mkdir_p(FileUtils.join_paths(JumpStart.templates_path, input, x))
+          end
+        end
+        files.each do |x|
+          unless x.length < 0
+            FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, template, x), FileUtils.join_paths(JumpStart.templates_path, input, x))
+          end
+        end
+        puts "\n  Duplication complete!".green_bold
+        puts "  Template " + template.green + " has been duplicated to " + input.green
+        jumpstart_menu
+      end      
     end
     
     # Displays output for the "jumpstart default template options menu"

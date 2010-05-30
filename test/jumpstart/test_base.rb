@@ -493,7 +493,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         JumpStart.expects(:existing_templates).once
         @test_project.expects(:new_template_options).once
         @test_project.instance_eval {new_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n", @test_project.output.string
       end
       
     end
