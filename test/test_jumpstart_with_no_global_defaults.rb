@@ -5,7 +5,10 @@ class TestJumpStartWithNoGlobalDefaults < Test::Unit::TestCase
   context "JumpStart::Setup.templates_path and JumpStart::Setup.default_template_name are both set to nil as @jumpstart_setup_yaml is not loaded" do
   
     setup do
-      JumpStart.module_eval {@jumpstart_setup_yaml = nil}
+      JumpStart.module_eval do 
+        @jumpstart_setup_yaml = nil
+        @default_template_name = nil
+      end
       @project.stubs(:jumpstart_menu)
     end
   

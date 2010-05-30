@@ -110,7 +110,13 @@ module JumpStart
     # Makes sure that the chosen project name is suitable. (Not nil or empty, at least 3 characters long, and starts with a letter or a number.) 
     # Returns with the value of @project_name
     def check_project_name
-      if @project_name.nil? || @project_name.empty?
+      if @project_name == "b"
+        @project_name = nil
+        jumpstart_menu
+      elsif @project_name == "x"
+        @project_name = nil
+        exit_normal
+      elsif @project_name.nil? || @project_name.empty?
         puts "\n  Enter a name for your project.".yellow
         @project_name = gets.chomp.strip
         check_project_name
@@ -215,7 +221,7 @@ module JumpStart
       unless @existing_templates.nil? || @existing_templates.empty?
         @existing_templates.each do |t|
           count += 1
-          puts "  #{count.to_s.yellow} #{t}"
+          puts "  #{count.to_s.yellow} #{t.green}"
         end
       end
       puts "\n  b".yellow + " Back to main menu."
@@ -241,6 +247,7 @@ module JumpStart
         exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
+        new_project_from_template_options
       end
     end
     
@@ -253,6 +260,8 @@ module JumpStart
       @existing_templates.each do |x|
         puts "  #{x.green}\n"
       end
+      puts "\n  b".yellow + " Back to main menu."
+      puts "\n  x".yellow + " Exit jumpstart\n\n"
       new_template_options
     end
 
@@ -262,6 +271,10 @@ module JumpStart
       puts "\n  Enter a unique name for the new template.\n".yellow
       input = gets.chomp.strip
       case
+      when input == "b"
+        jumpstart_menu
+      when input == "x"
+        exit_normal        
       when @existing_templates.include?(input)
         puts "  A template of the name ".red + input.red_bold + " already exists.".red
         new_template_options
@@ -282,11 +295,11 @@ module JumpStart
     # Displays output for the "jumpstart default template options menu"
     def set_default_template_menu
       puts "\n\n******************************************************************************************************************************************\n\n"
-      puts "  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n".purple
+      puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n".purple
       count = 0
       @existing_templates.each do |t|
         count += 1
-        puts "  #{count.to_s.yellow} #{t}"
+        puts "  #{count.to_s.yellow} #{t.green}"
       end
       puts "\n  b".yellow + " Back to main menu.\n\n"
       puts "  x".yellow + " Exit jumpstart\n\n"
@@ -301,7 +314,7 @@ module JumpStart
       when input.to_i <= @existing_templates.count && input.to_i > 0
         JumpStart.default_template_name = @existing_templates[(input.to_i - 1)]
         JumpStart.dump_jumpstart_setup_yaml
-        puts "  The default jumpstart template has been set to: #{JumpStart.default_template_name.green}"
+        puts "  The default jumpstart template has been set to: ".green + JumpStart.default_template_name.green_bold
         jumpstart_menu
       when input == "b"
         jumpstart_menu
@@ -330,6 +343,7 @@ module JumpStart
       input = gets.chomp.strip
       case
       when input == "1"
+        puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n".yellow
         set_templates_dir
       when input == "2"
         reset_templates_dir_to_default_check
@@ -347,12 +361,15 @@ module JumpStart
     # Copies templates in the existing template dir to the new location.
     # The folder specified must not exist yet, but it's parent should.
     def set_templates_dir
-      puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates."
       input = gets.chomp.strip
       root_path = input.sub(/\/\w*\/*$/, '')
       case
+      when input == "b"
+        jumpstart_menu
+      when input == "x"
+        exit_normal
       when File.directory?(input)
-        puts "A directory of that name already exists, please choose a directory that does not exist."
+        puts "A directory of that name already exists, please choose a directory that does not exist.".red
         set_templates_dir
       when File.directory?(root_path)
         begin
@@ -369,13 +386,16 @@ module JumpStart
         rescue
           puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
         end
+      else
+        puts "Couldn't find a directory of that name. Try again.".red
+        set_templates_dir
       end
     end
     
     # Checks to see if the JumpStart template directory should be reset to the default location. (within the gem.)
     def reset_templates_dir_to_default_check
       if JumpStart.templates_path == "#{ROOT_PATH}/jumpstart_templates"
-        puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates\n\n".red
+        puts "  You do not need to reset the jumpstart templates directory, it is already set to: #{ROOT_PATH}/jumpstart_templates".red
         templates_dir_menu
       else  
         puts "  Resetting the jumpstart templates directory to the default: #{ROOT_PATH}/jumpstart_templates\n\n"

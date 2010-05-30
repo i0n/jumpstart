@@ -456,7 +456,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.expects(:new_project_from_template_options).once
         @test_project.instance_variable_set(:@existing_templates, %w[project1 project2 project3])
         @test_project.instance_eval {new_project_from_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n\e[0m\n  Type a number for the template that you want.\n\n  \e[1m\e[33m1\e[0m project1\n  \e[1m\e[33m2\e[0m project2\n  \e[1m\e[33m3\e[0m project3\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART PROJECT FROM AN EXISTING TEMPLATE\n\n\e[0m\n  Type a number for the template that you want.\n\n  \e[1m\e[33m1\e[0m \e[32mproject1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mproject2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mproject3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
         assert_equal ['project1', 'project2', 'project3'], @test_project.instance_variable_get(:@existing_templates)
       end
       
@@ -492,10 +492,11 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_eval {new_project_from_template_options}        
       end
       
+      # Raises a NoMethodError in the test as loop is not stopped by user input and cannot perform chomp on nil.
       should "output a message saying that the input has not been understood for any other input" do
         @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
-        @test_project.instance_eval {new_project_from_template_options}        
-        assert_equal "\e[31mThat command hasn't been understood. Try again!\e[0m\n", @test_project.output.string
+        assert_raises(NoMethodError) {@test_project.instance_eval {new_project_from_template_options}}
+        # assert_equal "\e[31mThat command hasn't been understood. Try again!\e[0m\n", @test_project.output.string
       end
       
     end
@@ -509,7 +510,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.expects(:lookup_existing_templates).once
         @test_project.expects(:new_template_options).once
         @test_project.instance_eval {new_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n  \e[32mproject1\e[0m\n  \e[32mproject2\e[0m\n  \e[32mproject3\e[0m\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  CREATE A NEW JUMPSTART TEMPLATE\n\e[0m\n  Existing templates:\n  \e[32mproject1\e[0m\n  \e[32mproject2\e[0m\n  \e[32mproject3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\e[1m\e[33m\n  x\e[0m Exit jumpstart\n\n", @test_project.output.string
         assert_equal %w[project1 project2 project3], @test_project.instance_variable_get(:@existing_templates)
       end
       
@@ -559,7 +560,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.stubs(:set_default_template_options)
         @test_project.expects(:set_default_template_options).once
         @test_project.instance_eval {set_default_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART DEFAULT TEMPLATE OPTIONS\n\n\e[0m\n  \e[1m\e[33m1\e[0m one\n  \e[1m\e[33m2\e[0m two\n  \e[1m\e[33m3\e[0m three\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n\e[0m\n  \e[1m\e[33m1\e[0m \e[32mone\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtwo\e[0m\n  \e[1m\e[33m3\e[0m \e[32mthree\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
       
     end
@@ -672,7 +673,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         JumpStart.expects(:dump_jumpstart_setup_yaml).once
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_templates_dir}
-        assert_equal "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
+        assert_equal "\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist/test_template_1/jumpstart_config/test_template_1.yml")
       end
       
@@ -689,7 +690,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/jumpstart_templates"
         @test_project.expects(:templates_dir_menu).once
         @test_project.instance_eval {reset_templates_dir_to_default_check}
-        assert_equal "\e[31m  You do not need to reset the jumpstart templates directory, it is already set to: /Users/i0n/Sites/jumpstart/jumpstart_templates\n\n\e[0m\n", @test_project.output.string
+        assert_equal "\e[31m  You do not need to reset the jumpstart templates directory, it is already set to: /Users/i0n/Sites/jumpstart/jumpstart_templates\e[0m\n", @test_project.output.string
       end
       
       should "run reset_templates_dir_to_default_set if the current JumpStart.templates_path is not the default." do
