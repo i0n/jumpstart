@@ -39,17 +39,19 @@ class TestJumpstart < Test::Unit::TestCase
   end
   
   context "Tests for the JumpStart#existing_projects class method. \n" do
-    
-    setup do
-      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-    end
-    
+        
     teardown do
       JumpStart.templates_path = nil
     end
     
     should "run existing_projects method and return an array of existing templates" do
-      assert_equal %w[test_template_1 test_template_2 test_template_3], JumpStart.existing_templates
+      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
+      assert_equal %w[test_template_1 test_template_2 test_template_3], JumpStart.existing_templates  
+    end
+
+    should "run existing_projects method and return an empty array if no templates are found" do
+      JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/jumpstart"
+      assert_equal [], JumpStart.existing_templates  
     end
           
   end

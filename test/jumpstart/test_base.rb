@@ -654,7 +654,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         JumpStart.expects(:dump_jumpstart_setup_yaml).once
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_templates_dir}
-        assert_equal "\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\nTransfer complete!\e[0m\n", @test_project.output.string
+        assert_equal "\nCopying existing templates to /Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\n\e[32m\n  Transfer complete!\e[0m\n\n  The directory \e[32m/Users/i0n/Sites/jumpstart/test/destination_dir/a_name_that_does_not_exist\e[0m has been set as the JumpStart templates directory.\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist/test_template_1/jumpstart_config/test_template_1.yml")
       end
       
