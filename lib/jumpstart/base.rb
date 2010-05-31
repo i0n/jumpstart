@@ -91,6 +91,7 @@ module JumpStart
     
     private
     
+    # TODO Look to refactor check_project_name
     # Makes sure that the chosen project name is suitable. (Not nil or empty, at least 3 characters long, and starts with a letter or a number.) 
     # Returns with the value of @project_name
     def check_project_name
@@ -177,7 +178,7 @@ module JumpStart
     
     # Captures user input for the main jumpstart menu and calls the appropriate method
     def jumpstart_menu_options
-      input = gets.chomp.strip
+      input = gets.chomp.strip.downcase
       case
       when input == "1"
         new_project_from_template_menu
@@ -220,7 +221,7 @@ module JumpStart
     # Captures user input for the "create a new jumpstart project from an existing template" menu and calls the appropriate method.
     # When the input matches a template number a project will be created from that template
     def new_project_from_template_options
-      input = gets.chomp.strip
+      input = gets.chomp.strip.downcase
       case
       when input.to_i <= JumpStart.existing_templates.count && input.to_i > 0
         @template_name = JumpStart.existing_templates[(input.to_i - 1)]
@@ -256,9 +257,9 @@ module JumpStart
       puts "\n  Enter a unique name to create a new template, or enter an existing templates name (or number) to duplicate it.".yellow
       input = gets.chomp.strip
       case
-      when input == "b"
+      when input.downcase == "b"
         jumpstart_menu
-      when input == "x"
+      when input.downcase == "x"
         exit_normal        
       when JumpStart.existing_templates.include?(input)
         puts "\n  You have chosen to duplicate the " + input.green + " template." + "\n  Please enter a name for the duplicate.".yellow
@@ -284,9 +285,9 @@ module JumpStart
     def duplicate_template(template)
       input = gets.chomp.strip
       case
-      when input == "b"
+      when input.downcase == "b"
         jumpstart_menu
-      when input == "x"
+      when input.downcase == "x"
         exit_normal
       when JumpStart.existing_templates.include?(input)
         puts "  The template ".red + input.red_bold + " already exists. Please enter a unique name for the duplicate.".red
@@ -335,9 +336,9 @@ module JumpStart
         JumpStart.dump_jumpstart_setup_yaml
         puts "  The default jumpstart template has been set to: ".green + JumpStart.default_template_name.green_bold
         jumpstart_menu
-      when input == "b"
+      when input.downcase == "b"
         jumpstart_menu
-      when input == "x"
+      when input.downcase == "x"
         exit_normal
       else
         puts "That command hasn't been understood. Try again!".red
@@ -359,7 +360,7 @@ module JumpStart
     
     # Captures user input for the "jumpstart templates directory options" menu and calls the appropriate method.
     def templates_dir_options
-      input = gets.chomp.strip
+      input = gets.chomp.strip.downcase
       case
       when input == "1"
         puts "  Please enter the absolute path for the directory that you would like to contain your jumpstart templates.".yellow
@@ -452,7 +453,7 @@ module JumpStart
     
     # Resets the JumpStart template directory to the default location. (within the gem.)
     def reset_templates_dir_to_default_set
-      input = gets.chomp.strip
+      input = gets.chomp.strip.downcase
       if input == "yes" || input == "y"
         FileUtils.delete_dir_contents(FileUtils.join_paths(ROOT_PATH, '/jumpstart_templates'))
         FileUtils.touch(FileUtils.join_paths(ROOT_PATH, '.gitignore'))

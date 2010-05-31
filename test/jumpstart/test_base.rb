@@ -418,7 +418,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       should "exit if input is 'x'" do
-        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n"))
         @test_project.expects(:exit_normal).once
         @test_project.instance_eval {jumpstart_menu_options}                          
       end
@@ -467,13 +467,13 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "launch the jumpstart_menu method if 'b' is entered" do
         @test_project.expects(:jumpstart_menu).once
-        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n"))
         @test_project.instance_eval {new_project_from_template_options}
       end
       
       should "exit JumpStart if 'x' is entered." do
         @test_project.expects(:exit_normal).once
-        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n"))
         @test_project.instance_eval {new_project_from_template_options}        
       end
       
@@ -564,14 +564,14 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
       
       should "go back to the main jumpstart menu if 'b' is entered." do
-        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n"))
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {set_default_template_options}
         assert_equal "temp_default", JumpStart.default_template_name
       end
       
       should "exit jumpstart if 'x' is entered" do
-        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n"))
         @test_project.expects(:exit_normal).once
         @test_project.instance_eval {set_default_template_options}
         assert_equal "temp_default", JumpStart.default_template_name        
@@ -617,13 +617,13 @@ class TestJumpstartBase < Test::Unit::TestCase
       end
     
       should "run the jumpstart_menu method when 'b' is entered." do
-        @test_project.instance_variable_set(:@input, StringIO.new("b\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n"))
         @test_project.expects(:jumpstart_menu).once
         @test_project.instance_eval {templates_dir_options}
       end
     
       should "run the exit_normal when 'x' is entered." do
-        @test_project.instance_variable_set(:@input, StringIO.new("x\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n"))
         @test_project.expects(:exit_normal).once
         @test_project.instance_eval {templates_dir_options}
       end
@@ -720,7 +720,7 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "reset jumpstart templates directory to default if input is 'y'" do
         @test_project.expects(:templates_dir_menu)
-        @test_project.instance_variable_set(:@input, StringIO.new("y\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("Y\n"))
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
@@ -729,7 +729,7 @@ class TestJumpstartBase < Test::Unit::TestCase
     
       should "reset jumpstart templates directory to default if input is 'yes'" do
         @test_project.expects(:templates_dir_menu)
-        @test_project.instance_variable_set(:@input, StringIO.new("yes\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("YES\n"))
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\e[32m\n  SUCCESS! the jumpstart templates directory has been set to the default: /Users/i0n/Sites/jumpstart/test/destination_dir/jumpstart_templates\e[0m\n", @test_project.output.string
         assert File.exists?("#{JumpStart::ROOT_PATH}/jumpstart_templates/current_files_and_dirs_test_file.txt")
@@ -738,14 +738,14 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       should "run templates_dir_menu if input is 'n'" do
         @test_project.expects(:templates_dir_menu)
-        @test_project.instance_variable_set(:@input, StringIO.new("n\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("N\n"))
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\n You have chosen not to move the jumpstart templates directory, nothing has been changed.\n", @test_project.output.string
       end
     
       should "run templates_dir_menu if input is 'no'" do
         @test_project.expects(:templates_dir_menu)
-        @test_project.instance_variable_set(:@input, StringIO.new("no\n"))
+        @test_project.instance_variable_set(:@input, StringIO.new("NO\n"))
         @test_project.instance_eval {reset_templates_dir_to_default_set}
         assert_equal "\n You have chosen not to move the jumpstart templates directory, nothing has been changed.\n", @test_project.output.string
       end
