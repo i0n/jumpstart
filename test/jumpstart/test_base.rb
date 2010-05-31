@@ -102,6 +102,7 @@ class TestJumpstartBase < Test::Unit::TestCase
             
     teardown do
       FileUtils.delete_dir_contents("#{JumpStart::ROOT_PATH}/test/destination_dir")
+      JumpStart.templates_path = nil
     end
     
     context "Tests for the JumpStart::Base#intialize instance method. \n" do
@@ -501,20 +502,27 @@ class TestJumpstartBase < Test::Unit::TestCase
       
       setup do
         @test_project.stubs(:jumpstart_menu)
-        # @test_project.stubs(:duplicate_template)
+        @test_project.stubs(:duplicate_template)
       end
-      
-      teardown do
-        JumpStart.templates_path = nil
-      end
-      
-      # This causes an error in Mocha. I have logged on github.
-      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+            
+      # This causes an error in Mocha (and I don't think it should.). I have logged on github.
       should "call duplicate_template if the name given is already taken " do
         skip
         @test_project.instance_variable_set(:@input, StringIO.new("test_template_1\n") )
         @test_project.expects(:duplcate_template).with("test_template_1").once
-        @test_project.instance_eval {new_template_options}
+        @test_project.instance_exec {new_template_options}
+      end
+      
+      should "call jumpstart_menu if input = 'B'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n") )
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_exec {new_template_options}
+      end
+
+      should "call jumpstart_menu if input = 'X'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n") )
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_exec {new_template_options}
       end
       
       # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
@@ -537,6 +545,62 @@ class TestJumpstartBase < Test::Unit::TestCase
         created_file_contents = IO.read("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/four/jumpstart_config/four.yml")
         assert_equal original_file_contents, created_file_contents
         FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/four")
+      end
+      
+    end
+    
+    context "Tests for the JumpStart::Base#duplicate_template instance method." do
+      
+      setup do
+        @test_project.stubs(:jumpstart_menu)
+      end
+      
+      teardown do
+        if Dir.exists?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/unique_name")
+          FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/unique_name")
+        end
+      end
+            
+      should "call jumpstart_menu if input = 'B'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n") )
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_exec {new_template_options}
+      end
+
+      should "call jumpstart_menu if input = 'X'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n") )
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_exec {new_template_options}
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "call itself when the name specified already exists" do
+        @test_project.instance_variable_set(:@input, StringIO.new("test_template_1\n") )
+        assert_raises(NoMethodError) {@test_project.instance_exec {new_template_options}}        
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "call itself when the name specified is under 3 characters long" do
+        @test_project.instance_variable_set(:@input, StringIO.new("df\n") )
+        assert_raises(NoMethodError) {@test_project.instance_exec {new_template_options}}
+      end
+      
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "call itself when the name specified begins with a character that is not a number or letter." do
+        @test_project.instance_variable_set(:@input, StringIO.new("/Yarr\n") )
+        assert_raises(NoMethodError) {@test_project.instance_exec {new_template_options}}
+      end
+
+      # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
+      should "call itself when the name specified ends with a character that is not a number or letter." do
+        @test_project.instance_variable_set(:@input, StringIO.new("Yarr/\n") )
+        assert_raises(NoMethodError) {@test_project.instance_exec {new_template_options}}
+      end
+      
+      should "duplicate the template and call jumpstart_menu when a valid name is provided." do
+        @test_project.instance_variable_set(:@input, StringIO.new("unique_name\n") )
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_exec {duplicate_template("test_template_1")}
       end
       
     end

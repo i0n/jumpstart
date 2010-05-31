@@ -249,7 +249,6 @@ module JumpStart
       new_template_options
     end
 
-    # TODO Write additional tests for new_template_options to test duplication feature.
     # Captures user input for "create a new jumpstart template" menu and calls the appropriate action.
     # If the template name provided meets the methods requirements then a directory of that name containing a jumpstart_config dir and matching yaml file are created.
     def new_template_options
@@ -279,8 +278,8 @@ module JumpStart
         jumpstart_menu
       end
     end
-    
-    # TODO Write tests for duplicate_template
+        
+    # Duplicates an existing template, changing the name of the config YAML file to the name of the new project.
     def duplicate_template(template)
       input = gets.chomp.strip
       case
