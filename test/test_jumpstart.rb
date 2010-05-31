@@ -111,6 +111,24 @@ class TestJumpstart < Test::Unit::TestCase
     
   end
   
+  context "Tests for the JumpStart#const_missing class method." do
+
+    setup do
+      JumpStart.stubs(:version)
+    end
+    
+    should "return the value of JumpStart Version if JumpStart::VERSION is called" do
+      JumpStart.expects(:version).once
+      JumpStart::VERSION
+    end
+    
+    should "return to super if an unknown constant is called" do
+      assert_raises(NameError) {JumpStart::VERSIONS}
+      assert_raises(NameError) {JumpStart::AVERSION}
+    end
+    
+  end
+  
   context "Tests for the JumpStart#method_missing class method." do
     
     setup do
