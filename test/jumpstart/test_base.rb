@@ -641,15 +641,34 @@ class TestJumpstartBase < Test::Unit::TestCase
       setup do
         JumpStart.stubs(:dump_jumpstart_setup_yaml)
         @test_project.stubs(:jumpstart_menu)
+        @test_project.stubs(:set_templates_dir_to_existing_dir)
+      end
+      
+      should "call jumpstart_menu if the input is 'b'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("B\n"))
+        @test_project.expects(:jumpstart_menu).once
+        @test_project.instance_eval {set_templates_dir}
+      end
+      
+      should "call exit_normal if the input is 'x'" do
+        @test_project.instance_variable_set(:@input, StringIO.new("X\n"))
+        @test_project.expects(:exit_normal).once
+        @test_project.instance_eval {set_templates_dir}
+      end
+      
+      should "call set_templates_dir_to_existing_dir if the directory specified already exists." do
+        @test_project.expects(:set_templates_dir_to_existing_dir).once
+        @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir"))
+        @test_project.instance_eval {set_templates_dir}
       end
       
       # Due to the recursive nature of this code, the only successful way to test is to check for the NoMethodError that is raised when the method is called for a second time, this time with @input as nil. I'd be interested to find another way to test this.
-      should "restart the method if the directory path provided already exists." do
-        @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_template_1"))
+      should "restart the method if the directory path provided cannot be found." do
+        @test_project.instance_variable_set(:@input, StringIO.new("blarg\n"))
         assert_raises(NoMethodError) {@test_project.instance_eval {set_templates_dir}}
       end
       
-      should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location." do
+      should "create a new directory and copy existing templates into it, then set JumpStart.templates_path to the new location if the dir specified does not exist but it's parent directory does." do
         @test_project.instance_variable_set(:@input, StringIO.new("#{JumpStart::ROOT_PATH}/test/destination_dir/a_name_that_does_not_exist"))
         JumpStart.expects(:dump_jumpstart_setup_yaml).once
         @test_project.expects(:jumpstart_menu).once

@@ -376,8 +376,7 @@ module JumpStart
         templates_dir_options
       end
     end
-    
-    # TODO Write additional tests for method as I have added to functionality.
+
     # Sets the path for templates to be used by JumpStart.
     # Copies templates in the existing template dir to the new location.
     # The folder specified must not exist yet, but it's parent should.
@@ -385,9 +384,9 @@ module JumpStart
       input = gets.chomp.strip
       root_path = input.sub(/\/\w*\/*$/, '')
       case
-      when input == "b"
+      when input.downcase == "b"
         jumpstart_menu
-      when input == "x"
+      when input.downcase == "x"
         exit_normal
       when File.directory?(input)
         puts "\n  A directory of that name already exists, would you like to set it as your template directory anyway? (Nothing will be copied or removed.)".yellow
