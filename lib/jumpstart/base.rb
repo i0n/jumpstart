@@ -91,7 +91,6 @@ module JumpStart
     
     private
     
-    # TODO Look to refactor check_project_name
     # Makes sure that the chosen project name is suitable. (Not nil or empty, at least 3 characters long, and starts with a letter or a number.) 
     # Returns with the value of @project_name
     def check_project_name
