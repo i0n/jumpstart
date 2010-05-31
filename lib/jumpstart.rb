@@ -107,7 +107,7 @@ module JumpStart
       
     # Handles calls to JumpStart::Setup.bump_version_major, JumpStart::Setup.bump_version_minor and JumpStart::Setup.bump_version_patch class methods.
     def method_missing(method, *args)
-      if method.to_s.match(/bump_version_(major|minor|patch)/)
+      if method.to_s.match(/^bump_version_(major|minor|patch)$/)
         version_type = method.to_s.sub('bump_', '')
         self.send(:bump, "#{version_type}")
       else
@@ -117,7 +117,7 @@ module JumpStart
   
     # Handles calls to missing constants in the JumpStart module. Calls JumpStart.version if JumpStart::VERSION is recognised.
     def const_missing(name)
-      if name.to_s.match(/VERSION/)
+      if name.to_s =~ /^VERSION$/ 
         version
       else
         super
