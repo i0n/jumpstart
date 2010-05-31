@@ -504,13 +504,11 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.stubs(:jumpstart_menu)
         @test_project.stubs(:duplicate_template)
       end
-            
-      # This causes an error in Mocha (and I don't think it should.). I have logged on github.
+
       should "call duplicate_template if the name given is already taken " do
-        skip
         @test_project.instance_variable_set(:@input, StringIO.new("test_template_1\n") )
-        @test_project.expects(:duplcate_template).with("test_template_1").once
-        @test_project.instance_exec {new_template_options}
+        @test_project.expects(:duplicate_template).with("test_template_1").once
+        @test_project.send(:new_template_options)
       end
       
       should "call jumpstart_menu if input = 'B'" do
