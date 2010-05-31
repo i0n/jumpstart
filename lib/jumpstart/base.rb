@@ -362,7 +362,8 @@ module JumpStart
       input = gets.chomp.strip
       case
       when input == "1"
-        puts "Please enter the absolute path for the directory that you would like to contain your jumpstart templates.\n".yellow
+        puts "  Please enter the absolute path for the directory that you would like to contain your jumpstart templates.".yellow
+        puts "  e.g. /Users/your_name/projects/jumpstart_templates\n\n"
         set_templates_dir
       when input == "2"
         reset_templates_dir_to_default_check
@@ -371,11 +372,12 @@ module JumpStart
       when input == "x"
         exit_normal
       else
-        puts "That command hasn't been understood. Try again!".red
+        puts "  That command hasn't been understood. Try again!".red
         templates_dir_options
       end
     end
     
+    # TODO Write additional tests for method as I have added to functionality.
     # Sets the path for templates to be used by JumpStart.
     # Copies templates in the existing template dir to the new location.
     # The folder specified must not exist yet, but it's parent should.
@@ -388,8 +390,9 @@ module JumpStart
       when input == "x"
         exit_normal
       when File.directory?(input)
-        puts "A directory of that name already exists, please choose a directory that does not exist.".red
-        set_templates_dir
+        puts "\n  A directory of that name already exists, would you like to set it as your template directory anyway? (Nothing will be copied or removed.)".yellow
+        puts "  Yes (" + "y".yellow + ") or No (" + "n".yellow + ")?"
+        set_templates_dir_to_existing_dir(input)
       when File.directory?(root_path)
         begin
           Dir.chdir(root_path)
@@ -400,14 +403,37 @@ module JumpStart
           files_and_dirs[:files].each {|x| FileUtils.cp(FileUtils.join_paths(JumpStart.templates_path, x), FileUtils.join_paths(input, x)) }
           JumpStart.templates_path = input.to_s
           JumpStart.dump_jumpstart_setup_yaml
-          puts "\nTransfer complete!".green
+          puts "\n  Transfer complete!".green
+          puts "\n  The directory " + input.green + " has been set as the JumpStart templates directory."
           jumpstart_menu
         rescue
-          puts "It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
+          puts "  It looks like you do not have the correct permissions to create a directory in #{root_path.red}"
         end
       else
-        puts "Couldn't find a directory of that name. Try again.".red
+        puts "  Couldn't find a directory of that name. Try again.".red
         set_templates_dir
+      end
+    end
+    
+    # TOOD set_templates_dir_to_existing_dir Needs tests
+    def set_templates_dir_to_existing_dir(dir)
+      input = gets.chomp.strip.downcase
+      case
+      when input == "b"
+        jumpstart_menu
+      when input == "x"
+        exit_normal
+      when input == "y" || input == "yes"
+        JumpStart.templates_path = dir
+        JumpStart.dump_jumpstart_setup_yaml
+        puts "\n  The directory ".green + dir.green_bold + " has been set as the JumpStart templates directory.".green
+        jumpstart_menu
+      when input == "n" || input == "no"
+        puts "\n  The JumpStart templates directory has not been altered".yellow
+        jumpstart_menu
+      else
+        puts "\n  The command has not been understood, try again!".red
+        set_templates_dir_to_existing_dir(dir)
       end
     end
     
