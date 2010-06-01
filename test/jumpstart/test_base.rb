@@ -604,7 +604,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.stubs(:set_default_template_options)
         @test_project.expects(:set_default_template_options).once
         @test_project.instance_eval {set_default_template_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n\e[0m\n  \e[1m\e[33m1\e[0m \e[32mtest_template_1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtest_template_2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mtest_template_3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  SELECT A DEFAULT JUMPSTART TEMPLATE\n\e[0m\n  \e[1m\e[33m1\e[0m \e[32mtest_template_1\e[0m\n  \e[1m\e[33m2\e[0m \e[32mtest_template_2\e[0m\n  \e[1m\e[33m3\e[0m \e[32mtest_template_3\e[0m\n\e[1m\e[33m\n  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
 
     end
@@ -654,7 +654,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.stubs(:templates_dir_options)
         @test_project.expects(:templates_dir_options).once
         @test_project.instance_eval {templates_dir_menu}
-        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n\e[0m\n\e[1m\e[33m  1\e[0m Set templates directory.\n\e[1m\e[33m  2\e[0m Reset templates directory to default\n\n\e[1m\e[33m  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
+        assert_equal "\n\n******************************************************************************************************************************************\n\n\e[1m\e[35m  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\e[0m\n  The JumpStart template directory is currently: \e[32m/Users/i0n/Sites/jumpstart/test/test_jumpstart_templates\e[0m\n\e[1m\e[33m\n  1\e[0m Change the templates directory.\n\e[1m\e[33m  2\e[0m Reset the templates directory to default\n\n\e[1m\e[33m  b\e[0m Back to main menu.\n\n\e[1m\e[33m  x\e[0m Exit jumpstart\n\n******************************************************************************************************************************************\n\n", @test_project.output.string
       end
 
     end

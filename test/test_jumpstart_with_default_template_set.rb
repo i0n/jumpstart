@@ -5,14 +5,14 @@ class TestJumpStartWithDefaultTemplateSet < Test::Unit::TestCase
   context "JumpStart::Setup.templates_path is set to and JumpStart::Setup.default_template_name is nil as @jumpstart_setup_yaml is not loaded" do
 
     setup do
-      JumpStart.module_eval do 
-        @jumpstart_setup_yaml = nil 
+      JumpStart.module_eval do
+        @jumpstart_setup_yaml = nil
         @templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
       end
     end
-    
+
     teardown do
-      reset_global_defaults    
+      reset_global_defaults
     end
 
     should "loop on check_project_name method when passed one argument under 3 characters and a valid second argument. JumpStart::Setup.templates_path should be set to default." do
@@ -61,8 +61,8 @@ class TestJumpStartWithDefaultTemplateSet < Test::Unit::TestCase
       @project.expects(:check_install_path)
       @project.expects(:jumpstart_menu).never
       @project.check_setup
-    end      
+    end
 
   end
-  
+
 end

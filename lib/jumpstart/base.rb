@@ -317,7 +317,7 @@ module JumpStart
       # Displays output for the "jumpstart default template options menu"
       def set_default_template_menu
         puts "\n\n******************************************************************************************************************************************\n\n"
-        puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n\n".purple
+        puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n".purple
         display_existing_templates
         puts "\n  b".yellow + " Back to main menu.\n\n"
         puts "  x".yellow + " Exit jumpstart\n\n"
@@ -347,9 +347,10 @@ module JumpStart
       # Displays output for the "jumpstart templates directory options" menu.
       def templates_dir_menu
         puts "\n\n******************************************************************************************************************************************\n\n"
-        puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n\n".purple
-        puts "  1".yellow + " Set templates directory.\n"
-        puts "  2".yellow + " Reset templates directory to default\n\n"
+        puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n".purple
+        puts "  The JumpStart template directory is currently: " + JumpStart.templates_path.green
+        puts "\n  1".yellow + " Change the templates directory.\n"
+        puts "  2".yellow + " Reset the templates directory to default\n\n"
         puts "  b".yellow + " Back to main menu.\n\n"
         puts "  x".yellow + " Exit jumpstart\n\n"
         puts "******************************************************************************************************************************************\n\n"

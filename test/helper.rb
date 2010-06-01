@@ -10,7 +10,7 @@ require 'jumpstart'
 class Test::Unit::TestCase
 
   def reset_global_defaults
-    JumpStart.module_eval do 
+    JumpStart.module_eval do
       @jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
       @jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
       @templates_path = nil
@@ -20,11 +20,11 @@ class Test::Unit::TestCase
 end
 
 module JumpStart
-  
+
   class Base
 
     # Added monkeypatch for exit methods back until I find a more elegant way to stop generated jumpstarts (jumpstarts that are started programatically during testing) from actually running the exit method.
-    # Tests that use this patch: 
+    # Tests that use this patch:
     # new_project_from_template_options tests. Starting around line 478 of test_base.rb
     def exit_with_success
       puts "\n\n  Exiting JumpStart...".purple
@@ -32,14 +32,14 @@ module JumpStart
       puts "******************************************************************************************************************************************\n"
       project = nil
     end
-  	
+
     def exit_normal
       puts "\n\n  Exiting JumpStart...".purple
       puts "\n  Goodbye!\n\n"
       puts "******************************************************************************************************************************************\n"
       project = nil
     end
-    
+
   end
-  
+
 end
