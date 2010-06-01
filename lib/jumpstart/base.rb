@@ -170,7 +170,7 @@ module JumpStart
         puts "  2".yellow + " Create a new template.\n"
         puts "  3".yellow + " Set the default template.\n"
         puts "  4".yellow + " Set the templates directory.\n\n"
-        puts "  x".yellow + " Exit jumpstart\n\n"
+        puts "  x".yellow + " Exit jumpstart.\n\n"
         puts "******************************************************************************************************************************************\n\n"
         jumpstart_menu_options
       end
@@ -212,7 +212,7 @@ module JumpStart
         puts "  Type a number for the template that you want.\n\n"
         display_existing_templates
         puts "\n  b".yellow + " Back to main menu."
-        puts "\n  x".yellow + " Exit jumpstart\n\n"
+        puts "\n  x".yellow + " Exit jumpstart.\n\n"
         puts "******************************************************************************************************************************************\n\n"
         new_project_from_template_options
       end
@@ -245,7 +245,7 @@ module JumpStart
         puts "  Existing templates:\n"
         display_existing_templates
         puts "\n  b".yellow + " Back to main menu."
-        puts "\n  x".yellow + " Exit jumpstart\n"
+        puts "\n  x".yellow + " Exit jumpstart.\n"
         new_template_options
       end
 
@@ -320,7 +320,7 @@ module JumpStart
         puts "  SELECT A DEFAULT JUMPSTART TEMPLATE\n".purple
         display_existing_templates
         puts "\n  b".yellow + " Back to main menu.\n\n"
-        puts "  x".yellow + " Exit jumpstart\n\n"
+        puts "  x".yellow + " Exit jumpstart.\n\n"
         puts "******************************************************************************************************************************************\n\n"
         set_default_template_options
       end
@@ -350,9 +350,9 @@ module JumpStart
         puts "  JUMPSTART TEMPLATES DIRECTORY OPTIONS\n".purple
         puts "  The JumpStart template directory is currently: " + JumpStart.templates_path.green
         puts "\n  1".yellow + " Change the templates directory.\n"
-        puts "  2".yellow + " Reset the templates directory to default\n\n"
+        puts "  2".yellow + " Reset the templates directory to default.\n\n"
         puts "  b".yellow + " Back to main menu.\n\n"
-        puts "  x".yellow + " Exit jumpstart\n\n"
+        puts "  x".yellow + " Exit jumpstart.\n\n"
         puts "******************************************************************************************************************************************\n\n"
         templates_dir_options
       end
