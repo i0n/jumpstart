@@ -25,13 +25,13 @@ if RbConfig::CONFIG['host_os'] =~ /mswin|windows|cygwin|mingw32/
 end
 
 module JumpStart
-  
+
   ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   LIB_PATH = File.expand_path(File.dirname(__FILE__))
   CONFIG_PATH = File.expand_path(File.join(File.dirname(__FILE__), '../config'))
   IGNORE_DIRS = ['.','..']
   LAUNCH_PATH = FileUtils.pwd
-  
+
   @jumpstart_setup_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml")
   @jumpstart_version_yaml = YAML.load_file("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml")
 
@@ -40,9 +40,9 @@ module JumpStart
   @version_patch = @jumpstart_version_yaml[:jumpstart_version_patch]
 
   class << self
-  
+
     attr_accessor :default_template_name, :version_major, :version_minor, :version_patch
-    
+
     # Set the jumpstart templates path back to default if it has not been set
     def templates_path
       if @templates_path.nil? || @templates_path.empty?
@@ -51,11 +51,11 @@ module JumpStart
         @templates_path
       end
     end
-  
+
     def templates_path=(value)
       @templates_path = value
     end
-      
+
     # TODO JumpStart#lookup_existing_templates class instance method needs tests
     def existing_templates
       templates = []
@@ -71,23 +71,23 @@ module JumpStart
       end
       templates
     end
-      
+
     # Method for writing to config/jumpstart_setup.yml
     def dump_jumpstart_setup_yaml
       File.open( "#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml", 'w' ) do |out|
         YAML.dump( {:jumpstart_templates_path => @templates_path, :jumpstart_default_template_name => @default_template_name}, out )
-      end      
+      end
     end
-  
+
     # Method for writing to config/jumpstart_version.yml
     def dump_jumpstart_version_yaml
       File.open( "#{JumpStart::CONFIG_PATH}/jumpstart_version.yml", 'w' ) do |out|
         YAML.dump( {:jumpstart_version_major => @version_major, :jumpstart_version_minor => @version_minor, :jumpstart_version_patch => @version_patch}, out )
       end
     end
-  
+
     # Looks up the current version of JumpStart
-    def version 
+    def version
       "#{version_major}.#{version_minor}.#{version_patch}"
     end
 
@@ -104,7 +104,7 @@ module JumpStart
       end
       dump_jumpstart_version_yaml
     end
-      
+
     # Handles calls to JumpStart::Setup.bump_version_major, JumpStart::Setup.bump_version_minor and JumpStart::Setup.bump_version_patch class methods.
     def method_missing(method, *args)
       if method.to_s.match(/^bump_version_(major|minor|patch)$/)
@@ -114,29 +114,28 @@ module JumpStart
         super
       end
     end
-  
+
     # Handles calls to missing constants in the JumpStart module. Calls JumpStart.version if JumpStart::VERSION is recognised.
     def const_missing(name)
-      if name.to_s =~ /^VERSION$/ 
+      if name.to_s =~ /^VERSION$/
         version
       else
         super
       end
     end
-    
+
   end
-  
+
   # sets the default template to use if it has not been passed as an argument.
   # Set as a module instance variable.
   if !@jumpstart_setup_yaml[:jumpstart_default_template_name].nil?
     @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name] if existing_templates.include?(@jumpstart_setup_yaml[:jumpstart_default_template_name])
   end
-  
-  # The path to the jumpstart templates directory. 
-  # Set as a module instance variable.  
-  if !@jumpstart_setup_yaml[:jumpstart_templates_path].nil?
-    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if Dir.exists?(@jumpstart_setup_yaml[:jumpstart_templates_path]) 
-  end
-  
-end
 
+  # The path to the jumpstart templates directory.
+  # Set as a module instance variable.
+  if !@jumpstart_setup_yaml[:jumpstart_templates_path].nil?
+    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if Dir.exists?(@jumpstart_setup_yaml[:jumpstart_templates_path])
+  end
+
+end

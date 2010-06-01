@@ -26,7 +26,7 @@ module JumpStart::FileTools
     end
   end
 
-  # For inserting text provided as a string or a target file (source) to a specific line number (line_number) of another file (target_file) 
+  # For inserting text provided as a string or a target file (source) to a specific line number (line_number) of another file (target_file)
   def insert_text_at_line_number(source, target_file, line_number)
     if line_number > 0
       line_number -= 1
@@ -67,7 +67,7 @@ module JumpStart::FileTools
         else
           puts
           puts "The file #{x.red} could not be deleted as it could not be found."
-        end          
+        end
       rescue
         puts
         puts "Uh-oh, we've hit a snag with the remove_files method.".red
@@ -75,7 +75,7 @@ module JumpStart::FileTools
       end
     end
   end
-  
+
   # For removing lines in a file that (A) match a specific pattern, and/or (B) or are specified by line number.
   # Both types of removal are passed to the method via the arguments hash.
   # e.g. remove lines macthing a pattern, do FileUtils.remove_lines(target_file, :pattern => "Hello!")
@@ -113,7 +113,7 @@ module JumpStart::FileTools
       x.puts new_file
     end
   end
-  
+
   # This method generates string replacements via a hash passed to the method, this enables versatile string replacement.
   # To replace values in the target file, simply add the name of the key for that replacement in CAPS.
   # e.g. You might call the method with something like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
@@ -128,8 +128,8 @@ module JumpStart::FileTools
       file.puts txt
     end
   end
-  
-  # For setting up app in Nginx 
+
+  # For setting up app in Nginx
   def config_nginx(source_file, target_file, app_name)
     if source_file == nil || target_file == nil || app_name == nil
       puts
@@ -195,7 +195,7 @@ module JumpStart::FileTools
           file.puts etc_hosts
         end
         puts "Success! #{app_name.green} has been added to #{target_file.green}"
-        puts          
+        puts
       else
         puts "It doesn't look like you have write access for #{target_file}. Would you like to use sudo to change them?".yellow
         puts "Type yes (" + "y".yellow + ") or no (" + "n".yellow + ")"
@@ -217,7 +217,7 @@ module JumpStart::FileTools
     puts "******************************************************************************************************************************************"
     puts
   end
-  
+
   # Checks to see if the source type is a file or a string. If it's a file it reads the lines of the file and returns them as an array. If it's a string it returns unaltered.
   def check_source_type(source)
     if File.file?(source)
@@ -227,7 +227,7 @@ module JumpStart::FileTools
     end
     source_file
   end
-  
+
   # Method for joining paths together. Paths can be supplied as a mixture of strings and arrays.
   # If too many or not enough forward slashes are provided at the start/end of the paths, this will be corrected.
   # Accidentally passing nil values mixed with strings/arrays will be corrected.
@@ -263,7 +263,7 @@ module JumpStart::FileTools
     full_path_string.insert(0, '/') if absolute_path == true
     full_path_string
   end
-  
+
   # Sorts files and dirs in a path and then returns the result as a hash of two arrays, :files and :dirs
   def sort_contained_files_and_dirs(path)
     dirs, files = [], []
@@ -281,5 +281,5 @@ module JumpStart::FileTools
     end
     {:files => files, :dirs => dirs}
   end
-      
+
 end

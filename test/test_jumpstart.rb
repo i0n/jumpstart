@@ -1,15 +1,15 @@
 require 'helper'
 
 class TestJumpstart < Test::Unit::TestCase
-    
+
   should "be able to find jumpstart_setup.yml" do
     assert(File.exists?("#{JumpStart::CONFIG_PATH}/jumpstart_setup.yml"))
   end
-  
+
   should "be able to find jumpstart_version.yml" do
     assert(File.exists?("#{JumpStart::CONFIG_PATH}/jumpstart_version.yml"))
   end
-  
+
   context "Test for JumpStart.version class instance method" do
     should "return 1.1.1" do
       JumpStart.version_major = 1
@@ -18,9 +18,9 @@ class TestJumpstart < Test::Unit::TestCase
       assert_equal "1.1.1", JumpStart.version
     end
   end
-  
+
   context "Tests for the JumpStart::Base#templates_path class method" do
-    
+
     should "return default path if @templates_path is nil when called" do
       JumpStart.module_eval {@templates_path = nil}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.templates_path
@@ -30,33 +30,33 @@ class TestJumpstart < Test::Unit::TestCase
       JumpStart.module_eval {@templates_path = ""}
       assert_equal "#{JumpStart::ROOT_PATH}/jumpstart_templates", JumpStart.templates_path
     end
-    
+
     should "return the path set" do
       JumpStart.module_eval {@templates_path = "a/path/for/templates"}
-      assert_equal "a/path/for/templates", JumpStart.templates_path        
+      assert_equal "a/path/for/templates", JumpStart.templates_path
     end
-    
+
   end
-  
+
   context "Tests for the JumpStart#existing_projects class method. \n" do
-        
+
     teardown do
       JumpStart.templates_path = nil
     end
-    
+
     should "run existing_projects method and return an array of existing templates" do
       JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates"
-      assert_equal %w[test_template_1 test_template_2 test_template_3], JumpStart.existing_templates  
+      assert_equal %w[test_template_1 test_template_2 test_template_3], JumpStart.existing_templates
     end
 
     should "run existing_projects method and return an empty array if no templates are found" do
       JumpStart.templates_path = "#{JumpStart::ROOT_PATH}/test/jumpstart"
-      assert_equal [], JumpStart.existing_templates  
+      assert_equal [], JumpStart.existing_templates
     end
-          
+
   end
-  
-  context "Tests for the JumpStart#dump_jumpstart_setup_yaml class method." do      
+
+  context "Tests for the JumpStart#dump_jumpstart_setup_yaml class method." do
     should "call File.open and Yaml.dump for jumpstart_setup.yml" do
       YAML.stubs(:dump)
       File.stubs(:open)
@@ -65,7 +65,7 @@ class TestJumpstart < Test::Unit::TestCase
     end
   end
 
-  context "Tests for the JumpStart#dump_jumpstart_version_yaml class method." do      
+  context "Tests for the JumpStart#dump_jumpstart_version_yaml class method." do
     should "call File.open and Yaml.dump for jumpstart_version.yml" do
       YAML.stubs(:dump)
       File.stubs(:open)
@@ -75,11 +75,11 @@ class TestJumpstart < Test::Unit::TestCase
   end
 
   context "Tests for the JumpStart#bump class method." do
-    
+
     setup do
       JumpStart.stubs(:dump_jumpstart_version_yaml)
     end
-    
+
     should "add 1 to @version_major class instance variable, set @version_minor and @version_patch to 0 and call dump_jumpstart_version_yaml" do
       JumpStart.module_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
       JumpStart.expects(:dump_jumpstart_version_yaml).once
@@ -88,7 +88,7 @@ class TestJumpstart < Test::Unit::TestCase
       assert_equal 0, JumpStart.version_minor
       assert_equal 0, JumpStart.version_patch
     end
-    
+
     should "add 1 to @version_minor class instance variable, set @version_patch to 0 and call dump_jumpstart_version_yaml" do
       JumpStart.module_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
       JumpStart.expects(:dump_jumpstart_version_yaml).once
@@ -98,7 +98,7 @@ class TestJumpstart < Test::Unit::TestCase
       assert_equal 0, JumpStart.version_patch
 
     end
-    
+
     should "add 1 to @version_patch class instance variable and call dump_jumpstart_version_yaml" do
       JumpStart.module_eval {@version_major = 1; @version_minor = 1; @version_patch = 1 }
       JumpStart.expects(:dump_jumpstart_version_yaml).once
@@ -108,34 +108,34 @@ class TestJumpstart < Test::Unit::TestCase
       assert_equal 2, JumpStart.version_patch
 
     end
-    
+
   end
-  
+
   context "Tests for the JumpStart#const_missing class method." do
 
     setup do
       JumpStart.stubs(:version)
     end
-    
+
     should "return the value of JumpStart Version if JumpStart::VERSION is called" do
       JumpStart.expects(:version).once
       JumpStart::VERSION
     end
-    
+
     should "return to super if an unknown constant is called" do
       assert_raises(NameError) {JumpStart::VERSIONS}
       assert_raises(NameError) {JumpStart::AVERSION}
     end
-    
+
   end
-  
+
   context "Tests for the JumpStart#method_missing class method." do
-    
+
     setup do
       JumpStart.stubs(:bump).returns(:result)
       JumpStart.stubs(:dump_jumpstart_version_yaml)
     end
-    
+
     should "recognise JumpStart#bump_version_major class instance method calls and forward them to JumpStart#bump to set @version_major." do
       JumpStart.expects(:bump).with("version_major").once
       JumpStart.bump_version_major
@@ -154,7 +154,7 @@ class TestJumpstart < Test::Unit::TestCase
     should "return method_missing to super as normal if method name is not recognised." do
       assert_raises(NoMethodError) {JumpStart.bump_version_blarg}
     end
-    
+
   end
-  
+
 end
