@@ -233,25 +233,59 @@ class TestJumpstartFileTools < Test::Unit::TestCase
   end
 
   context "Testing JumpStart::FileUtils#replace_strings class method.\n" do
-
+  
     setup do
-      @target_file = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
-      @app_name = "test_project"
-      @remote_server = "my_test_remote_server"
+      @target_file_1 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
+      @target_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_app_name.rb"
+      @target_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/app_name_replace_strings_test.txt"
+      @new_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_bungle.rb"
+      @new_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle/bungle_replace_strings_test.txt"
+      @target_files = []
+      @target_files << @target_file_1 << @target_file_2 << @target_file_3
       @source_file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_source.rb")
-      File.open(@target_file, 'w+') do |file|
-        file.puts @source_file
+      @target_files.each do |x|
+        File.open(x, 'w+') do |file|
+          file.puts @source_file
+        end
       end
     end
-
+  
+    teardown do
+      FileUtils.remove_files(@target_files)
+      if File.exists?(@new_file_2)
+        FileUtils.remove_file(@new_file_2)
+      end
+    end
+  
     should "replace strings with replace_strings method" do
-      FileUtils.replace_strings(@target_file, :app_name => 'test_app', :REMOTE_SERVER => 'remote_box')
-      file = IO.readlines(@target_file)
+      FileUtils.replace_strings(@target_file_1, :app_name => 'test_app', :REMOTE_SERVER => 'remote_box')
+      file = IO.readlines(@target_file_1)
       assert_equal "set :application, 'test_app'\n", file[0]
       assert_equal "set :domain, 'remote_box'\n", file[1]
       assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44]
     end
-
+    
+    should "replace strings inside the target path if the target is a file and there is more than one argument." do
+      FileUtils.replace_strings(@target_file_2, :app_name => 'bungle', :remote_server => 'boxy')
+      file = IO.readlines(@new_file_2)
+      assert_equal "set :application, 'bungle'\n", file[0]
+      assert_equal "set :domain, 'boxy'\n", file[1]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf bungle\"\n", file[44]
+      assert File.exists?(@new_file_2)
+      assert !File.exists?(@target_file_2)
+    end
+    
+    should "replace strings inside the target path if the target is a file and there is more than one argument and the replacement string is found in the directory structure." do
+      skip
+      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      file = IO.readlines(@new_file_3)
+      assert_equal "set :application, 'bungle'\n", file[0]
+      assert_equal "set :domain, 'boxy'\n", file[1]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf bungle\"\n", file[44]
+      assert File.exists?(@new_file_3)
+      assert !File.exists?(@target_file_3)
+    end
+    
   end
 
   context "Testing JumpStart::FileUtils#check_source_type class method.\n" do

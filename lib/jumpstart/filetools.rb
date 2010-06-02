@@ -121,10 +121,13 @@ module JumpStart::FileTools
   # Hello there NAME from COUNTRY
   def replace_strings(target_file, args)
     txt = IO.read(target_file)
+    @new_file = target_file.dup
     args.each do |x, y|
       txt.gsub!(/#{x.to_s.upcase}/, y)
+      @new_file.gsub!(/#{x.to_s.downcase}/, y)
     end
-    File.open(target_file, "w") do |file|
+    FileUtils.rm(target_file)
+    File.open(@new_file, "w") do |file|
       file.puts txt
     end
   end
