@@ -114,6 +114,7 @@ module JumpStart::FileTools
     end
   end
 
+  # TODO Write more tests to check the new functionality implemented in this method.
   # This method generates string replacements via a hash passed to the method, this enables versatile string replacement.
   # To replace values in the target file, simply add the name of the key for that replacement in CAPS.
   # e.g. You might call the method with something like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")

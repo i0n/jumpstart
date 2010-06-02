@@ -232,6 +232,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   end
 
+  # Write more tests for the new features of this method.
   context "Testing JumpStart::FileUtils#replace_strings class method.\n" do
   
     setup do
