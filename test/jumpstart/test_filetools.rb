@@ -255,6 +255,9 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       if File.exists?(@new_file_2)
         FileUtils.remove_file(@new_file_2)
       end
+      if File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle")
+        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle")
+      end
     end
   
     should "replace strings with replace_strings method" do
@@ -276,7 +279,6 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
     
     should "replace strings inside the target path if the target is a file and there is more than one argument and the replacement string is found in the directory structure." do
-      skip
       FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
       file = IO.readlines(@new_file_3)
       assert_equal "set :application, 'bungle'\n", file[0]

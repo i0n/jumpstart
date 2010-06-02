@@ -120,15 +120,19 @@ module JumpStart::FileTools
   # ... and in the template it would look like this:
   # Hello there NAME from COUNTRY
   def replace_strings(target_file, args)
-    txt = IO.read(target_file)
-    @new_file = target_file.dup
-    args.each do |x, y|
-      txt.gsub!(/#{x.to_s.upcase}/, y)
-      @new_file.gsub!(/#{x.to_s.downcase}/, y)
-    end
-    FileUtils.rm(target_file)
-    File.open(@new_file, "w") do |file|
-      file.puts txt
+    if File.file?(target_file)
+      txt = IO.read(target_file)
+      @new_file = target_file.dup
+      args.each do |x, y|
+        txt.gsub!(/#{x.to_s.upcase}/, y)
+        @new_file.gsub!(/#{x.to_s.downcase}/, y)
+      end
+      dir = @new_file.sub(/\/\w+\.*\w*$/, '')
+      FileUtils.mkdir_p(dir)
+      FileUtils.rm(target_file)
+      File.open(@new_file, "w") do |file|
+        file.puts txt
+      end
     end
   end
 
