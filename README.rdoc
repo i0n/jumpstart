@@ -139,7 +139,7 @@ Can be omitted or left blank.
 List files that you would like to perform string substitution on. This can be useful for populating files such as a capistrano deploy.rb file.
 Paths use the newly created project folder as root.
 Any key:value pair can be used for substitution, simply add the key name in CAPS to the template file then specify the symbol key and value as in the example.
-
+As of version 0.5 it is now possible to append _CLASS to the capitalized key name in your templates. This will capitalise the replacement value, which is very handy for files where you need a lowercase and capitalized version of the same string, like class or module definitions.
 Note! The value of :project_name is hard coded to be the same as the projects name, no matter the value entered in this config file. This helps with capistrano.
 e.g.
   :replace_strings:
