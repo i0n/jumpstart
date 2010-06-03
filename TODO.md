@@ -1,2 +1,1 @@
 # TODO Change replace_strings method so that files created through path string replacement have the same permissions as the previous versions.
-# TODO Change replace_strings method so that empty folders created as a result of string replacement are removed.
