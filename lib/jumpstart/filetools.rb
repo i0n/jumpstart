@@ -125,17 +125,23 @@ module JumpStart::FileTools
   def replace_strings(target_file, args)
     if File.file?(target_file)
       txt = IO.read(target_file)
+      old_dir = target_file.sub(/\/\w+\.*\w*$/, '')
       new_file = target_file.dup
       args.each do |x, y|
         txt.gsub!(/#{x.to_s.upcase}_CLASS/, y.capitalize)
         txt.gsub!(/#{x.to_s.upcase}/, y)
         new_file.gsub!(/#{x.to_s.downcase}/, y)
       end
-      dir = new_file.sub(/\/\w+\.*\w*$/, '')
-      FileUtils.mkdir_p(dir)
+      new_dir = new_file.sub(/\/\w+\.*\w*$/, '')
+      FileUtils.mkdir_p(new_dir)
       FileUtils.rm(target_file)
       File.open(new_file, "w") do |file|
         file.puts txt
+      end
+      if File.directory?(old_dir)
+        if (Dir.entries(old_dir) - JumpStart::IGNORE_DIRS).empty?
+          FileUtils.remove_dir(old_dir)
+        end
       end
     end
   end

@@ -243,6 +243,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       @target_files = []
       @target_files << @target_file_1 << @target_file_2 << @target_file_3
       @source_file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_source.rb")
+      FileUtils.mkdir_p("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
       @target_files.each do |x|
         File.open(x, 'w+') do |file|
           file.puts @source_file
@@ -257,6 +258,9 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       end
       if File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle")
         FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle")
+      end
+      if File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
+        FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
       end
     end
 
@@ -305,6 +309,18 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       assert_equal "# This is a test string Boxy\n", file[64]
       assert File.exists?(@new_file_3)
       assert !File.exists?(@target_file_3)
+    end
+    
+    should "remove old dirs when empty after string replacement" do
+      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      assert !File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
+    end
+    
+    should "not remove old dirs after string replacement if they are not empty" do
+      FileUtils.touch("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/another_file.txt")
+      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      assert File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
+      assert File.exists?(@new_file_3)
     end
 
   end
