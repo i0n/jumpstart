@@ -114,24 +114,25 @@ module JumpStart::FileTools
     end
   end
 
-  # TODO Write more tests to check the new functionality implemented in this method.
   # This method generates string replacements via a hash passed to the method, this enables versatile string replacement.
   # To replace values in the target file, simply add the name of the key for that replacement in CAPS.
   # e.g. You might call the method with something like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
   # ... and in the template it would look like this:
   # Hello there NAME from COUNTRY
+  # Will also replace strings present in the target_file path. so if the method call looked like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
+  # and target_file was: /Users/name/Sites/country the strings matching NAME and COUNTRY inside the file would be swapped out and then a new file at the path: /Users/Ian/Sites/England would be created and populated with the contents. The file at the previous path would be deleted.
   def replace_strings(target_file, args)
     if File.file?(target_file)
       txt = IO.read(target_file)
-      @new_file = target_file.dup
+      new_file = target_file.dup
       args.each do |x, y|
         txt.gsub!(/#{x.to_s.upcase}/, y)
-        @new_file.gsub!(/#{x.to_s.downcase}/, y)
+        new_file.gsub!(/#{x.to_s.downcase}/, y)
       end
-      dir = @new_file.sub(/\/\w+\.*\w*$/, '')
+      dir = new_file.sub(/\/\w+\.*\w*$/, '')
       FileUtils.mkdir_p(dir)
       FileUtils.rm(target_file)
-      File.open(@new_file, "w") do |file|
+      File.open(new_file, "w") do |file|
         file.puts txt
       end
     end

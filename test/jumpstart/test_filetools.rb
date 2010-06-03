@@ -232,7 +232,6 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
   end
 
-  # Write more tests for the new features of this method.
   context "Testing JumpStart::FileUtils#replace_strings class method.\n" do
   
     setup do
@@ -260,8 +259,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle")
       end
     end
+
+    should "replace strings with replace_strings method if the path does not contain the replacement strings and only one replacement string is provided" do
+      FileUtils.replace_strings(@target_file_1, :app_name => 'test_app')
+      file = IO.readlines(@target_file_1)
+      assert_equal "set :application, 'test_app'\n", file[0]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44]
+    end
   
-    should "replace strings with replace_strings method" do
+    should "replace strings with replace_strings method if the path does not contain the replacement strings and more than one replacement string is provided" do
       FileUtils.replace_strings(@target_file_1, :app_name => 'test_app', :REMOTE_SERVER => 'remote_box')
       file = IO.readlines(@target_file_1)
       assert_equal "set :application, 'test_app'\n", file[0]
