@@ -121,11 +121,13 @@ module JumpStart::FileTools
   # Hello there NAME from COUNTRY
   # Will also replace strings present in the target_file path. so if the method call looked like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
   # and target_file was: /Users/name/Sites/country the strings matching NAME and COUNTRY inside the file would be swapped out and then a new file at the path: /Users/Ian/Sites/England would be created and populated with the contents. The file at the previous path would be deleted.
+  # Finally if you specify a symbol and append _CLASS in the template, that instance will be replace with a capitalized version of the string.
   def replace_strings(target_file, args)
     if File.file?(target_file)
       txt = IO.read(target_file)
       new_file = target_file.dup
       args.each do |x, y|
+        txt.gsub!(/#{x.to_s.upcase}_CLASS/, y.capitalize)
         txt.gsub!(/#{x.to_s.upcase}/, y)
         new_file.gsub!(/#{x.to_s.downcase}/, y)
       end

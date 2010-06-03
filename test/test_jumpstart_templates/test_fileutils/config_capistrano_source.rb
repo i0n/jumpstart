@@ -60,3 +60,6 @@ end
 # deploy:restart
 
 # eg: after 'deploy:symlink', 'deploy:restart'
+
+# This is a test string APP_NAME_CLASS
+# This is a test string REMOTE_SERVER_CLASS

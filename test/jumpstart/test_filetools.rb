@@ -295,6 +295,18 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       assert !File.exists?(@target_file_3)
     end
 
+    should "replace strings that have _CLASS appended to them with a capitalised version of the replacement string." do
+      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      file = IO.readlines(@new_file_3)
+      assert_equal "set :application, 'bungle'\n", file[0]
+      assert_equal "set :domain, 'boxy'\n", file[1]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf bungle\"\n", file[44]
+      assert_equal "# This is a test string Bungle\n", file[63]
+      assert_equal "# This is a test string Boxy\n", file[64]
+      assert File.exists?(@new_file_3)
+      assert !File.exists?(@target_file_3)
+    end
+
   end
 
   context "Testing JumpStart::FileUtils#check_source_type class method.\n" do
