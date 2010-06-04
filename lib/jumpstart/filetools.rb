@@ -114,6 +114,7 @@ module JumpStart::FileTools
     end
   end
 
+  # TODO Write test for new file permissions functionality
   # This method generates string replacements via a hash passed to the method, this enables versatile string replacement.
   # To replace values in the target file, simply add the name of the key for that replacement in CAPS.
   # e.g. You might call the method with something like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
@@ -124,6 +125,7 @@ module JumpStart::FileTools
   # Finally if you specify a symbol and append _CLASS in the template, that instance will be replace with a capitalized version of the string.
   def replace_strings(target_file, args)
     if File.file?(target_file)
+      permissions = File.executable?(target_file)
       txt = IO.read(target_file)
       old_dir = target_file.sub(/\/\w+\.*\w*$/, '')
       new_file = target_file.dup
@@ -137,6 +139,7 @@ module JumpStart::FileTools
       FileUtils.rm(target_file)
       File.open(new_file, "w") do |file|
         file.puts txt
+        file.chmod(0755) if permissions
       end
       if File.directory?(old_dir)
         if (Dir.entries(old_dir) - JumpStart::IGNORE_DIRS).empty?
