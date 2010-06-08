@@ -176,7 +176,7 @@ module JumpStart::FileTools
         source_config = IO.read(source_file)
         nginx_config.push source_config
         nginx_config.push @nginx_last_line
-        nginx_config.each {|line| line.gsub!(/\#\{app_name\}/, "#{app_name}")}
+        nginx_config.each {|line| line.gsub!(/PROJECT_NAME/, "#{app_name}")}
         File.open(target_file, "w") do |file|
           file.puts nginx_config
         end
