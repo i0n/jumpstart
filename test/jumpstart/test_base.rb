@@ -845,7 +845,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.instance_variable_set(:@install_command_args, "install command args")
         @test_project.expects(:system).once
         @test_project.instance_eval {execute_install_command}
-        assert_equal "Executing command: \e[32mecho\e[0m \e[32mtest_jumpstart_project\e[0m \e[32minstall command args\e[0m\n", @test_project.output.string
+        assert_equal "\e[32mExecuting command: echo test_jumpstart_project install command args\e[0m\n", @test_project.output.string
       end
 
       should "raise an error if the @install_path does not exist" do
