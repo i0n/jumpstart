@@ -1,7 +1,7 @@
 =JumpStart
 
 ==Quick! No time! Dinner burning! Tell me everything in three sentences!
-JumpStart is a gem for quickly creating projects just the way you want them.    
+JumpStart is a gem for quickly creating projects just the way you want them.        
 It uses YAML and your custom template files to automate all of that new project creation and configuration hoo-ha.    
 It's dead easy to do.    
 
