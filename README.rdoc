@@ -169,7 +169,7 @@ Can be omitted or left blank.
 Add extra commands that you want to run after templates have been parsed for string replacement.
 e.g.
   :run_after_string_replace:
-    - rake db:create
+    - rake db:migrate
   
 ===:local_nginx_conf:
 Can be omitted or left blank.
