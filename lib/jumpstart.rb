@@ -135,7 +135,7 @@ module JumpStart
   # The path to the jumpstart templates directory.
   # Set as a module instance variable.
   if !@jumpstart_setup_yaml[:jumpstart_templates_path].nil?
-    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if Dir.exists?(@jumpstart_setup_yaml[:jumpstart_templates_path])
+    @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if File.directory?(@jumpstart_setup_yaml[:jumpstart_templates_path])
   end
 
 end
