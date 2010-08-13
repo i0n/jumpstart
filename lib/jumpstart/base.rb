@@ -73,6 +73,7 @@ module JumpStart
       remove_unwanted_files
       run_scripts_from_yaml(:run_after_jumpstart)
       check_for_strings_to_replace
+      run_scripts_from_yaml(:run_after_string_replace)
       check_local_nginx_configuration
       exit_with_success
     end
@@ -560,7 +561,7 @@ module JumpStart
         end
       end
 
-      # Runs additional scripts specified in YAML. Runs one set after the install command has executed, and another after the templates have been generated.
+      # Runs additional scripts specified in YAML. Runs one set after the install command has executed, another after the templates have been generated, and a final time after string replacement
       def run_scripts_from_yaml(script_name)
         unless @config_file[script_name].nil? || @config_file[script_name].empty?
           begin

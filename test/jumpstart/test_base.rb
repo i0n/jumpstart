@@ -197,6 +197,7 @@ class TestJumpstartBase < Test::Unit::TestCase
         @test_project.expects(:remove_unwanted_files).once
         @test_project.expects(:run_scripts_from_yaml).with(:run_after_jumpstart).once
         @test_project.expects(:check_for_strings_to_replace).once
+        @test_project.expects(:run_scripts_from_yaml).with(:run_after_string_replace).once
         @test_project.expects(:check_local_nginx_configuration).once
         @test_project.expects(:exit_with_success).once
         @test_project.start
