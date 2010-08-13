@@ -64,6 +64,13 @@
 :replace_strings:
   - :target_path:
     :symbols:
+      
+## Can be omitted or left blank.
+# Add extra commands that you want to run after templates have been parsed for string replacement.
+# e.g.
+# :run_after_string_replace:
+#   - rake db:create
+:run_after_string_replace:
   
 ## Can be omitted or left blank.
 # If you would like jumpstart to configure your local nginx setup specify a path. Handy for rails.
