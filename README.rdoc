@@ -1,18 +1,18 @@
 =JumpStart
 
 ==Quick! No time! Dinner burning! Tell me everything in three sentences!
-JumpStart is a gem for quickly creating projects just the way you want them.
-It uses YAML and your custom template files to automate all of that new project creation and configuration hoo-ha.
-It's dead easy to do.    
+* JumpStart is a gem for quickly creating projects just the way you want them.
+* It uses YAML and your custom template files to automate all of that new project creation and configuration hoo-ha.
+* It's dead easy to do.    
 
 ==Spiel
 Are you:
-- Tired of customising newly created framework projects to get them just the way you want them?
-- On a holy quest for the almighty power to create any kind of project with a single command?    
-- Dancing like MC Hammer in anticipation of a solution to starting framework-less projects with ease?    
-- Offering to sell your granny for the opportunity to store all of your project templates in one handy git-able directory structure?    
-- Frothing at the mouth for an easy command line way to create, copy, move or duplicate these templates?    
-- If so you are in luck my friend. Have some Jumpstart!    
+* Tired of customising newly created framework projects to get them just the way you want them?
+* On a holy quest for the almighty power to create any kind of project with a single command?    
+* Dancing like MC Hammer in anticipation of a solution to starting framework-less projects with ease?    
+* Offering to sell your granny for the opportunity to store all of your project templates in one handy git-able directory structure?    
+* Frothing at the mouth for an easy command line way to create, copy, move or duplicate these templates?    
+* If so you are in luck my friend. Have some Jumpstart!    
 
 ==Why?
 Despite the many cool generators for a typical framework based project, there are always things that I want to set up differently. I figure that generated code will constantly change. With that in mind, the best way to control the creation of genuinely unique project configurations is to manipulate the files that the generators create. This is what JumpStart does, as well as some other cool stuff to avoid doing the same tedious setup dance over and over again.
