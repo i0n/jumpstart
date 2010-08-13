@@ -2,14 +2,12 @@
 
 ==Quick! No time! Dinner burning! Tell me everything in three sentences!
 JumpStart is a gem for quickly creating projects just the way you want them.
-
 It uses YAML and your custom template files to automate all of that new project creation and configuration hoo-ha.
-
 It's dead easy to do.    
 
 ==Spiel
-Are you:    
-Tired of customising newly created framework projects to get them just the way you want them?    
+<p>Are you:</p>
+Tired of customising newly created framework projects to get them just the way you want them?
 On a holy quest for the almighty power to create any kind of project with a single command?    
 Dancing like MC Hammer in anticipation of a solution to starting framework-less projects with ease?    
 Offering to sell your granny for the opportunity to store all of your project templates in one handy git-able directory structure?    
