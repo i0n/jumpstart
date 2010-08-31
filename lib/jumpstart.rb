@@ -126,16 +126,16 @@ module JumpStart
 
   end
 
-  # sets the default template to use if it has not been passed as an argument.
-  # Set as a module instance variable.
-  if !@jumpstart_setup_yaml[:jumpstart_default_template_name].nil?
-    @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name] if existing_templates.include?(@jumpstart_setup_yaml[:jumpstart_default_template_name])
-  end
-
   # The path to the jumpstart templates directory.
   # Set as a module instance variable.
-  if !@jumpstart_setup_yaml[:jumpstart_templates_path].nil?
+  if @jumpstart_setup_yaml[:jumpstart_templates_path] != nil
     @templates_path = @jumpstart_setup_yaml[:jumpstart_templates_path] if File.directory?(@jumpstart_setup_yaml[:jumpstart_templates_path])
+  end
+  
+  # sets the default template to use if it has not been passed as an argument.
+  # Set as a module instance variable.
+  if @jumpstart_setup_yaml[:jumpstart_default_template_name] != nil
+    @default_template_name = @jumpstart_setup_yaml[:jumpstart_default_template_name] if existing_templates.include?(@jumpstart_setup_yaml[:jumpstart_default_template_name])
   end
 
 end
