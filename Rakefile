@@ -72,5 +72,5 @@ end
 def rubygems_actions
   Dir.chdir("#{JumpStart::ROOT_PATH}")
   system "gem build jumpstart.gemspec"
-  system "gem push jumpstart-#{JumpStart.version}.gem"      
+  system "gem push jumpstart-#{JumpStart.version}.gem"
 end
