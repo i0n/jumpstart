@@ -123,24 +123,30 @@ module JumpStart::FileTools
   # Will also replace strings present in the target_file path. so if the method call looked like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
   # and target_file was: /Users/name/Sites/country the strings matching NAME and COUNTRY inside the file would be swapped out and then a new file at the path: /Users/Ian/Sites/England would be created and populated with the contents. The file at the previous path would be deleted.
   # Finally if you specify a symbol and append _CLASS in the template, that instance will be replace with a capitalized version of the string.
+ 
+#TODO REMOVE DIRECTORY PATH FROM FILE NAME SO THAT FILE CREATION REMAINS CONSISTENT
+ 
   def replace_strings(target_file, args)
     if File.file?(target_file)
       permissions = File.executable?(target_file)
       txt = IO.read(target_file)
       old_dir = target_file.sub(/\/\w+\.*\w*$/, '')
-      new_file = target_file.dup
+      new_file = target_file.gsub(/#{old_dir}/, '')
+      new_dir = old_dir.dup
       args.each do |x, y|
         txt.gsub!(/#{x.to_s.upcase}_CLASS/, y.capitalize)
         txt.gsub!(/#{x.to_s.upcase}/, y)
+        new_dir.gsub!(/\/#{x.to_s.downcase}/, "/#{y}")
         new_file.gsub!(/#{x.to_s.downcase}/, y)
       end
-      new_dir = new_file.sub(/\/\w+\.*\w*$/, '')
-      FileUtils.mkdir_p(new_dir)
-      FileUtils.rm(target_file)
-      File.open(new_file, "w") do |file|
+      if old_dir.to_s != new_dir.to_s
+        FileUtils.mkdir_p(new_dir)
+      end
+      File.open(FileUtils.join_paths(new_dir, new_file), "w+") do |file|
         file.puts txt
         file.chmod(0755) if permissions
       end
+      FileUtils.rm(target_file)            
       if File.directory?(old_dir)
         if (Dir.entries(old_dir) - JumpStart::IGNORE_DIRS).empty?
           FileUtils.remove_dir(old_dir)
