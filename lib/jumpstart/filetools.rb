@@ -122,8 +122,7 @@ module JumpStart::FileTools
   # Hello there NAME from COUNTRY
   # Will also replace strings present in the target_file path. so if the method call looked like: FileUtils.replace_strings(target_file, :name => "Ian", :country => "England")
   # and target_file was: /Users/name/Sites/country the strings matching NAME and COUNTRY inside the file would be swapped out and then a new file at the path: /Users/Ian/Sites/England would be created and populated with the contents. The file at the previous path would be deleted.
-  # Finally if you specify a symbol and append _CLASS in the template, that instance will be replace with a capitalized version of the string.
- 
+  # Finally if you specify a symbol and append _CLASS in the template, that instance will be replace with a capitalized version of the string. 
   def replace_strings(target_file, args)
     if File.file?(target_file)
       permissions = File.executable?(target_file)
@@ -141,6 +140,10 @@ module JumpStart::FileTools
       if (old_dir <=> new_dir) != 0 && !File.directory?(new_dir)
         FileUtils.mkdir_p(new_dir)
       end
+      File.open("#{new_dir}/#{new_file}", "w") do |file|
+        file.puts new_txt
+        file.chmod(0755) if permissions
+      end
       if (target_file <=> "#{new_dir}/#{new_file}") != 0
         FileUtils.rm(target_file)
         if File.directory?(old_dir)
@@ -149,10 +152,6 @@ module JumpStart::FileTools
           end
         end
       end    
-      File.open("#{new_dir}/#{new_file}", "w") do |file|
-        file.puts new_txt
-        file.chmod(0755) if permissions
-      end
     else
       puts "#{target_file} is NOT a file"
     end
