@@ -239,6 +239,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
       @target_file_1 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
       @target_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_app_name.rb"
       @target_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/app_name_replace_strings_test.txt"
+      @target_file_4 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/Rakefile"
       @new_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_bungle.rb"
       @new_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle/bungle_replace_strings_test.txt"
       @target_files = [@target_file_1, @target_file_2, @target_file_3]
@@ -247,10 +248,6 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         File.open(t, 'w') do |file|
           file.puts @source_file
         end
-      end
-      @target_file_4 = "#{JumpStart::ROOT_PATH}/test/destination_dir/config_capistrano.rb"
-      File.open(@target_file_4, 'w+') do |file|
-        file.puts @source_file
       end
     end
 
