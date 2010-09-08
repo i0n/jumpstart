@@ -236,14 +236,15 @@ class TestJumpstartFileTools < Test::Unit::TestCase
 
     setup do
       @source_file = IO.readlines("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_source.rb")
+      @target_file_1 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/config_capistrano_test.rb"
       @target_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_app_name.rb"
       @target_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/app_name_replace_strings_test.txt"
       @new_file_2 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/replace_strings_test_bungle.rb"
       @new_file_3 = "#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/bungle/bungle_replace_strings_test.txt"
-      @target_files = [@target_file_2, @target_file_3]
+      @target_files = [@target_file_1, @target_file_2, @target_file_3]
       FileUtils.mkdir_p("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
       @target_files.each do |t|
-        File.open(t, 'w+') do |file|
+        File.open(t, 'w') do |file|
           file.puts @source_file
         end
       end
@@ -265,9 +266,24 @@ class TestJumpstartFileTools < Test::Unit::TestCase
         FileUtils.remove_dir("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
       end
     end
+    
+    should "replace strings with replace_strings method if the path does not contain the replacement strings and only one replacement string is provided" do
+      FileUtils.replace_strings(@target_file_1, {:app_name => 'test_app'})
+      file = IO.readlines(@target_file_1)
+      assert_equal "set :application, 'test_app'\n", file[0]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44]
+    end
+    
+    should "replace strings with replace_strings method if the path does not contain the replacement strings and more than one replacement string is provided" do
+      FileUtils.replace_strings(@target_file_1, {:app_name => 'test_app', :REMOTE_SERVER => 'remote_box'})
+      file = IO.readlines(@target_file_1)
+      assert_equal "set :application, 'test_app'\n", file[0]
+      assert_equal "set :domain, 'remote_box'\n", file[1]
+      assert_equal "run \"\#{sudo} nginx_auto_config /usr/local/bin/nginx.remote.conf /opt/nginx/conf/nginx.conf test_app\"\n", file[44]
+    end
 
     should "replace strings inside the target path if the target is a file and there is more than one argument." do
-      FileUtils.replace_strings(@target_file_2, :app_name => 'bungle', :remote_server => 'boxy')
+      FileUtils.replace_strings(@target_file_2, {:app_name => 'bungle', :remote_server => 'boxy'})
       file = IO.readlines(@new_file_2)
       assert_equal "set :application, 'bungle'\n", file[0]
       assert_equal "set :domain, 'boxy'\n", file[1]
@@ -277,7 +293,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
   
     should "replace strings inside the target path if the target is a file and there is more than one argument and the replacement string is found in the directory structure." do
-      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      FileUtils.replace_strings(@target_file_3, {:app_name => 'bungle', :remote_server => 'boxy'})
       file = IO.readlines(@new_file_3)
       assert_equal "set :application, 'bungle'\n", file[0]
       assert_equal "set :domain, 'boxy'\n", file[1]
@@ -287,7 +303,7 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
   
     should "replace strings that have _CLASS appended to them with a capitalised version of the replacement string." do
-      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      FileUtils.replace_strings(@target_file_3, {:app_name => 'bungle', :remote_server => 'boxy'})
       file = IO.readlines(@new_file_3)
       assert_equal "set :application, 'bungle'\n", file[0]
       assert_equal "set :domain, 'boxy'\n", file[1]
@@ -299,13 +315,13 @@ class TestJumpstartFileTools < Test::Unit::TestCase
     end
     
     should "remove old dirs when empty after string replacement" do
-      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      FileUtils.replace_strings(@target_file_3, {:app_name => 'bungle', :remote_server => 'boxy'})
       assert !File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
     end
     
     should "not remove old dirs after string replacement if they are not empty" do
       FileUtils.touch("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name/another_file.txt")
-      FileUtils.replace_strings(@target_file_3, :app_name => 'bungle', :remote_server => 'boxy')
+      FileUtils.replace_strings(@target_file_3, {:app_name => 'bungle', :remote_server => 'boxy'})
       assert File.directory?("#{JumpStart::ROOT_PATH}/test/test_jumpstart_templates/test_fileutils/app_name")
       assert File.exists?(@new_file_3)
     end
